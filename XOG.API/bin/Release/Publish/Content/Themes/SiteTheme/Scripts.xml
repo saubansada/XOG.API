@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<scripts>   
-  <script path="~/Content/Themes/SiteTheme/Source/dist/tsm/runtime.js" />
-  <script path="~/Content/Themes/SiteTheme/Source/dist/tsm/polyfills.js" /> 
-  <script path="~/Content/Themes/SiteTheme/Source/dist/tsm/main.js" />
-</scripts>
