@@ -6,3 +6,4 @@
 /.vs/XOG.API/v16
 /XOG.API/bin
 /XOG.API/obj/Debug/edmxResourcesToEmbed/AppCode/DAL
+/XOG.API/obj/Debug
