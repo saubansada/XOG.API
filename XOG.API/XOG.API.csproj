@@ -479,7 +479,7 @@
     <Compile Include="AppCode\Mappers\OrderDetailsTransformer.cs" />
     <Compile Include="AppCode\Mappers\OrderTransformer.cs" />
     <Compile Include="AppCode\Mappers\ProductTransformer.cs" />
-    <Compile Include="AppCode\Mappers\SubCategoryTransformer.cs" />
+    <Compile Include="AppCode\Mappers\SubCategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\UserTransformer.cs" />
     <Compile Include="AppCode\Util\Converter.cs" />
     <Compile Include="AppCode\Util\DataParser.cs" />
@@ -545,6 +545,7 @@
     <Compile Include="Areas\MyAdmin\Models\ViewModels\SubCategoryVM.cs" />
     <Compile Include="Areas\MyAdmin\Models\ViewModels\UserAdminVM.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -560,6 +561,7 @@
     <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductSaveRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CustomerSaveRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\SubCategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SupplierSaveRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BaseFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BrandFilterRequestVM.cs" />

@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Models.FilterModels;
 using XOG.AppCode.Transformers;
-using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL
 {
-    public static class SubCategoryBL
+    public class SubCategoryBL
     {
         internal static XOGEntities GetXOGContext()
         {
             return new XOGEntities();
         }
 
-        private static IQueryable<SubCategory> GetFilteredWhereQuery(IQueryable<SubCategory> query, SubCategoryFilter filter)
+        private IQueryable<SubCategory> GetFilteredWhereQuery(IQueryable<SubCategory> query, SubCategoryFilter filter)
         { 
             if(filter != null)
             { 
@@ -38,7 +35,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private static IQueryable<SubCategory> GetFilteredQuery(SubCategoryFilter filter, XOGEntities context = null)
+        private IQueryable<SubCategory> GetFilteredQuery(SubCategoryFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -54,36 +51,39 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.SubCategories, filter);
         }
 
-        internal static object GetTList(XOGEntities context = null, SubCategoryFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(SubCategoryFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
         {
-            if (context == null)
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetTList(_context, filter, type, listType, model);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return GetList<T>(_context, filter, type, listType, model);
             }
+        }
+
+        internal object GetList<T>(XOGEntities context, SubCategoryFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        {
             var query = GetFilteredQuery(filter, context);
 
-            return query.TransformToSubCategoryModelListing(model, type, listType);
+            return query.MapToSubCategoryModelList<T>(model, listType);
         }
-        internal static object GetSubCategoryByNameOrId(XOGEntities context = null, ModelType type = ModelType.Default, long id = -1, string title = "", bool isAdmin = false)
+
+        internal T GetSubCategoryByNameOrId<T>(long id = -1, string title = "", bool isAdmin = false)
         {
-            if (context == null)
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetSubCategoryByNameOrId(_context, type, id, title, isAdmin);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return GetSubCategoryByNameOrId<T>(_context, id, title, isAdmin);
             }
+        }
+
+        internal T GetSubCategoryByNameOrId<T>(XOGEntities context, long id = -1, string title = "", bool isAdmin = false)
+        {
             var SubCategory = new SubCategory();
 
             var query = context.SubCategories.Where(i => true);
@@ -98,10 +98,10 @@ namespace XOG.AppCode.BLL
                 query = context.SubCategories.Where(i => i.SubCategoryName.Equals(title.Replace("_", " ")));
             }
 
-            return query.FirstOrDefault().TransformToSubCategoryModel(type);
+            return query.FirstOrDefault().MapToSubCategoryModel<T>();
         }
 
-        internal static async Task<DBStatus> EditAsync(SubCategory model, XOGEntities context = null)
+        internal async Task<DBStatus> EditAsync(SubCategory model, XOGEntities context = null)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace XOG.AppCode.BLL
             }
         }
          
-        internal static DBStatus Add(SubCategory model, XOGEntities context = null)
+        internal DBStatus Add(SubCategory model, XOGEntities context = null)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace XOG.AppCode.BLL
             }
         }
            
-        internal static async Task<DBStatus> AddAsync(SubCategory model, XOGEntities context = null)
+        internal async Task<DBStatus> AddAsync(SubCategory model, XOGEntities context = null)
         {
             try
             { 
@@ -190,7 +190,7 @@ namespace XOG.AppCode.BLL
             }
         }
          
-        internal static async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
         {
             try
             { 
@@ -226,7 +226,7 @@ namespace XOG.AppCode.BLL
             }
         }
           
-        internal static async Task<DBStatus> DeleteMultipleAsync(SubCategoryFilter subCategoryFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(SubCategoryFilter subCategoryFilters, XOGEntities context = null)
         {
             try
             {
@@ -262,7 +262,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static long GetSubCategoriesCount(XOGEntities context = null)
+        internal long GetSubCategoriesCount(XOGEntities context = null)
         {
             if (context == null)
             {

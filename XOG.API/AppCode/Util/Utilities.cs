@@ -1,6 +1,5 @@
 ﻿using XOG.Helpers;
 using XOG.Models;
-using XOG.Performance;
 using XOG.SettingsHelpers;
 using System;
 using System.Collections.Generic;

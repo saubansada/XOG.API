@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using XOG.AppCode.Models;
+﻿using XOG.AppCode.Models;
 
 namespace XOG.Models.ViewModels
 {
@@ -13,9 +8,9 @@ namespace XOG.Models.ViewModels
 
         public string RouteKey { get; set; }
 
-        public short CategoryId { get; set;  }
+        public short CategoryId { get; set; }
 
-        public List<SelectListItem> Categories { get; set; }
+        public string CategoryName { get; set; }
 
         public string SubCategoryDescription { get; set; }
          

@@ -1,20 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using XOG.AppCode.BLL;
-using XOG.AppCode.DAL;
 using XOG.AppCode.Helpers;
-using XOG.AppCode.Models;
 using XOG.AppCode.Models.FilterModels;
-using XOG.AppCode.Transformers;
-using XOG.Helpers;
 using XOG.Models;
 using XOG.Models.ViewModels;
-using XOG.Util;
 
 namespace XOG.Controllers
 {

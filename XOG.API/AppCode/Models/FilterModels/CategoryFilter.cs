@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace XOG.AppCode.Models.FilterModels
-{ 
+﻿namespace XOG.AppCode.Models.FilterModels
+{
     public class CategoryFilter : BaseFilter
     {
         public string Search { get; set; }

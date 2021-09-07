@@ -1,5 +1,4 @@
 ﻿using XOG.Helpers;
-using XOG.Models;
 using System;
 using System.Data.Entity.Validation;
 using System.IO;

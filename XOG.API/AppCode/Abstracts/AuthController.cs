@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using XOG.Factories;
-using XOG.Helpers;
 using System.Web;
 using System.Web.Mvc;
 

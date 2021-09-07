@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Models.FilterModels;
 using XOG.AppCode.Transformers;
-using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL

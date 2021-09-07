@@ -1,5 +1,4 @@
-﻿using XOG.SettingsHelpers;
-using XOG.Util;
+﻿using XOG.Util;
 
 namespace XOG
 {

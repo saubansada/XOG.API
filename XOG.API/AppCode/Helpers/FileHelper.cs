@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Web;
 using XOG.Util;
 
 namespace XOG.AppCode.Helpers

@@ -142,7 +142,7 @@ namespace XOG.Areas.MyAdmin.Controllers
                             jc.Message = "Error while fetching sub-categories!";
                             SubCategoryFilter filters = new SubCategoryFilter();
                             filters.CategoryId = id;
-                            jc.Object = SubCategoryBL.GetTList(filter: filters, type: ModelType.OListItem, listType: ListingType.List, model: id).ToSelectList();
+                            jc.Object = new SubCategoryBL().GetList<OListItem>(filter: filters, type: ModelType.OListItem, listType: ListingType.List, model: id).ToSelectList();
                         }
                         break;
                     case RecordType.Division:

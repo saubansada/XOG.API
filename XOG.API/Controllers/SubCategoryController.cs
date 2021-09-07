@@ -10,17 +10,17 @@ using XOG.Models.ViewModels.RequestViewModels.Filters;
 
 namespace XOG.Controllers
 {
-    [RoutePrefix("api/category")]
-    public class CategoryController : ApiController
+    [RoutePrefix("api/subcategory")]
+    public class SubCategoryController : ApiController
     {
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] CategoryFilterRequestVM filter)
+        public IHttpActionResult List([FromUri] SubCategoryFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
-            res.Data = new CategoryBL().GetList<CategoryViewModel>(filter);
+            res.Data = new SubCategoryBL().GetList<SubCategoryViewModel>(filter);
 
             res.IsSuccess = true;
 
@@ -29,11 +29,11 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] CategoryFilterRequestVM filter)
+        public IHttpActionResult GetSelectListAsync([FromUri] SubCategoryFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
-            res.Data = new CategoryBL().GetList<OListItem>();
+            res.Data = new SubCategoryBL().GetList<OListItem>();
 
             res.IsSuccess = true;
 
@@ -44,9 +44,9 @@ namespace XOG.Controllers
         [Route("get/{id}")]
         public IHttpActionResult GetA(int id)
         {
-            var res = new ReturnObject<CategoryViewModel>();
+            var res = new ReturnObject<SubCategoryViewModel>();
 
-            res.Data = new CategoryBL().GetCategoryByNameOrId<CategoryViewModel>(id: id);
+            res.Data = new SubCategoryBL().GetSubCategoryByNameOrId<SubCategoryViewModel>(id: id);
 
             res.IsSuccess = true;
 
@@ -55,13 +55,13 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(CategoryRequestVM request)
+        public async Task<IHttpActionResult> AddAsync(SubCategoryRequestVM request)
         {
             var res = new ReturnObject<object>();
 
-            var entity = request.MapToCategoryEntity<CategoryRequestVM>();
+            var entity = request.MapToSubCategoryEntity<SubCategoryRequestVM>();
 
-            res.Data = await new CategoryBL().AddAsync(entity);
+            res.Data = await new SubCategoryBL().AddAsync(entity);
 
             res.IsSuccess = true;
 
@@ -70,13 +70,13 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(CategoryRequestVM request)
+        public async Task<IHttpActionResult> EditAsync(SubCategoryRequestVM request)
         {
             var res = new ReturnObject<object>();
 
-            var entity = request.MapToCategoryEntity<CategoryRequestVM>();
+            var entity = request.MapToSubCategoryEntity<SubCategoryRequestVM>();
 
-            res.Data = await new CategoryBL().EditAsync(entity);
+            res.Data = await new SubCategoryBL().EditAsync(entity);
 
             res.IsSuccess = true;
 
@@ -89,7 +89,7 @@ namespace XOG.Controllers
         {
             var res = new ReturnObject<object>();
 
-            res.Data = await new CategoryBL().DeleteAsync(id);
+            res.Data = await new SubCategoryBL().DeleteAsync(id);
 
             res.IsSuccess = true;
 

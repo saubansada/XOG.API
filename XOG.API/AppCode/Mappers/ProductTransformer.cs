@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Models;
 using XOG.Areas.MyAdmin.Models.ViewModels;

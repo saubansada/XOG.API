@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using XOG.Models.ViewModels;
+﻿using XOG.Models.ViewModels;
 
 namespace XOGModels.JsonModels
 {
