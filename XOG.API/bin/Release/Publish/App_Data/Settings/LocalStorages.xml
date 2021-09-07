@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<storages>
+  <storage name="Storage" path="~/Storage/" />
+  <storage name="Storage_Temp" path="~/Storage/Temp/" />
+  <storage name="Storage_Uploads" path="~/Storage/Uploads/" />
+  <storage name="Storage_Product_Image_Uploads" path="~/Storage/Uploads/ProductImages/" />
+  <storage name="Storage_Brand_Image_Uploads" path="~/Storage/Uploads/BrandImages/" />
+  <storage name="Storage_Category_Image_Uploads" path="~/Storage/Uploads/CategoryImages/" />
+  <storage name="Storage_Sub_Category_Image_Uploads" path="~/Storage/Uploads/SubCategoryImages/" />
+  <storage name="Storage_Logs" path="~/Storage/Logs/" />
+  <storage name="Site_Map" path="~/Storage/sitemap.json" />
+</storages>

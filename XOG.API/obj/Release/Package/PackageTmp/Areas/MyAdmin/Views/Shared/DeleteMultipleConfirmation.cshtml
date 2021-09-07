@@ -1,0 +1,57 @@
+﻿@using XOG.Util;
+@using XOG.Areas.MyAdmin.Models.ViewModels;
+
+@model XOG.Areas.MyAdmin.Models.JsonModels.DeleteMultipleModel
+
+
+<div id="DeleteMultipleDialogForm" class="uk-card-default" style="padding:20px">
+    <h4>Are you sure you want to delete Following @(Model.Type.ToString().ToFriendlyCase().ToLower() + "(s)")?</h4>
+    
+    @Html.AntiForgeryToken()
+
+    <table class="uk-table uk-table-small uk-table-hover">
+
+        <tbody> 
+
+            @if (Model.Type == RecordType.Product)
+            {
+                foreach (ProductAdminModel item in (List<Object>)Model.contentModel)
+                {
+                    <tr>
+                        <td> @item.ProductName </td>
+                        <td> @item.Mrp </td>
+                    </tr> 
+                } 
+            }
+            @if (Model.Type == RecordType.Category)
+            {
+                foreach (CategoryAdminModel item in (List<Object>)Model.contentModel)
+                {
+                    <tr>
+                        <td> &bull; &nbsp; @item.CategoryName </td> 
+                    </tr>
+                }
+            }
+            @if (Model.Type == RecordType.SubCategory)
+            {
+                foreach (SubCategoryAdminModel item in (List<Object>)Model.contentModel)
+                {
+                    <tr>
+                        <td> &bull; &nbsp; @item.SubCategoryName </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    
+    </table>
+    
+    <hr />
+    <div class="uk-margin-small-bottom">
+        <div class="form-actions no-color pull-right">
+            <input id="deleteBtn" type="button" value="Delete" class="uk-button uk-button-danger" />
+            <input id="closeBtn" type="button" value="Cancel" class="uk-button uk-button-primary" />
+        </div>
+        <br />
+    </div>
+</div>

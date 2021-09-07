@@ -1,0 +1,86 @@
+﻿@model XOG.Areas.Admin.Models.ViewModels.ProductAdminVM
+
+@{
+    ViewBag.Title = "Details"; 
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">  
+        <dd>
+            @Html.DisplayFor(model => model.BrandId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mrp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mrp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Measure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Measure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Volume)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Volume)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StocksAvailable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StocksAvailable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gst)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gst)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscountPercentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiscountPercentage)
+        </dd> 
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

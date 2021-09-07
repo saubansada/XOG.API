@@ -1,0 +1,40 @@
+﻿@model XOG.Models.ViewModels.Authentication.SendCodeViewModel
+@{
+    ViewBag.Title = Language("SendVerificationCode");
+    Theme = "UserTheme";
+}
+
+<div class="content">
+    <div class="content-title">
+        <div class="content-title-inner">
+            <div class="container">
+                <h1>@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            @using (Html.BeginForm("SendCode", "Authentication", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("rememberMe", @Model.RememberMe)
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Select Two-Factor Authentication Provider:</label>
+                            @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group-btn">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@model bool
+@{
+
+    bool isFromMenu = Model != null && Model == true ? true : false;
+}
+
+<div>
+    <a class="uk-button uk-button-text m-boundary-align"><span uk-icon="icon: user"></span> &nbsp; @CurrentUser.Name &nbsp;<span uk-icon="icon: triangle-down"></span></a>
+    <div uk-dropdown=" @(isFromMenu ? "pos: bottom-right;" : "pos: bottom-justify;") boundary: .m-boundary-align; m-boundary-align: true" style="display:none;">
+        <ul class="uk-nav uk-dropdown-nav">
+            <li class="uk-nav-header"><i class="fa fa-sitemap"></i>&nbsp;Web Site</li>
+            <li><a href="@Url.Action("","", new { area = "" })" target="_blank"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+            <li aria-disabled="true"><a><i class="fa fa-shopping-bag"></i>&nbsp;Products</a></li>
+            <li aria-disabled="true"><a><i class="fa fa-tags"></i>&nbsp;Offers</a></li>
+            <li aria-disabled="true"><a><i class="fa fa-th"></i>&nbsp;Categories</a></li>
+            <li class="uk-nav-header"><i class="fa fa-cog"></i>&nbsp;Options</li>
+            <li aria-disabled="true"><a class="sublink" href=""><i class="fa fa-wrench"></i>&nbsp;Settings</a></li>
+            <li><a class="sublink" href="@Url.Action("ChangePassword", "Account", new { area = "", returnUrl = Request.Url.AbsolutePath })"><i class="fa fa-key"></i>&nbsp;Change Password </a></li>
+            <li class="uk-nav-divider"></li>
+            @Html.Partial("_LoginPartial")
+        </ul>
+    </div>
+</div>
+

@@ -1,0 +1,18 @@
+﻿@model XOG.Areas.Admin.Models.ViewModels.CategoryAdminVM
+
+<div class="uk-card-title">
+    <div uk-grid>
+        <div>@Model.CategoryName</div>
+        <div class="uk-width-expand"><a href="@Url.Action("Index", new { Area = "Admin" })" class="uk-float-right uk-close-small uk-padding-remove" uk-close style="margin-top: 8px;"></a></div>
+    </div>
+</div>
+<hr class="uk-margin-small-top" />
+
+<dl class="uk-description-list uk-dl-horizontal">
+    <dt>Name</dt>
+    <dd>@Model.CategoryName </ dd >
+</dl>
+<dl class="uk-description-list">
+    <dt>Description</dt>
+    <dd>@Model.CategoryDescription </ dd >
+</dl> 

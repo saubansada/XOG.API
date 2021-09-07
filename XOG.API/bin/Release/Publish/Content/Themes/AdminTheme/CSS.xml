@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<stylesheets>
+  <stylesheet path="~/Content/Plugins/MagnificPopup/magnific-popup.css" />
+  <stylesheet path="~/Content/Plugins/OFrame/style.css" />
+  <stylesheet path="~/Content/Plugins/Notie/notie.css" />
+  <stylesheet path="~/Content/Plugins/owl-carousel/owl.carousel.css" />
+  <stylesheet path="~/Content/Plugins/Plyr/plyr.min.css" />
+  <stylesheet path="~/Content/Plugins/SocialShare/jssocials-theme-flat.css" />
+  <stylesheet path="~/Content/Plugins/SocialShare/jssocials.css" />
+  <stylesheet path="~/Content/Plugins/AudioPlayer/audio_player.css" />
+  <stylesheet path="~/Content/Themes/AdminTheme/CSS/style.css" />
+</stylesheets>

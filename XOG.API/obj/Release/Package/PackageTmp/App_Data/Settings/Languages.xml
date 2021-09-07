@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language locale="en-US" direction="ltr" name="English">
+    <key name="XOGInfoParagraph" value="Thaseen Super Market" />
+    <key name="WelcomeText" value="Welcome to Thaseen Super Market"/>
+    <key name="InvalidEmailID" value="Invalid Email ID" />
+    <key name="RequiredEmail" value="Email is required" />
+    <key name="RequiredPassword" value="Password is required" />
+    <key name="RequiredFirstName" value="First Name is required" />
+    <key name="RequiredLastName" value="Last Name is required" />
+    <key name="RequiredPhoneNumber" value="Phone Number is required" />
+    <key name="RequiredDob" value="Date of Birth is required" />
+    <key name="NoNumbersFirstName" value="First Name should not contain numbers" />
+    <key name="NoNumbersLastName" value="Last Name should not contain numbers" />
+    <key name="InvalidDate" value="Invalid date entered" />
+    <key name="PasswordsDontMatch" value="The password and confirmation password do not match." />
+    <key name="MinLengthPhoneNumber" value="The number entered should be atleast 8 digits" />
+    <key name="MaxLengthPhoneNumber" value="Phone number must not exceed 15 digits" />
+    <key name="MinLengthPassword" value="Password must have atleast 6 characters" />
+    <key name="InvalidPhoneNumber" value="Not a valid Phone number" />
+    <key name="RequiredGender" value="Please select a Gender" />
+
+    <key name="VerifyPhoneCodeRequired" value="Phone verification code is required." />
+    <key name="VerifyPhonePhoneNumberRequired" value="Phone number is required." />
+    <key name="PhoneNumbereIsInvalid" value="Phone Number is Invalid." />
+    <key name="ChangeEmailRequired" value="New Email Address is required." />
+    <key name="ChangeEmailConfirmationRequired" value="New Email confirmation is required." />
+    <key name="ChangeEmailMustMatch" value="The New Email and Confirmation Email do not match." />
+    <key name="ChangePasswordCurrentPasswordReqiured" value="Current Password is required." />
+    <key name="ChangePasswordRequired" value="New Password is required." />
+    <key name="TheMinimumLengthMustBeAtleast6Characters" value="The minimum length must be atleast 6 characters." />
+    <key name="TheCnagePasswordDoNotMatch" value="The New Password and Confirmation Password do not match" />
+    <key name="ChangeUserNameRequired" value="New Username is required." />
+    <key name="ChangeUserNameConfirmationRequired" value="New Username Confirmation is required." />
+    <key name="ChangeUserNameConfrmationDoesNotMatch" value="New Username and Confirmation Username do not match." />
+    <key name="AddPhoneNumberRequired" value="Phone Number is required." />
+    <key name="SetPasswordNewPasswordRequired" value="Password field is required." />
+    <key name="SetNewConfirmationPasswordDoNotMatch" value="New Password and Confirmation Password do not match." />
+    <key name="EnterPersonalDetails" value="Enter Personal Details" />
+    <key name="Email" value="Email" />
+    <key name="Gender" value="Gender" />
+    <key name="DOB" value="Date of Birth" />
+    <key name="Password" value="Password" />
+    <key name="ConfirmPassword" value="Confirm Password" />
+    <key name="BackToLoginPage" value="Back To Login Page" />
+    <key name="RememberMe" value="Remember Me" />
+    <key name="SignUp" value="Sign Up" />
+    <key name="IForgotMyPassword" value="I Forgot My Password" />
+    <key name="SignupAsAHost" value="Signup as a Host" />
+    <key name="LogOff" value="Log off" />
+    <key name="Register" value="Register" />
+    <key name="EmailPasswordResetLink" value="Email Password Reset Link" />
+    <key name="PasswordResetLinkSent" value="Password Reset Link Sent" />
+    <key name="PleaseCheckYourEmailToResetYourPassword" value="Please check your email to reset your password." />
+    <key name="ForgotPasswordConfirmation" value="Forgot Password Confirmation" />
+    <key name="ConfirmEmail" value="Confirm Email" />
+    <key name="SendVerificationCode" value="Send Verification Code" />
+    <key name="Verify" value="Verify" />
+    <key name="DisplayEmail" value="Display Email" />
+    <key name="ForgotYourPassword" value="Forgot your password" />
+    <key name="ResetPasswordConfirmation" value="Reset password confirmation" />
+    <key name="YourPasswordHasBeenResetPlease" value="Your password has been reset. Please" />
+    <key name="ResetPassword" value="Reset password" />
+    <key name="Reset" value="Reset" />
+    <key name="Mobile" value="Mobile" />
+    <key name="FirstName" value="First Name" />
+    <key name="LastName" value="Last Name" />
+    <key name="Male" value="Male" />
+    <key name="Female" value="Female" />
+    <key name="Unspecified" value="Unspecified" />
+    <key name="SelectGender" value="Select a Gender" />
+  </language>
+</languages>

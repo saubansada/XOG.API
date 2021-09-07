@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+<li>
+    @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "LogOutForm", @class = "uk-dropdown-nav", data_return_url = Url.Action("Login", "Account", new { area = "" }) }))
+    {
+        @Html.AntiForgeryToken()
+        <i class="fa fa-lock"></i>
+        <input type="submit" class="sublink uk-button uk-button-small uk-button-link" @Direction value="Log out" />
+
+    }
+</li>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+} 

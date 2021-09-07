@@ -1,0 +1,149 @@
+﻿@using XOG.HtmlHelpers
+@{
+    var PageTitle = ViewBag.Title + " - " + AppConfig.SiteName;
+    bool hasMenus = (ViewBag.DisableMenus != null && ViewBag.DisableMenus == "Disable") ? false : true;
+
+    var ManageActions = new String[] { "Product", "Brand", "Category", "SubCategory" };
+}
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+    <title> @PageTitle </title>
+    <link rel="icon" href="@LogoUrl" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/css/uikit.min.css" rel="stylesheet" />
+
+
+    @RenderSection("SEOSection", required: false)
+    @StyleRender("AdminTheme")
+
+</head>
+<body>
+    <script>
+        var isHandset = (navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+        )
+    </script>
+
+    @*<script>document.body.className += ' fade-out';</script>*@
+
+    <div class="uk-card-default app-bar">
+        @Html.Partial("MenuBarAdmin")
+    </div>
+
+    <div class="uk-offcanvas-content">
+
+        <div id="my_canvas" uk-offcanvas="bg-close:false; esc-close:false" class="">
+            <script>
+                var classes = localStorage.getItem("canvasClass");
+                var canvas = document.getElementById("my_canvas");
+                var array = (classes + "").split(',');
+                for (var i = 0, length = array.length; i < length; i++) {
+                    canvas.classList.add(array[i]);
+                }
+                if (isHandset) {
+                    canvas.classList.remove("uk-open");
+                }
+            </script>
+
+            <div id="my_canvas_bar" class="uk-offcanvas-bar uk-offcanvas-bar-animation uk-offcanvas-slide">
+                <div class="uk-card-header uk-padding-remove-horizontal">
+                    <h4 class="uk-text-center">
+                        Welcome
+                        @if (CurrentUser.IsInRole("Admin"))
+                        {
+                            <text>&nbsp;Admin!</text>
+                        }
+                        else
+                        {
+                            <text>!</text>
+                        }
+                    </h4>
+                </div>
+                <hr />
+                <ul class="uk-margin-small-top uk-nav-sub uk-nav-parent-icon uk-nav uk-nav-parent-icon" uk-nav>
+                    <li class="@(Html.Controller().Equals("Dashboard") && Html.Action().Equals("Index") ? "uk-active" : "")"><a href="@Url.Action("Index","Dashboard", new { area = "admin" })">Dashboard</a></li>
+                    <li>
+                    </li>
+                    <li class="uk-parent @(ManageActions.Contains(Html.Controller()) ? "uk-open" : "")">
+                        <a href="#">Manage</a>
+                        <ul class="uk-nav-sub">
+                            <li class="@(Html.Action().Equals("Product") ? "uk-active" : "")"><a href="@Url.Action("Index","Product", new { area = "admin" })">Products</a></li>
+                            <li class="@(Html.Action().Equals("Brand") ? "uk-active" : "")"><a href="@Url.Action("Index","Brand", new { area = "admin" })">Brands</a></li>
+                            <li class="@(Html.Action().Equals("Category") ? "uk-active" : "")"><a href="@Url.Action("Index","Category", new { area = "admin" })">Categories</a></li>
+                            <li class="@(Html.Action().Equals("SubCategory") ? "uk-active" : "")"><a href="@Url.Action("Index","SubCategory", new { area = "admin" })">Sub Categories</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent  @(Html.Controller().Contains("Order") ? "uk-open" : "")">
+                        <a href="#">Orders</a>
+                        <ul class="uk-nav-sub">
+                            <li class="@(Html.Action().Equals("Order") ? "uk-active" : "")"><a href="@Url.Action("Index","Order", new { area = "admin", isNewOrder = true })">Open Orders</a></li>
+                            <li class="uk-active"><a href="@Url.Action("Index","Order", new { area = "admin" })">Closed Orders</a></li>
+                        </ul>
+                    </li>
+
+                    @if (CurrentUser.IsInRole("Admin") || CurrentUser.IsInRole("SubAdmin") || CurrentUser.IsInRole("Developer"))
+                    {
+                        <li class="uk-parent">
+                            <a href="#">Users</a>
+                            <ul class="uk-nav-sub">
+                                <li class=""><a href="@Url.Action("CreateUser","Users", new { area = "admin" })">Create User</a></li>
+                                <li class="uk-active"><a href="@Url.Action("Index", "Users", new { area = "admin" })">All Users</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="uk-parent">
+                            <a href="#">Offers</a>
+                            <ul class="uk-nav-sub">
+                                <li class="uk-active"><a href="@Url.Action("Index","", new { area = "admin" })">Push Notifications</a></li>
+                                <li class="uk-active"><a href="@Url.Action("Index","", new { area = "admin" })">Add Offers</a></li>
+                            </ul>
+                        </li>
+}
+                    @if (CurrentUser.IsInRole("Admin") || CurrentUser.IsInRole("SubAdmin") || CurrentUser.IsInRole("Developer"))
+                    {
+                        <li class="uk-margin-small-top">
+                            <hr />
+                            <a class="uk-margin-small-bottom">Reports</a>
+                            <ul class="uk-text-small">
+                                <li class="uk-active">
+                                    <a href="@Url.Action("Index","", new { area = "admin" })">
+                                        <span class="uk-margin-small-right uk-icon" uk-icon="icon:  bolt; ration: 0.25"></span>
+                                        <div class="uk-inline uk-margin-small"> Sale Orders Report</div>
+                                    </a>
+                                </li>
+                                <li class="uk-active uk-text-danger">
+                                    <a href="@Url.Action("Index","", new { area = "admin" })">
+                                        <span class="uk-margin-small-right uk-icon" uk-icon="icon:  cog; ration: 0.25"></span>
+                                        <span class="uk-inline uk-margin-smal"> Usage Report</span>
+                                    </a>
+                                </li>
+                                <li class="uk-active">
+                                    <a href="@Url.Action("Index","", new { area = "admin" })">
+                                        <span class="uk-margin-small-right uk-icon" uk-icon="icon:  users; ration: 0.25"></span>
+                                        <div class="uk-inline uk-margin-small"> User Report</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+
+        <div id="offcanvas-content" class="uk-container content uk-offcanvas-init-padding">
+
+            @RenderBody()
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿
+<div class="main-nav-bar uk-card-default">  
+    <nav class="uk-navbar">
+        <div class="uk-navbar-left">
+            <a id="navToggle" class="uk-margin-left uk-navbar-item uk-navbar-toggle uk-navbar-toggle-icon uk-icon" uk-navbar-toggle-icon>
+            </a>
+            <a class="uk-navbar-item uk-logo uk-margin-remove-top" href="@Url.Action("Index","Dashboard", new { area = "admin" })"> 
+                <img src="~/favicon.ico" height="35" width="35" />&nbsp;Control Panel
+            </a> 
+        </div>
+        <div class="uk-navbar-right uk-margin-right">
+            <ul class="uk-navbar-nav">
+                <li class="uk-visible@m">
+                    @Html.Partial("AdminMenusPartial", true)
+                </li>
+            </ul>
+        </div>
+    </nav> 
+</div>

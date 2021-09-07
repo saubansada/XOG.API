@@ -1,0 +1,152 @@
+﻿@using XOG.Areas.MyAdmin.Models.ViewModels;
+@using XOG.Util;
+@model XOG.Areas.MyAdmin.Models.ViewModels.CategoryPageViewModel
+
+@{
+    ViewBag.Title = "Categories";
+    var detailItem = Model.detailModel;
+    bool isGrid = detailItem != null && detailItem.Id != -1;
+    string ukGrid = isGrid ? "uk-grid" : "";
+    int detailId = detailItem != null ? detailItem.Id : -1;
+}
+
+<div @ukGrid>
+    @if (isGrid)
+    {
+        <div class="uk-width-2-5@m uk-grid-match uk-margin-medium-left uk-card uk-card-default uk-card-small uk-card-body">
+            <div class="uk-card-title">
+                <div uk-grid>
+                    <div>@detailItem.CategoryName</div>
+                    <div class="uk-width-expand"><a href="@Url.Action("Index", Model.filter.ToAdminRouteDictionary(Model.gridModel.Pager.CurrentPage))" class="uk-float-right uk-close-small uk-padding-remove" uk-close style="margin-top: 8px;"></a></div>
+                </div>
+            </div>
+            <hr class="uk-margin-small-top" />
+
+            <dl class="uk-description-list uk-dl-horizontal">
+                <dt>Name</dt>
+                <dd>@detailItem.CategoryName</dd>
+            </dl>
+            <dl class="uk-description-list">
+                <dt>Description</dt>
+                <dd>@detailItem.CategoryDescription</dd>
+            </dl>
+        </div>
+    }
+
+    <div class="@(isGrid ? "uk-width-expand@m uk-flex-first@m" : "")">
+        <div>
+            <h3 class="uk-display-inline-block">Categories</h3>
+            @if (CurrentUser.IsInRole("Admin") || CurrentUser.IsInRole("SubAdmin") || CurrentUser.IsInRole("Developer"))
+            {
+                <a href="@Url.Action("Add", "Category", new { area = "Admin", CategoryId = Model.detailModel.Id })" class="uk-button-secondary uk-button uk-button-small uk-float-right">Add New</a>
+            }
+        </div>
+        <div class="uk-clearfix"></div>
+        <br />
+        <div>
+            <div class="uk-inline">
+                <ul class="uk-breadcrumb">
+                    <li><span>Sub Categories</span></li>
+                </ul>
+            </div>
+            <div class="uk-inline uk-align-right@m" style="margin-top:-10px;">
+                <form method="get" action="@Url.Action("Index","Category")">
+                    <div class="uk-inline uk-form-width-large">
+                        <a class="uk-form-icon" uk-icon="icon: search"></a>
+                        <input type="search" name="Search" placeholder="Search.." class="uk-input" value="@Model.filter.Search" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="uk-overflow-auto uk-width-1-1@s">
+            <table class="uk-table uk-table-small uk-table-hover uk-card-default uk-table-divider uk-table-expand uk-table-striped">
+                <thead>
+                    <tr>
+                        <th class="uk-table-shrink"></th>
+                        <th class="uk-table-expand"> Category </th>
+                        <th class="uk-table-minwidth-extra"> Main Type </th>
+                        @if (CurrentUser.IsInRole("Admin") || CurrentUser.IsInRole("SubAdmin") || CurrentUser.IsInRole("Developer"))
+                        {
+                            <th class="uk-table-shrink  uk-text-center@m" colspan="3">Actions</th>
+                        }
+                        else
+                        {
+                            <th class="uk-table-shrink  uk-text-center@m">Actions</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var _item in (List<object>)Model.gridModel.ListData)
+                    {
+                        var item = (CategoryAdminVM)_item;
+                        <tr>
+                            <td class="no-responsive uk-flex-last@s"><input class="uk-checkbox" id="item-checkbox-@item.Id" data-id="@item.Id" type="checkbox"></td>
+                            <td class="uk-table-link">
+                                <a class="uk-link-reset" href="@Url.Action("Index", "SubCategory", new { CategoryId = item.Id, Area = "Admin" })"><span uk-icon="list"></span>&nbsp; @Html.DisplayFor(modelItem => item.CategoryName) </a>
+                            </td>
+                            <td class="uk-table-link">
+                                <a class="uk-link-reset">@item.ProductDivision.ToString().ToFriendlyCase()</a>
+                            </td>
+                            @if (CurrentUser.IsInRole("Admin") || CurrentUser.IsInRole("SubAdmin") || CurrentUser.IsInRole("Developer"))
+                            {
+                                <td class="no-responsive uk-text-center@m">
+                                    <a uk-tooltip="pos: top ; title: Edit" href="@Url.Action("Edit", new { id = item.Id, Area = "Admin" })" uk-icon="pencil"></a>
+                                </td>
+                                <td class="no-responsive uk-text-center@m">
+                                    <a uk-tooltip="pos: top ; title: Delete" uk-icon="trash"
+                                       class="ajaxAction" onclick="event.preventDefault();openPopup(this)"
+                                       data-url="@Url.Action("DeleteConfirmation", "Dashboard", new { Id = item.Id, Type = RecordType.Category })"
+                                       data-post-url="@Url.Action("DeleteConfirmed", "Category", new { id = item.Id, Type = RecordType.Category })" />
+                                </td>
+                            }
+                            <td class="no-responsive uk-text-center@m">
+                                @if (detailId != item.Id)
+                                {
+                                    <a uk-tooltip="pos: top ; title: View Details"
+                                       href="@Url.Action("Index", "Category",
+                                    Model.filter.ToAdminRouteDictionary(Model.gridModel.Pager.CurrentPage, "detailId:"+item.Id))"
+                                       uk-icon="chevron-right"></a>
+
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@if (Model.gridModel.Pager.TotalPages > 1)
+{
+    <br />
+    <div class="uk-container">
+        <ul class="uk-pagination uk-flex-center">
+            @foreach (var item in Model.gridModel.Pager.Pages)
+            {
+                <li class="@(item.PageNumber == Model.gridModel.Pager.CurrentPage ? "uk-active " : "")">
+                    <a href="@(Url.Action("Index",Model.filter.ToAdminRouteDictionary(item.PageNumber, "detailId:" + detailId)))">
+                        @Html.Raw(item.Text)
+                    </a>
+                </li>
+
+            }
+        </ul>
+    </div>
+}
+<br />
+<button type="button" uk-icon="trash"
+        class="ajaxAction uk-button uk-button uk-button-danger uk-width-1-1@s uk-width-auto@m  uk-hidden" onclick="event.preventDefault();openPopup(this)"
+        data-type="deleteMultiple"
+        data-url="@Url.Action("DeleteMultipleConfirmation", "Dashboard", new { Type = RecordType.Category } )"
+        data-post-url="@Url.Action("DeleteConfirmed", "Category")">
+    Delete Selected
+</button>
+<button type="button" class="uk-button-secondary uk-button uk-align-right@m uk-width-1-1@s uk-width-auto@m "
+        data-post-url="@Url.Action("GenerateSiteMap", "Dashboard", new { area = "Admin" })" onclick="generateSiteMap(this)">
+    Generate Site Map
+</button>
+<br /><br />
+
+@Html.Partial("DeletePopupPartial")

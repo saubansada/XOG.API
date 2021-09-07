@@ -1,0 +1,21 @@
+﻿@model String
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<div id="gridContainer">
+
+    <div id="listContainer" class="" data-href="@Model" data-sync-refresh="true">
+        
+    </div>
+
+    <div id="detailPlaceHolder" class="uk-hidden uk-width-2-5@m uk-grid-match uk-margin-medium-left uk-card uk-card-default uk-card-small uk-card-body">
+
+    </div>
+
+</div>
+
+
+@Html.Partial("DeletePopupPartial")
+ 

@@ -1,0 +1,87 @@
+﻿@using XOG.Areas.Admin.Models.ViewModels;
+@model XOG.Areas.Admin.Models.ViewModels.OrdersPageViewModel
+
+
+<div uk-grid class="uk-child-width-1-2">
+    <div>
+        <h3>Orders</h3>
+    </div>
+    <div> 
+    </div>
+</div>
+<div class="uk-clearfix"></div>
+<br />
+<div>
+    <ul class="uk-breadcrumb">
+        <li></li>
+        <li><span>Orders</span></li>
+    </ul>
+</div>
+<table class="uk-table uk-table-small uk-table-hover uk-card-default uk-table-divider uk-table-expand uk-table-responsive uk-table-striped">
+    <thead>
+        <tr>
+            <th class="uk-table-shrink">
+                <div id="loader" class="refresh-loader"></div>
+            </th>
+            <th class="uk-preserve-width"> Order </th>
+            <th> Main Type </th>
+            <th class="uk-table-shrink  uk-text-center@m" colspan="3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (List<OrderAdminVM>)Model.gridModel.ListData)
+        { 
+            <tr>
+                <td class="no-responsive uk-flex-last@s"><input class="uk-checkbox" id="item-checkbox-@item.Id" data-id="@item.Id" type="checkbox"></td>
+                <td class="uk-table-link">
+                    <a class="uk-link-reset" href="@Url.Action("Index", "Product", new { BandId = item.Id, Area = "Admin" })"><span uk-icon="list"></span>&nbsp; @Html.DisplayFor(modelItem => item.CustomerInfo.CustomerFullName) </a>
+                </td>
+                <td class="uk-table-link">
+                    <a class="uk-link-reset">@Html.DisplayFor(modelItem => item.CustomerInfo.CustomerFullName)</a>
+                </td>
+                <td class="no-responsive uk-text-center@m">
+                    <a uk-tooltip="pos: top ; title: Delete" uk-icon="trash"
+                       class="ajaxAction" onclick="event.preventDefault();openPopup(this)"
+                       data-url="@Url.Action("DeleteConfirmation","Dashboard", new { Id = item.Id, Type = RecordType.Order })"
+                       data-post-url="@Url.Action("DeleteConfirmed", "Order")" />
+                </td>
+                <td class="no-responsive uk-text-center@m">
+                    <a uk-tooltip="pos: top ; title: View Details"
+                       data-href="@Url.Action("OrderDetails", "Order", new { detailId = item.Id })"
+                       uk-icon="chevron-right" onclick="loadDetailsPage(this)"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (Model.gridModel.Pager.TotalPages > 1)
+{
+    <br />
+    <div class="uk-container">
+
+        <ul class="uk-pagination uk-flex-center">
+            @foreach (var item in Model.gridModel.Pager.Pages)
+            {
+                <li>
+                    <a class="@(item.PageNumber == Model.gridModel.Pager.CurrentPage ? "uk-active " : "")"
+                       href="@Url.Action("OrdersList","Order",Model.filter.ToAdminRouteDictionary(item.PageNumber))" onclick="event.preventDefault(); loadListPage(this.getAttribute('href'))">
+                        @Html.Raw(item.Text)
+                    </a>
+                </li>
+            }
+        </ul>
+
+    </div>
+} 
+
+<br />
+<button type="button" uk-icon="trash"
+        class="ajaxAction uk-button uk-button uk-button-danger uk-hidden" onclick="event.preventDefault();openPopup(this)"
+        data-type="deleteMultiple"
+        data-url="@Url.Action("DeleteMultipleConfirmation", "Dashboard", new { Type = RecordType.Category } )"
+        data-post-url="@Url.Action("DeleteConfirmed", "Category")">
+    Delete Selected
+</button>
+<br /><br />

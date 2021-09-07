@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = Language("ConfirmEmail");
+    Theme = "UserTheme";
+}
+
+<div class="content">
+    <div class="content-title">
+        <div class="content-title-inner">
+            <div class="container">
+                <h1>@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <p>
+                Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Authentication", routeValues: null, htmlAttributes: new { id = "loginLink" })
+            </p>
+        </div>
+    </div>
+</div>

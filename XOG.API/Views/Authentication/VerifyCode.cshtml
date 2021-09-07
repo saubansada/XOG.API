@@ -1,0 +1,53 @@
+﻿@model XOG.Models.ViewModels.Authentication.VerifyCodeViewModel
+@{
+    ViewBag.Title = Language("Verify");
+    Theme = "UserTheme";
+}
+
+<div class="content">
+    <div class="content-title">
+        <div class="content-title-inner">
+            <div class="container">
+                <h1>@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="container">
+            @using (Html.BeginForm("VerifyCode", "Authentication", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("provider", @Model.Provider)
+                @Html.Hidden("rememberMe", @Model.RememberMe)
+                <h4>Enter verification code</h4>
+                <hr />
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Code</label>
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberBrowser)
+                                @Html.LabelFor(m => m.RememberBrowser)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group-btn">
+                            <input type="submit" class="btn btn-default" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

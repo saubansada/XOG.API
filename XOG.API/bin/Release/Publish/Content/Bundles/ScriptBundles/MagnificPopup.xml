@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<scripts>
+  <script path="~/Content/Plugins/MagnificPopup/jquery.magnific-popup.min.js" />
+</scripts>
+

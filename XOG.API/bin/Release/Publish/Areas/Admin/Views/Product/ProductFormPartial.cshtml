@@ -1,0 +1,184 @@
+﻿@model XOG.Areas.Admin.Models.ViewModels.ProductAdminVM
+
+<hr />
+<div uk-grid class="uk-grid uk-grid-small">
+
+    <div style="max-width:700px;">
+        <div class="uk-card">
+
+            <div uk-grid class="uk-grid uk-child-width-1-2@m">
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "uk-input uk-form-small" } })
+                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.BrandId, htmlAttributes: new { @class = "uk-form-label" })
+                        <span class="uk-float-right"><a href="@Url.Action("Add","Brand")">add new</a></span>
+                        <div class="uk-form-controls">
+                            @Html.DropDownListFor(m => m.BrandId, Model.BrandList, new { @class = "uk-select uk-form-small" })
+                            @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div uk-grid class="uk-grid uk-margin-small-top uk-child-width-1-3@m">
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.ProductDivision, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.DropDownListFor(m => m.ProductDivision, Model.ProductDivisionList, new { @class = "uk-select uk-form-small", data_dependant = "#CategoryId" })
+                            @Html.ValidationMessageFor(model => model.ProductDivision, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "uk-form-label" })
+                        <span class="uk-float-right"><a href="@Url.Action("Add","Category")">add new</a></span>
+                        <div class="uk-form-controls">
+
+                            @Html.DropDownListFor(m => m.CategoryId, Model.CategoryList,
+                                        new
+                                        {
+                                            @class = "uk-select uk-form-small",
+                                            disabled = "disabled",
+                                            data_dependant = "#SubCategoryId",
+                                            data_url = Url.Action("GetSelectList", "Dashboard", new { recordType = RecordType.Category }),
+                                            data_selected_id = Model.CategoryId
+                                        })
+                            @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.SubCategoryId, htmlAttributes: new { @class = "uk-form-label" })
+                        <span class="uk-float-right"><a href="@Url.Action("Add","SubCategory")">add new</a></span>
+                        <div class="uk-form-controls">
+
+                            @Html.DropDownListFor(m => m.SubCategoryId, Model.SubCategoryList,
+                                        new
+                                        {
+                                            @class = "uk-select uk-form-small",
+                                            disabled = "disabled",
+                                            data_url = Url.Action("GetSelectList", "Dashboard", new { recordType = RecordType.SubCategory
+                                            }),
+                                            data_selected_id = Model.SubCategoryId
+                                        })
+                            @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div uk-grid class="uk-grid uk-margin-small-top uk-child-width-1-4@m">
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.StocksAvailable, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.EditorFor(model => model.StocksAvailable, new { htmlAttributes = new { @class = "uk-input uk-form-small uk-form-small", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.StocksAvailable, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.Measure, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.DropDownListFor(m => m.Measure, Model.MeasureList, new { @class = "uk-select uk-form-small" })
+                            @Html.ValidationMessageFor(model => model.Measure, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.EditorFor(model => model.Volume, new { htmlAttributes = new { @class = "uk-input uk-form-small", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.Volume, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.MaxPurchase, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.EditorFor(model => model.MaxPurchase, new { htmlAttributes = new { @class = "uk-input uk-form-small", type = "number"} })
+                            @Html.ValidationMessageFor(model => model.MaxPurchase, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div uk-grid class="uk-grid uk-margin-small-top uk-child-width-1-2@m">
+                <div>
+                    <div uk-grid class="uk-grid uk-child-width-1-2@m uk-margin-remove-top">
+                        <div>
+                            <div class="uk-margin uk-margin-small-bottom">
+                                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "uk-form-label" })
+                                <div class="uk-form-controls">
+                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "uk-input uk-form-small", type = "number" } })
+                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "uk-text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-margin">
+                                @Html.LabelFor(model => model.Mrp, htmlAttributes: new { @class = "uk-form-label" })
+                                <div class="uk-form-controls">
+                                    @Html.EditorFor(model => model.Mrp, new { htmlAttributes = new { @class = "uk-input uk-form-small", type = "number" } })
+                                    @Html.ValidationMessageFor(model => model.Mrp, "", new { @class = "uk-text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div uk-grid class="uk-grid uk-child-width-1-2@m uk-margin-remove-top">
+
+                        <div class="uk-margin uk-margin-remove-top uk-width-1-2@m">
+                            @Html.LabelFor(model => model.Gst, htmlAttributes: new { @class = "uk-form-label" })
+                            <div class="uk-form-controls">
+                                @Html.EditorFor(model => model.Gst, new { htmlAttributes = new { @class = "uk-input uk-form-small", type = "number" } })
+                                @Html.ValidationMessageFor(model => model.Gst, "", new { @class = "uk-text-danger" })
+                            </div>
+                        </div>
+                        <div class="uk-margin uk-margin-remove-top uk-width-1-2@m">
+                            @Html.LabelFor(model => model.DiscountPercentage, htmlAttributes: new { @class = "uk-form-label" })
+                            <div class="uk-form-controls">
+                                @Html.EditorFor(model => model.DiscountPercentage, new { htmlAttributes = new { @class = "uk-input uk-form-small", type = "number" } })
+                                @Html.ValidationMessageFor(model => model.DiscountPercentage, "", new { @class = "uk-text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-margin">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "uk-form-label" })
+                        <div class="uk-form-controls">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "uk-input uk-form-small autogrow", rows = "2", style = "min-width:100%; min-height:90px;" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "uk-text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="uk-width-expand uk-grid-match">
+        <div class="uk-padding-small uk-height-1-1">
+            @Html.HiddenFor(model => model.ProductImage, new { required = "required" })
+            <div class="m_dropzone uk-margin-small-top" data-url="/Admin/Product/UploadFile">
+                <br />
+                Drop File Here to Upload<br /><br />
+                @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger", id = "UploadValidation" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr />

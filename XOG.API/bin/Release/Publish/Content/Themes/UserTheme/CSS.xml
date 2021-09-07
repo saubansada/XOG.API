@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<stylesheets>
+  <stylesheet path="~/Content/Plugins/Bootstrap/CSS/bootstrap.min.css" />
+  <stylesheet path="~/Content/Plugins/OFrame/style.css" />
+  <stylesheet path="~/Content/Plugins/Notie/notie.css" /> 
+  
+  <stylesheet path="~/Content/Themes/UserTheme/CSS/style.css" />
+</stylesheets>

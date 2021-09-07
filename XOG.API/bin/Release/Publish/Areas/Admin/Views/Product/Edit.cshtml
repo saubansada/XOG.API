@@ -1,0 +1,43 @@
+﻿@model XOG.Areas.Admin.Models.ViewModels.ProductAdminVM
+
+@{
+    ViewBag.Title = "Edit Product"; 
+}
+@using (Html.BeginForm("Edit", "Product", new { area = "Admin" }, FormMethod.Post, new { id = "ProductEditForm" }))
+{
+    <div>
+        @Html.AntiForgeryToken()
+
+        <h3>Edit Product</h3>
+
+        @Html.HiddenFor(model => model.Id)
+         
+        @Html.Partial("ProductFormPartial", Model)
+        
+        <div uk-grid class="uk-child-width-1-2@m">
+            <div class="uk-flex-last">
+                <div class="uk-margin-medium uk-align-right@m">
+                    <input type="submit" value="Edit Product" class="uk-button uk-button-default" />
+                </div>
+            </div>
+            <div>
+                <a class="uk-button-link uk-link-no-underline" href="@Url.Action("Index","Product", new { area = "Admin" })"><span uk-icon="arrow-left"></span> Back to List</a>
+            </div>
+        </div>
+    </div>
+}
+<br /><br />
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            initProductImageUpload("#ProductEditForm");
+
+            initDependentDropdowns(false);
+        });
+    </script>
+
+}

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+@{
+    var PageTitle = ViewBag.Title + " - " + AppConfig.SiteName;
+    String LogoUrl = Url.Content("~/favicon.png");
+} 
+<html lang="en-US">
+<head>
+
+    <title> @PageTitle </title>
+    <link rel="icon" href="@LogoUrl" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/css/uikit.min.css" rel="stylesheet" />
+
+
+    @RenderSection("SEOSection", required: false)
+    @StyleRender("AdminTheme")
+
+</head>
+<body>
+
+    @*<script>document.body.className += ' fade-out';</script>*@
+
+    <div class="uk-card-default app-bar">
+        <div class="main-nav-bar uk-card-default">
+            <nav class="uk-navbar">
+                <div class="uk-navbar-center"> 
+                    <a class="uk-navbar-item uk-logo uk-margin-remove-top" href="@Url.Action("Index","Dashboard", new { area = "admin" })">
+                        <img src="~/favicon.ico" height="35" width="35" /> &nbsp; @AppConfig.SiteName
+                    </a>
+                </div> 
+            </nav>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    @ScriptRender("AdminTheme")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit-icons.min.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <script>
+
+    </script>
+
+</body>
+</html>

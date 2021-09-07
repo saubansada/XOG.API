@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<scripts>
+
+  <script path="~/Content/Plugins/jQuery/jquery-2.2.3.min.js" />
+
+  <script path="~/Content/Plugins/jQueryUI/jquery-ui-1.11.4.min.js" />
+  <script path="~/Content/Plugins/jQueryValidate/jquery.validate.min.js" />
+  <script path="~/Content/Plugins/jQueryValidate/jquery.validate.unobtrusive.min.js" />
+  <script path="~/Content/Plugins/jQueryUI/jquery-ui-1.11.4.js"/> 
+  <script path="~/Content/Plugins/html5media/html5media.js" />
+
+  <script path="~/Content/Plugins/Ellipsis/ellipsis.min.js" />
+
+  <script path="~/Content/Plugins/MagnificPopup/jquery.magnific-popup.min.js" />
+  <script path="~/Content/Plugins/OFrame/oframe.js" />
+  <script path="~/Content/Plugins/Notie/notie.min.js" />
+  <script path="~/Content/Plugins/owl-carousel/owl.carousel.min.js" />
+  <script path="~/Content/Plugins/SocialShare/jssocials.min.js" />
+  <script path="~/Content/Plugins/Plyr/plyr.min.js" />
+  <script path="~/Content//Plugins/FlexImages/jquery.flex-images.min.js" />
+  <script path="~/Content//Plugins/TapHold/taphold.js" />
+  <script path="~/Content//Plugins/Ripple/ripple.js" />
+  <script path="~/Content/Plugins/AjaxForm/AjaxForm.js" />
+  <script path="~/Content/Plugins/DropZone/DropZone.js" />
+  <script path="~/Content/Plugins/AutoGrowTextArea/AutoGrowTextArea.js" />
+
+  <script path="~/Content/Themes/AdminTheme/Scripts/app.js" />
+  <script path="~/Content/Themes/AdminTheme/Scripts/Scripts.js" />
+  
+</scripts>

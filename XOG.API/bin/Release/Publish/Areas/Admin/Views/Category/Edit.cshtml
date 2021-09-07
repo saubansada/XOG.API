@@ -1,0 +1,35 @@
+﻿@model XOG.Areas.Admin.Models.ViewModels.CategoryAdminVM
+
+@{
+    ViewBag.Title = "Edit Category"; 
+}
+@using (Html.BeginForm("Edit", "Category", new { area = "Admin" }, FormMethod.Post, new { id = "CategoryEditForm" }))
+{
+    <div>
+        @Html.AntiForgeryToken() 
+        @Html.HiddenFor(model => model.Id)
+        <h3 class="uk-width-2-5@m uk-align-center">Edit Category</h3>   
+
+        @Html.Partial("CategoryFormPartial", Model)
+
+        <div class="uk-width-2-5@m uk-align-center">
+            <div class="uk-margin-medium uk-align-right@m uk-flex-last uk-margin-small-right">
+                <input type="submit" value="Edit Category" class="uk-button uk-button-default" />
+            </div>
+            <a class="uk-button-link uk-link-no-underline" href="@Url.Action("Index","Category", new { area = "Admin" })"><span uk-icon="arrow-left"></span> Back to List</a>
+        </div>
+
+    </div>
+}
+<br /><br />
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+            //initCategoryImageUpload();
+        });
+    </script>
+
+}
