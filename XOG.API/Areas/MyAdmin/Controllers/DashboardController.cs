@@ -15,13 +15,10 @@ namespace XOG.Areas.MyAdmin.Controllers
     [AllowAnonymous]
     public class DashboardController : Controller
     {
-        static ModelType modelType = ModelType.AdminView;
-
         public ActionResult Index()
         {
             return View();
         }
-
 
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin")]
         public PartialViewResult UpdateUserRole(string userId)

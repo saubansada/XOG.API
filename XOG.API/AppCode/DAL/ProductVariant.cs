@@ -12,14 +12,20 @@ namespace XOG.AppCode.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Cart
+    public partial class ProductVariant
     {
         public long Id { get; set; }
-        public string AddedByUserId { get; set; }
-        public Nullable<long> ProductId { get; set; }
-        public Nullable<short> Quantity { get; set; }
+        public long ProductId { get; set; }
+        public double Mrp { get; set; }
+        public short Measure { get; set; }
+        public string Volume { get; set; }
+        public long StocksAvailable { get; set; }
+        public short Gst { get; set; }
+        public double Cost { get; set; }
+        public double DiscountPercentage { get; set; }
+        public bool Enabled { get; set; }
+        public int MaxPurchase { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Product Product { get; set; }
     }
 }

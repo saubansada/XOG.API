@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using XOG.AppCode.Models;
 
 namespace XOG.Models.ViewModels.RequestViewModels.Data

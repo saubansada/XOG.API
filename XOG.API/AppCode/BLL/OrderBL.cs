@@ -25,7 +25,7 @@ namespace XOG.AppCode.BLL
             if (filter != null)
             {
                 string[] userIds = filter.userIds.Trim().Equals("") != true ? filter.userIds.Split(',') : new string[0];
-                  
+
                 query = userIds.Length == 0 ? query : query.Where(i => userIds.Contains(i.AspNetUser.Id));
 
                 query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.OrderDetails
@@ -110,81 +110,81 @@ namespace XOG.AppCode.BLL
 
             try
             {
-                var ids = "";
+                //var ids = "";
 
-                model.cartList.ToList().ForEach(i =>
-                { 
-                    ids += i.ProductId + ",";
-                });
+                //model.cartList.ToList().ForEach(i =>
+                //{
+                //    ids += i.ProductId + ",";
+                //});
 
-                var productList = (List<Object>)ProductBL.GetTList(context, new ProductFilterRequestVM() { Ids = ids }, listType: ListingType.List);
+                //var productList = (List<Object>)ProductBL.GetTList(context, new ProductFilterRequestVM() { Ids = ids }, listType: ListingType.List);
 
-                var orderDetails = new List<OrderDetail>();
+                //var orderDetails = new List<OrderDetail>();
 
-                double totalAmount = 0.0;
+                //double totalAmount = 0.0;
 
-                for (int i = 0; i < productList.Count; i++)
-                {
-                    var product = (Product)productList[i];
+                //for (int i = 0; i < productList.Count; i++)
+                //{
+                //    var product = (Product)productList[i];
 
-                    var quantity = model.cartList[i].CartCount;
+                //    var quantity = model.cartList[i].CartCount;
 
-                    orderDetails.Add(new OrderDetail()
-                    {
-                        ProductId = product.Id,
-                        Price = product.Mrp,
-                        Quantity = quantity,
-                        Discount = product.DiscountPercentage,
-                        Gst = product.Gst,
-                        Cost = product.Cost, 
-                    });
+                //    orderDetails.Add(new OrderDetail()
+                //    {
+                //        ProductId = product.Id,
+                //        Price = product.Mrp,
+                //        Quantity = quantity,
+                //        Discount = product.DiscountPercentage,
+                //        Gst = product.Gst,
+                //        Cost = product.Cost,
+                //    });
 
-                    totalAmount = totalAmount + GetProductTotalAmount(product.Mrp, quantity, product.DiscountPercentage, product.Gst);
-                }
+                //    totalAmount = totalAmount + GetProductTotalAmount(product.Mrp, quantity, product.DiscountPercentage, product.Gst);
+                //}
 
-                var customerInfo = UsersBL.GetUserInfo(model.userId, context);
+                //var customerInfo = UsersBL.GetUserInfo(model.userId, context);
 
-                Type t = customerInfo.GetType();
+                //Type t = customerInfo.GetType();
 
-                PropertyInfo p = t.GetProperty("Id");
+                //PropertyInfo p = t.GetProperty("Id");
 
-                object customerId = p.GetValue(customerInfo, null);
+                //object customerId = p.GetValue(customerInfo, null);
 
-                var address = context.Addresses.Where(i => i.Id == model.addressesId).FirstOrDefault();
-                 
-                var order = new Order()
-                {
-                    OrderedByUserId = customerId.ToString(),
-                    OrderDate = now,
-                    OrderState = (byte)OrderStatus.Placed,
-                    OrderToAddressId = address.Id,
-                    Returned = false,
-                    DispatchedDate = now,   
-                    TotalAmount = totalAmount,
-                    DeliveredDate = now,
-                    OrderDetails = orderDetails
-                };
+                //var address = context.Addresses.Where(i => i.Id == model.addressesId).FirstOrDefault();
 
-                var transaction = new DAL.Transaction()
-                {
-                    PaymentDateTime = now,
-                    BilledByUserId = model.userId,
-                    TotalAmount = totalAmount,
-                    Canceled = false,
-                    Order = order
-                };
+                //var order = new Order()
+                //{
+                //    OrderedByUserId = customerId.ToString(),
+                //    OrderDate = now,
+                //    OrderState = (byte)OrderStatus.Placed,
+                //    OrderToAddressId = address.Id,
+                //    Returned = false,
+                //    DispatchedDate = now,
+                //    TotalAmount = totalAmount,
+                //    DeliveredDate = now,
+                //    OrderDetails = orderDetails
+                //};
 
-                using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
+                //var transaction = new DAL.Transaction()
+                //{
+                //    PaymentDateTime = now,
+                //    BilledByUserId = model.userId,
+                //    TotalAmount = totalAmount,
+                //    Canceled = false,
+                //    Order = order
+                //};
 
-                    context.Transactions.Add(transaction);
+                //using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                //{
 
-                    ts.Complete();
-                }
-                  
-                context.SaveChanges();
+                //    context.Transactions.Add(transaction);
 
-                return order.Id;
+                //    ts.Complete();
+                //}
+
+                //context.SaveChanges();
+
+                return -1; // order.Id;
 
             }
             catch (Exception ex)
@@ -220,7 +220,7 @@ namespace XOG.AppCode.BLL
 
                 var data = isCurrent && id < 0 ? context.Orders.Where(i => i.AspNetUser.Id == userId && !toExcludeOrderStates.Contains((OrderStatus)i.OrderState)).OrderByDescending(i => i.OrderDate).FirstOrDefault()
                                     : context.Orders.Where(i => i.Id == id).FirstOrDefault();
-                  
+
 
                 if (data != null && isCurrent && data.AspNetUser.Id != userId && data.AspNetUser.AspNetRoles.Count(i => i.Name == "Admin" || i.Name == "Developer" || i.Name == "SuperAdmin") <= 0)
                 {
@@ -247,4 +247,4 @@ namespace XOG.AppCode.BLL
 
     }
 }
- 
+

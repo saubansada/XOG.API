@@ -7,6 +7,7 @@ using XOG.AppCode.DAL;
 using XOG.AppCode.Transformers;
 using XOG.Util;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
+using XOG.AppCode.Mappers;
 
 namespace XOG.AppCode.BLL
 {
@@ -64,7 +65,7 @@ namespace XOG.AppCode.BLL
             }
             var query = GetFilteredQuery(filter, context);
 
-            return query.TransformToCartModelListing(model, type, listType);
+            return query.MapToCartModelListing(model, type, listType);
         }
 
         internal static object GetCartByNameOrId(XOGEntities context = null, ModelType type = ModelType.Default, long id = -1, string title = "", bool isAdmin = false)
@@ -94,7 +95,7 @@ namespace XOG.AppCode.BLL
                 query = context.Carts.Where(i => i.Product.ProductName.Equals(title.Replace("_", " ")));
             }
 
-            return query.FirstOrDefault().TransformToCartModel(type);
+            return query.FirstOrDefault().MapToCartModel(type);
         }
 
         internal static async Task<DBStatus> EditAsync(Cart model, XOGEntities context = null)

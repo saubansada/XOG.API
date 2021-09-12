@@ -6,18 +6,19 @@ using XOG.AppCode.DAL;
 using XOG.Util;
 using XOG.AppCode.Transformers;
 using XOG.AppCode.Models.FilterModels;
+using XOG.AppCode.Mappers;
 
 namespace XOG.AppCode.BLL
 {
-    public static class BrandBL
+    public class BrandBL
     {
         internal static XOGEntities GetXOGContext()
         {
             return new XOGEntities();
         }
 
-        private static IQueryable<Brand> GetFilteredWhereQuery(IQueryable<Brand> query, BrandFilter filter)
-        {  
+        private IQueryable<Brand> GetFilteredWhereQuery(IQueryable<Brand> query, BrandFilter filter)
+        {
             if (filter != null)
             {
                 query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.BrandName.Contains(filter.Search) ||
@@ -31,8 +32,8 @@ namespace XOG.AppCode.BLL
 
             return query;
         }
-          
-        private static IQueryable<Brand> GetFilteredQuery(BrandFilter filter, XOGEntities context = null)
+
+        private IQueryable<Brand> GetFilteredQuery(BrandFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -48,37 +49,39 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Brands, filter);
         }
 
-        internal static object GetTList(XOGEntities context = null, BrandFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(BrandFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
-            if (context == null)
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetTList(_context, filter, type, listType, model);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return GetList<T>(_context, filter, listType, model);
             }
-            var query = GetFilteredQuery(filter, context);
-
-            return query.TransformToBrandModelListing(model,  type, listType);
         }
 
-        internal static object GetBrandByNameOrId(XOGEntities context = null, ModelType type = ModelType.Default, long id = -1, string title = "", bool isAdmin = false)
+        internal object GetList<T>(XOGEntities context, BrandFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
-            if (context == null)
+            var query = GetFilteredQuery(filter, context);
+
+            return query.MapToBrandModelListing<T>(model, listType);
+        }
+
+        internal object GetBrandByNameOrId<T>(long id = -1, string title = "", bool isAdmin = false)
+        {
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetBrandByNameOrId(_context, type, id, title, isAdmin);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return GetBrandByNameOrId<T>(_context, id, title, isAdmin);
             }
+        }
+
+        internal object GetBrandByNameOrId<T>(XOGEntities context, long id = -1, string title = "", bool isAdmin = false)
+        {
             var Brand = new Brand();
 
             var query = context.Brands.Where(i => true);
@@ -93,10 +96,10 @@ namespace XOG.AppCode.BLL
                 query = context.Brands.Where(i => i.BrandName.Equals(title.Replace("_", " ")));
             }
 
-            return query.FirstOrDefault().TransformToBrandModel(type);
+            return query.FirstOrDefault().MapToBrandModel<T>();
         }
 
-        internal static async Task<DBStatus> EditAsync(Brand model, XOGEntities context = null)
+        internal async Task<DBStatus> EditAsync(Brand model, XOGEntities context = null)
         {
             try
             {
@@ -127,7 +130,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static DBStatus Add(Brand model, XOGEntities context = null)
+        internal DBStatus Add(Brand model, XOGEntities context = null)
         {
             try
             {
@@ -156,7 +159,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> AddAsync(Brand model, XOGEntities context = null)
+        internal async Task<DBStatus> AddAsync(Brand model, XOGEntities context = null)
         {
             try
             {
@@ -185,7 +188,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
         {
             try
             {
@@ -221,7 +224,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> DeleteMultipleAsync(BrandFilter BrandFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(BrandFilter BrandFilters, XOGEntities context = null)
         {
             try
             {
@@ -257,7 +260,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static long GetBrandsCount(XOGEntities context = null)
+        internal long GetBrandsCount(XOGEntities context = null)
         {
             if (context == null)
             {

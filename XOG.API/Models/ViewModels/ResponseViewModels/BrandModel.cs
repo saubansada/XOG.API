@@ -4,12 +4,12 @@ namespace XOG.Models.ViewModels
 {
     public class BrandViewModel : BaseModel
     {
-        public short Id { get; internal set; }
+        public short Id { get; set; } = -1;
+         
+        public string BrandName { get; set; }
 
-        public string BrandName { get; internal set; }
-
-        public string BrandDescription { get; internal set; }
-
-        public string BrandUrl { get; internal set; }
+        public string BrandUrl { get; set; }
+         
+        public string BrandDescription { get; set; }
     }
 }

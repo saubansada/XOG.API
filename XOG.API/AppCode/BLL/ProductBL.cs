@@ -3,13 +3,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using XOG.AppCode.DAL;
+using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
 using XOG.AppCode.Transformers;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL
 {
-    public static class ProductBL
+    public class ProductBL
     {
         internal static XOGEntities GetXOGContext()
         {
@@ -17,9 +18,9 @@ namespace XOG.AppCode.BLL
         }
 
         private static IQueryable<Product> GetFilteredWhereQuery(IQueryable<Product> query, ProductFilter filter)
-        { 
+        {
             if (filter != null)
-            { 
+            {
                 if (filter.ProductQueryType == ProductQueryType.FilterOrNone)
                 {
 
@@ -33,9 +34,9 @@ namespace XOG.AppCode.BLL
                     query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.ProductName.StartsWith(filter.Search) ||
                                                                                             i.ProductName.Contains(" " + filter.Search) ||
                                                                                            i.Description.Contains(filter.Search) ||
-                                                                                           filter.Search.Contains(i.ProductName) || 
+                                                                                           filter.Search.Contains(i.ProductName) ||
                                                                                            i.Brand.BrandName.StartsWith(filter.Search) ||
-                                                                                           i.Brand.BrandName.Contains(filter.Search) || 
+                                                                                           i.Brand.BrandName.Contains(filter.Search) ||
                                                                                            filter.Search.Contains(i.Brand.BrandName) ||
                                                                                            i.SubCategory.SubCategoryName.StartsWith(filter.Search) ||
                                                                                            i.SubCategory.SubCategoryName.Contains(filter.Search) ||
@@ -46,27 +47,27 @@ namespace XOG.AppCode.BLL
                                                                                       ) : query;
                     if (!(string.IsNullOrWhiteSpace(filter.MainCategoryKey)))
                     {
-                        var mainType = EnumsBL.GetProductDivisionList().Where(i => i.Text.ToRouteKey() == filter.MainCategoryKey).FirstOrDefault(); 
+                        var mainType = EnumsBL.GetProductDivisionList().Where(i => i.Text.ToRouteKey() == filter.MainCategoryKey).FirstOrDefault();
                         query = mainType != null ? query.Where(i => mainType.Value.Equals(i.SubCategory.Category.ProductMainType + "")) : query;
                     }
 
                     query = !(string.IsNullOrWhiteSpace(filter.CategoryKey)) ? query.Where(i => i.SubCategory.Category.RouteKey.Equals(filter.CategoryKey)) : query;
                     query = !(string.IsNullOrWhiteSpace(filter.SubCategoryKey)) ? query.Where(i => i.SubCategory.RouteKey.Equals(filter.SubCategoryKey)) : query;
-                    query = query.OrderBy(i => i.ProductName.ToLower().StartsWith(filter.Search.ToLower()) ? 0 : 
+                    query = query.OrderBy(i => i.ProductName.ToLower().StartsWith(filter.Search.ToLower()) ? 0 :
                                                (i.Brand.BrandName.ToLower().StartsWith(filter.Search.ToLower()) ? 1 :
                                                i.SubCategory.SubCategoryName.ToLower().StartsWith(filter.Search.ToLower())
                     ? 2 : 3));
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Trending || filter.ProductQueryType == ProductQueryType.Suggestions)
                 {
-                    query = query.Where(i => i.Enabled); 
+                    query = query.Where(i => i.Enabled);
                     query = query.Where(i => i.OrderDetails.Count() > 1 && i.OrderDetails.FirstOrDefault().Order.OrderDate >= DateTime.Now).OrderByDescending(i => i.Id).Take(filter.PageSize);
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Featured)
                 {
                     query = query.Where(i => i.Enabled).Take(filter.PageSize).OrderByDescending(i => i.Id);
                 }
-            } 
+            }
             return query;
         }
 
@@ -86,29 +87,29 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Products, filter);
         }
 
-        internal static object GetTList(XOGEntities context = null, ProductFilter filter = null, 
-                                        ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(ProductFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
-            if (context == null)
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetTList(_context, filter, type, listType, model);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
-            } 
-            var query = GetFilteredQuery(filter, context); 
+                return GetList<T>(_context, filter, listType, model);
+            }
+        }
+
+        internal object GetList<T>(XOGEntities context, ProductFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        {
+            var query = GetFilteredQuery(filter, context);
             //Name Array is For Search Suggestion in Home Page Search 
-            if (type == ModelType.NameArray)
-            { 
+            if (typeof(T) == typeof(string[]))
+            {
                 //Product Search Suggestion List For Customers
 
-                var products = GetFilteredQuery(filter, context); 
-                var product_categories = products.Select(i => i.SubCategory.SubCategoryName); 
-                var product_brand = products.Select(i => i.Brand.BrandName); 
+                var products = GetFilteredQuery(filter, context);
+                var product_categories = products.Select(i => i.SubCategory.SubCategoryName);
+                var product_brand = products.Select(i => i.Brand.BrandName);
                 var sub_category_search = context.SubCategories.Where(i => i.SubCategoryName.StartsWith(filter.Search) ||
                                                                                           i.SubCategoryName.Contains(" " + filter.Search) ||
                                                                                             i.SubCategoryName.Contains(filter.Search) ||
@@ -116,27 +117,28 @@ namespace XOG.AppCode.BLL
                 var brand_search = context.Brands.Where(i => i.BrandName.StartsWith(filter.Search) ||
                                                                                        i.BrandName.Contains(" " + filter.Search) ||
                                                                                          i.BrandName.Contains(filter.Search) ||
-                                                                                       filter.Search.Contains(i.BrandName)).Select(i => i.BrandName); 
-                var product_list = products.Select(i => i.ProductName); 
+                                                                                       filter.Search.Contains(i.BrandName)).Select(i => i.BrandName);
+                var product_list = products.Select(i => i.ProductName);
                 return product_list.Union(product_brand).Union(product_categories).Union(sub_category_search).Union(brand_search)
-                                        .OrderBy(i => i.ToLower().StartsWith(filter.Search.ToLower()) ? 0 : 1).Take(filter.PageSize).ToArray(); 
-            } 
-            return query.TransformToProductModelListing(model, type, listType);
+                                        .OrderBy(i => i.ToLower().StartsWith(filter.Search.ToLower()) ? 0 : 1).Take(filter.PageSize).ToArray();
+            }
+            return query.MapToProductModelList<T>(model, listType);
         }
 
-        internal static object GetProductByNameOrId(XOGEntities context = null, ModelType type = ModelType.Default, long id = -1, string title = "", bool isAdmin = false)
+        internal object GetProductByNameOrId<T>(long id = -1, string title = "", bool isAdmin = false)
         {
-            if (context == null)
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetProductByNameOrId(_context, type, id, title, isAdmin);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return GetProductByNameOrId<T>(_context, id, title, isAdmin);
             }
+        }
+
+        internal object GetProductByNameOrId<T>(XOGEntities context, long id = -1, string title = "", bool isAdmin = false)
+        {
             var Product = new Product();
 
             var query = context.Products.Where(i => true);
@@ -151,10 +153,10 @@ namespace XOG.AppCode.BLL
                 query = context.Products.Where(i => i.ProductName.Equals(title.Replace("_", " ")));
             }
 
-            return query.FirstOrDefault().TransformToProductModel(type);
+            return query.FirstOrDefault().MapToProductModel<T>();
         }
 
-        internal static async Task<DBStatus> EditAsync(Product model, XOGEntities context = null)
+        internal async Task<DBStatus> EditAsync(Product model, XOGEntities context = null)
         {
             try
             {
@@ -168,11 +170,39 @@ namespace XOG.AppCode.BLL
                         }
                         return await EditAsync(model, _context);
                     }
-
                 }
-                context.Products.Attach(model);
+
+                /*
+                 * Remove variants from db which has been removed from the model that is being edited
+                 */
+                var modelVariants = model.ProductVariants.ToList();
+
+                var existingVariants = context.ProductVariants.Where(item => item.ProductId == model.Id).ToList();
+
+                var variantsToRemove = existingVariants.Where(item => modelVariants.Count(v => v.Id == item.Id) == 0).ToList();
+
+                context.ProductVariants.RemoveRange(variantsToRemove);
+
+                foreach (var item in modelVariants)
+                {
+                    var local = context.ProductVariants.Local.FirstOrDefault(i => i.Id == item.Id);
+                    if (local != null)
+                    {
+                        context.Entry(local).State = EntityState.Detached;
+                    }
+                    context.ProductVariants.Attach(item);
+
+                    context.Entry(item).State = EntityState.Modified;
+                }
+
+                var variantsToAdd = modelVariants.Where(item => existingVariants.Count(v => v.Id == item.Id) == 0).ToList();
+
+                context.ProductVariants.AddRange(variantsToAdd);
 
                 context.Entry(model).State = EntityState.Modified;
+
+                context.Products.Attach(model);
+
 
                 await context.SaveChangesAsync();
 
@@ -186,7 +216,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static DBStatus Add(Product model, XOGEntities context = null)
+        internal DBStatus Add(Product model, XOGEntities context = null)
         {
             try
             {
@@ -206,6 +236,8 @@ namespace XOG.AppCode.BLL
 
                 context.ProductImages.AddRange(model.ProductImages);
 
+                context.ProductVariants.AddRange(model.ProductVariants);
+
                 context.SaveChanges();
 
                 return DBStatus.Success;
@@ -218,7 +250,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> AddAsync(Product model, XOGEntities context = null)
+        internal async Task<DBStatus> AddAsync(Product model, XOGEntities context = null)
         {
             try
             {
@@ -237,6 +269,8 @@ namespace XOG.AppCode.BLL
 
                 context.ProductImages.AddRange(model.ProductImages);
 
+                context.ProductVariants.AddRange(model.ProductVariants);
+
                 await context.SaveChangesAsync();
 
                 return DBStatus.Success;
@@ -249,7 +283,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
         {
             try
             {
@@ -288,7 +322,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> DeleteMultipleAsync(ProductFilter productFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(ProductFilter productFilters, XOGEntities context = null)
         {
             try
             {
@@ -330,7 +364,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static long GetProductsCount(XOGEntities context = null)
+        internal long GetProductsCount(XOGEntities context = null)
         {
             if (context == null)
             {

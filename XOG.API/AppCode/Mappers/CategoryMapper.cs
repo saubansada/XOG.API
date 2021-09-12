@@ -8,7 +8,7 @@ using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Util;
 
-namespace XOG.AppCode.Transformers
+namespace XOG.AppCode.Mappers
 {
     public static class CategoryMapper
     {
@@ -42,7 +42,7 @@ namespace XOG.AppCode.Transformers
                 });
                 return res.ToList();
             }
-            else if (typeof(T) == typeof(Array))
+            else if (typeof(T) == typeof(string[]))
             {
                 int id = obj.NullReverse();
                 var res = query.Select(model => model.CategoryName);
@@ -91,16 +91,16 @@ namespace XOG.AppCode.Transformers
             }
         }
 
-        public static IQueryable<Category> MapToCategoryEntityQueryable<T>(IQueryable<BaseModel> query, object obj = null)
+        public static IQueryable<Category> MapToCategoryEntityQueryable(IQueryable<BaseModel> query, object obj = null)
         {
-            return query == null ? null : query.Select(model => MapToCategoryEntity<T>(model, obj));
+            return query == null ? null : query.Select(model => MapToCategoryEntity(model, obj));
         }
 
-        public static Category MapToCategoryEntity<T>(this BaseModel model, object obj = null)
+        public static Category MapToCategoryEntity(this BaseModel model, object obj = null)
         {
             Category Category = null;
 
-            if (typeof(T) == typeof(CategoryViewModel))
+            if (model is CategoryViewModel)
             {
                 var _model = (CategoryViewModel)model;
                 Category = new Category()
@@ -112,7 +112,7 @@ namespace XOG.AppCode.Transformers
                     RouteKey = _model.CategoryName.ToRouteKey()
                 };
             }
-            else if (typeof(T) == typeof(CategoryRequestVM))
+            else if (model is CategoryRequestVM)
             {
                 var _model = (CategoryRequestVM)model;
                 Category = new Category()

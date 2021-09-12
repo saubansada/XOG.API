@@ -1,26 +1,26 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using XOG.AppCode.BLL;
+using XOG.AppCode.Mappers;
 using XOG.Filters;
 using XOG.Models;
 using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
-using XOG.AppCode.Mappers;
 
 namespace XOG.Controllers
 {
-    [RoutePrefix("api/category")]
-    public class CategoryController : ApiController
+    [RoutePrefix("api/brand")]
+    public class BrandController : ApiController
     {
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] CategoryFilterRequestVM filter)
+        public IHttpActionResult List([FromUri] BrandFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
-            res.Data = new CategoryBL().GetList<CategoryViewModel>(filter);
+            res.Data = new BrandBL().GetList<BrandViewModel>(filter);
 
             res.IsSuccess = true;
 
@@ -29,11 +29,11 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] CategoryFilterRequestVM filter)
+        public IHttpActionResult GetSelectListAsync([FromUri] BrandFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
-            res.Data = new CategoryBL().GetList<OListItem>();
+            res.Data = new BrandBL().GetList<OListItem>();
 
             res.IsSuccess = true;
 
@@ -42,11 +42,11 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult GetCategory(int id)
+        public IHttpActionResult GetA(int id)
         {
-            var res = new ReturnObject<CategoryViewModel>();
+            var res = new ReturnObject<BrandViewModel>();
 
-            res.Data = new CategoryBL().GetCategoryByNameOrId<CategoryViewModel>(id: id);
+            res.Data = (BrandViewModel)new BrandBL().GetBrandByNameOrId<BrandViewModel>(id);
 
             res.IsSuccess = true;
 
@@ -55,17 +55,17 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(CategoryRequestVM request)
+        public async Task<IHttpActionResult> AddAsync(BrandRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
-            var entity = request.MapToCategoryEntity();
+            var entity = request.MapToBrandEntity();
 
-            res.Data = await new CategoryBL().AddAsync(entity);
-             
+            res.Data = await new BrandBL().AddAsync(entity);
+
             res.IsSuccess = res.Data == DBStatus.Success;
-             
-            if(!res.IsSuccess)
+
+            if (!res.IsSuccess)
             {
                 return BadRequest("Error Occurred while saving");
             }
@@ -75,13 +75,13 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(CategoryRequestVM request)
+        public async Task<IHttpActionResult> EditAsync(BrandRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
-            var entity = request.MapToCategoryEntity();
+            var entity = request.MapToBrandEntity();
 
-            res.Data = await new CategoryBL().EditAsync(entity);
+            res.Data = await new BrandBL().EditAsync(entity);
 
             res.IsSuccess = res.Data == DBStatus.Success;
 
@@ -89,7 +89,7 @@ namespace XOG.Controllers
             {
                 return BadRequest("Error Occurred while saving");
             }
-             
+
             return Ok(res);
         }
 
@@ -99,7 +99,7 @@ namespace XOG.Controllers
         {
             var res = new ReturnObject<DBStatus>();
 
-            res.Data = await new CategoryBL().DeleteAsync(id);
+            res.Data = await new BrandBL().DeleteAsync(id);
 
             res.IsSuccess = res.Data == DBStatus.Success;
 

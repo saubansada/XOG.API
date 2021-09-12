@@ -4,6 +4,8 @@
     {
         public string Search { get; set; }
 
+        public string ProductCode { get; set; }
+
         public string Ids { get; set; }
 
         public int? SubCategoryId { get; set; }

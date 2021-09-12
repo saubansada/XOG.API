@@ -348,6 +348,9 @@
     <Compile Include="AppCode\DAL\ProductImage.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\ProductVariant.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\SubCategory.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
@@ -473,12 +476,12 @@
     <Compile Include="AppCode\SettingsHelpers\ThemeStylesheetsHelper.cs" />
     <Compile Include="AppCode\SettingsHelpers\ValidationHelper.cs" />
     <Compile Include="AppCode\Mappers\AddressTransformer.cs" />
-    <Compile Include="AppCode\Mappers\BrandTransformer.cs" />
+    <Compile Include="AppCode\Mappers\BrandMapper.cs" />
     <Compile Include="AppCode\Mappers\CartTransformer.cs" />
     <Compile Include="AppCode\Mappers\CategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\OrderDetailsTransformer.cs" />
     <Compile Include="AppCode\Mappers\OrderTransformer.cs" />
-    <Compile Include="AppCode\Mappers\ProductTransformer.cs" />
+    <Compile Include="AppCode\Mappers\ProuctMapper.cs" />
     <Compile Include="AppCode\Mappers\SubCategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\UserTransformer.cs" />
     <Compile Include="AppCode\Util\Converter.cs" />
@@ -545,6 +548,7 @@
     <Compile Include="Areas\MyAdmin\Models\ViewModels\SubCategoryVM.cs" />
     <Compile Include="Areas\MyAdmin\Models\ViewModels\UserAdminVM.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -558,9 +562,10 @@
     <Compile Include="Models\JsonModels\OrdersModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReturnObject.cs" />
-    <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductSaveRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CustomerSaveRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\BrandRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SubCategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SupplierSaveRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BaseFilterRequestVM.cs" />

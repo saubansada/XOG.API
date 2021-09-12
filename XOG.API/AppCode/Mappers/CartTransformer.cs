@@ -6,11 +6,11 @@ using XOG.Models;
 using XOG.Models.ViewModels;
 using XOG.Util;
 
-namespace XOG.AppCode.Transformers
+namespace XOG.AppCode.Mappers
 {
-    public static class CartTransformer
+    public static class CartMapper
     {   
-        public static object TransformToCartModelListing(this IQueryable<Cart> query, object obj = null, ModelType type = ModelType.Default, ListingType listType = ListingType.List)
+        public static object MapToCartModelListing(this IQueryable<Cart> query, object obj = null, ModelType type = ModelType.Default, ListingType listType = ListingType.List)
         {
             if (query == null)
             {
@@ -50,7 +50,7 @@ namespace XOG.AppCode.Transformers
                     ProductId = model.ProductId ?? -1,
                     AddedByUserId = model.AddedByUserId,
                     CartCount = model.Quantity ?? 0,
-                    MaxPurchase = model.Product.MaxPurchase
+                    //MaxPurchase = model.Product.MaxPurchase
                 });
             }
             else if (type == ModelType.OListItem && obj.isNullOrWholeNumber())
@@ -80,7 +80,7 @@ namespace XOG.AppCode.Transformers
             return _query.ToList();
         }
          
-        public static object TransformToCartModel(this Cart model, ModelType type = ModelType.Default, object obj = null)
+        public static object MapToCartModel(this Cart model, ModelType type = ModelType.Default, object obj = null)
         {
         //    if (type == ModelType.AdminView)
         //    {
@@ -112,7 +112,7 @@ namespace XOG.AppCode.Transformers
                     ProductId = model.ProductId ?? -1,
                     AddedByUserId = model.AddedByUserId,
                     CartCount = model.Quantity ?? 0,
-                    MaxPurchase = model.Product.MaxPurchase
+                    //MaxPurchase = model.Product.MaxPurchase
                 }; 
                 return _obj;
             }
@@ -132,12 +132,12 @@ namespace XOG.AppCode.Transformers
             }
         }
           
-        public static IQueryable<Cart> GetCartDALQueryable(IQueryable<BaseModel> query, ModelType type = ModelType.Default, object obj = null)
+        public static IQueryable<Cart> MapToCartEntityQueryable(IQueryable<BaseModel> query, ModelType type = ModelType.Default, object obj = null)
         {
-            return query == null ? null : query.Select(model => TransformToCartDALObject(model, type, obj));
+            return query == null ? null : query.Select(model => MapToCartEntity(model, type, obj));
         }
 
-        public static Cart TransformToCartDALObject(this BaseModel model, ModelType type = ModelType.Default, object obj = null)
+        public static Cart MapToCartEntity(this BaseModel model, ModelType type = ModelType.Default, object obj = null)
         {
             Cart Cart = null;
 

@@ -20,6 +20,7 @@ namespace XOG.AppCode.DAL
             this.Carts = new HashSet<Cart>();
             this.OrderDetails = new HashSet<OrderDetail>();
             this.ProductImages = new HashSet<ProductImage>();
+            this.ProductVariants = new HashSet<ProductVariant>();
             this.WishLists = new HashSet<WishList>();
         }
     
@@ -28,16 +29,9 @@ namespace XOG.AppCode.DAL
         public short BrandId { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }
-        public double Mrp { get; set; }
-        public short Measure { get; set; }
-        public string Volume { get; set; }
-        public long StocksAvailable { get; set; }
-        public short Gst { get; set; }
-        public double Cost { get; set; }
-        public double DiscountPercentage { get; set; }
         public bool Enabled { get; set; }
         public string ImageUrl { get; set; }
-        public int MaxPurchase { get; set; }
+        public string ProductCode { get; set; }
     
         public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -47,6 +41,8 @@ namespace XOG.AppCode.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual SubCategory SubCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductVariant> ProductVariants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WishList> WishLists { get; set; }
     }

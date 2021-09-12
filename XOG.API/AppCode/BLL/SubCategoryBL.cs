@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using XOG.AppCode.DAL;
+using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
 using XOG.AppCode.Transformers;
 using XOG.Util;

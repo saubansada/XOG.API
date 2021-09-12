@@ -58,11 +58,11 @@
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
-      <PropertyRef Name="AspNetRoles_Id" />
-      <PropertyRef Name="AspNetUsers_Id" />
+      <PropertyRef Name="RoleId" />
+      <PropertyRef Name="UserId" />
     </Key>
-    <Property Name="AspNetRoles_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="AspNetUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUsers">
     <Key>
@@ -186,6 +186,16 @@
     <Property Name="BrandId" Type="smallint" Nullable="false" />
     <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Enabled" Type="bit" Nullable="false" />
+    <Property Name="ImageUrl" Type="varchar(max)" />
+    <Property Name="ProductCode" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ProductVariants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="bigint" Nullable="false" />
     <Property Name="Mrp" Type="float" Nullable="false" />
     <Property Name="Measure" Type="smallint" Nullable="false" />
     <Property Name="Volume" Type="varchar" MaxLength="5" Nullable="false" />
@@ -194,7 +204,6 @@
     <Property Name="Cost" Type="float" Nullable="false" />
     <Property Name="DiscountPercentage" Type="float" Nullable="false" />
     <Property Name="Enabled" Type="bit" Nullable="false" />
-    <Property Name="ImageUrl" Type="varchar(max)" />
     <Property Name="MaxPurchase" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SubCategories">
@@ -259,7 +268,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="AspNetUserRoles">
-        <PropertyRef Name="AspNetRoles_Id" />
+        <PropertyRef Name="RoleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -271,7 +280,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="AspNetUserRoles">
-        <PropertyRef Name="AspNetUsers_Id" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -451,6 +460,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_productVariants_productId">
+    <End Role="Products" Type="Self.Products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductVariants" Type="Self.ProductVariants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductVariants">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Transactions_AspNetUsers">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -525,6 +548,7 @@
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductVariants" EntityType="Self.ProductVariants" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WishLists" EntityType="Self.WishLists" Schema="dbo" store:Type="Tables" />
@@ -595,6 +619,10 @@
     <AssociationSet Name="FK_ProductImages_Products" Association="Self.FK_ProductImages_Products">
       <End Role="Products" EntitySet="Products" />
       <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
+    <AssociationSet Name="fk_productVariants_productId" Association="Self.fk_productVariants_productId">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductVariants" EntitySet="ProductVariants" />
     </AssociationSet>
     <AssociationSet Name="FK_Transactions_AspNetUsers" Association="Self.FK_Transactions_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />

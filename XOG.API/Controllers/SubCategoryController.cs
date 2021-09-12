@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using XOG.AppCode.BLL;
-using XOG.AppCode.Transformers;
+using XOG.AppCode.Mappers;
 using XOG.Filters;
 using XOG.Models;
 using XOG.Models.ViewModels;
@@ -57,13 +57,18 @@ namespace XOG.Controllers
         [Route("add")]
         public async Task<IHttpActionResult> AddAsync(SubCategoryRequestVM request)
         {
-            var res = new ReturnObject<object>();
+            var res = new ReturnObject<DBStatus>();
 
-            var entity = request.MapToSubCategoryEntity<SubCategoryRequestVM>();
+            var entity = request.MapToSubCategoryEntity();
 
             res.Data = await new SubCategoryBL().AddAsync(entity);
 
-            res.IsSuccess = true;
+            res.IsSuccess = res.Data == DBStatus.Success;
+
+            if (!res.IsSuccess)
+            {
+                return BadRequest("Error Occurred while saving");
+            }
 
             return Ok(res);
         }
@@ -72,13 +77,18 @@ namespace XOG.Controllers
         [Route("edit")]
         public async Task<IHttpActionResult> EditAsync(SubCategoryRequestVM request)
         {
-            var res = new ReturnObject<object>();
+            var res = new ReturnObject<DBStatus>();
 
-            var entity = request.MapToSubCategoryEntity<SubCategoryRequestVM>();
+            var entity = request.MapToSubCategoryEntity();
 
             res.Data = await new SubCategoryBL().EditAsync(entity);
 
-            res.IsSuccess = true;
+            res.IsSuccess = res.Data == DBStatus.Success;
+
+            if (!res.IsSuccess)
+            {
+                return BadRequest("Error Occurred while saving");
+            }
 
             return Ok(res);
         }
@@ -87,11 +97,18 @@ namespace XOG.Controllers
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteAsync(int id)
         {
-            var res = new ReturnObject<object>();
+            var res = new ReturnObject<DBStatus>();
 
             res.Data = await new SubCategoryBL().DeleteAsync(id);
 
-            res.IsSuccess = true;
+            res.IsSuccess = res.Data == DBStatus.Success;
+
+            if (!res.IsSuccess)
+            {
+                string message = res.Data == DBStatus.Error ? "Error occurred while deleting!" : "Category doesn't exist!";
+
+                return BadRequest(message);
+            }
 
             return Ok(res);
         }

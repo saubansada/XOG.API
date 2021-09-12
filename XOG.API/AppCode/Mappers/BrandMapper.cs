@@ -6,12 +6,14 @@ using XOG.Areas.MyAdmin.Models.ViewModels;
 using XOG.AppCode.Models;
 using XOG.Util;
 using XOG.Models.ViewModels;
+using System;
+using XOG.Models.ViewModels.RequestViewModels.Data;
 
-namespace XOG.AppCode.Transformers
+namespace XOG.AppCode.Mappers
 {
-    public static class BrandTransformer
+    public static class BrandMapper
     {
-        public static object TransformToBrandModelListing(this IQueryable<Brand> query, object obj = null, ModelType type = ModelType.Default, ListingType listType = ListingType.List)
+        public static object MapToBrandModelListing<T>(this IQueryable<Brand> query, object obj = null, ListingType listType = ListingType.List)
         {
             if (query == null)
             {
@@ -19,18 +21,8 @@ namespace XOG.AppCode.Transformers
             }
 
             var _query = (IQueryable<object>)query;
-              
-            if (type == ModelType.AdminView)
-            {
-                _query = query.Select(model => new BrandAdminModel()
-                {
-                    Id = model.Id,
-                    BrandDescription = model.BrandDescription,
-                    BrandUrl = model.BrandUrl,
-                    BrandName = model.BrandName
-                });
-            }
-            else if (type == ModelType.UserView)
+
+            if (typeof(T) == typeof(BrandViewModel))
             {
                 _query = query.Select(model => new BrandViewModel
                 {
@@ -40,7 +32,7 @@ namespace XOG.AppCode.Transformers
                     BrandName = model.BrandName
                 });
             }
-            else if (type == ModelType.OListItem && obj.isNullOrWholeNumber())
+            else if (typeof(T) == typeof(OListItem) && obj.isNullOrWholeNumber())
             {
                 int id = obj.NullReverse();
                 return query.Select(model => new OListItem
@@ -49,7 +41,7 @@ namespace XOG.AppCode.Transformers
                     Value = model.Id.ToString(),
                     Selected = id != -1 ? model.Id == id : false
                 }).ToList();
-            } 
+            }
 
             if (listType == ListingType.Queryable)
             {
@@ -57,70 +49,51 @@ namespace XOG.AppCode.Transformers
             }
             else if (listType == ListingType.GridList && obj != null)
             {
-                _query =_query.UpdateGridModelList((GridModel)obj);
+                _query = _query.UpdateGridModelList((GridModel)obj);
             }
             return _query.ToList();
         }
 
-        public static object TransformToBrandModel(this Brand model, ModelType type = ModelType.Default, object obj = null)
+        public static T MapToBrandModel<T>(this Brand model, object obj = null)
         {
-            if (type == ModelType.AdminView)
+            if (typeof(T) == typeof(BrandViewModel))
             {
-                return model == null ? null : new BrandAdminModel()
+                var returnObj = new BrandViewModel
                 {
                     Id = model.Id,
                     BrandDescription = model.BrandDescription,
                     BrandUrl = model.BrandUrl,
                     BrandName = model.BrandName
                 };
+                return (T)Convert.ChangeType(returnObj, typeof(T));
             }
-            else if (type == ModelType.UserView)
-            {
-                return new BrandViewModel
-                {
-                    Id = model.Id,
-                    BrandDescription = model.BrandDescription,
-                    BrandUrl = model.BrandUrl,
-                    BrandName = model.BrandName
-                };
-            }
-            else if (type == ModelType.OListItem && obj.isNullOrWholeNumber())
+            else if (typeof(T) == typeof(OListItem) && obj.isNullOrWholeNumber())
             {
                 int id = obj.NullReverse();
-                return new OListItem
+                var returnObj = new OListItem
                 {
                     Text = model.BrandName,
                     Value = model.Id.ToString(),
-                    Selected = id != -1 ? model.Id == id: false
+                    Selected = id != -1 ? model.Id == id : false
                 };
+                return (T)Convert.ChangeType(returnObj, typeof(T));
             }
             else
             {
-                return model;
+                return (T)Convert.ChangeType(model, typeof(T));
             }
         }
 
-        public static IQueryable<Brand> GetBrandDALQueryable(IQueryable<BaseModel> query, ModelType type = ModelType.Default, object obj = null)
+        public static IQueryable<Brand> MapToBrandEntityQueryable(IQueryable<BaseModel> query, object obj = null)
         {
-            return query == null ? null : query.Select(model => TransformToBrandDALObject(model, type, obj));
+            return query == null ? null : query.Select(model => MapToBrandEntity(model, obj));
         }
 
-        public static Brand TransformToBrandDALObject(this BaseModel model, ModelType type = ModelType.Default, object obj = null)
+        public static Brand MapToBrandEntity(this BaseModel model, object obj = null)
         {
             Brand Brand = null;
 
-            if (model is BrandAdminModel)
-            {
-                var _model = (BrandAdminModel)model;
-                Brand = new Brand()
-                {
-                    Id = _model.Id,
-                    BrandDescription = _model.BrandDescription,
-                    BrandUrl = _model.BrandUrl,
-                    BrandName = _model.BrandName
-                };
-            }
-            else if (model is BrandViewModel)
+            if (model is BrandViewModel)
             {
                 var _model = (BrandViewModel)model;
                 Brand = new Brand()
@@ -131,8 +104,20 @@ namespace XOG.AppCode.Transformers
                     BrandName = _model.BrandName
                 };
             }
+            else if (model is BrandRequestVM)
+            {
+                var _model = (BrandRequestVM)model;
+                Brand = new Brand()
+                {
+                    Id = _model.Id,
+                    BrandDescription = _model.BrandDescription,
+                    BrandUrl = _model.BrandUrl,
+                    BrandName = _model.BrandName
+                };
+
+            }
             return Brand;
         }
-          
+
     }
 }

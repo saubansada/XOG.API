@@ -8,7 +8,7 @@ using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Util;
 
-namespace XOG.AppCode.Transformers
+namespace XOG.AppCode.Mappers
 {
     public static class SubCategoryMapper
     {
@@ -93,16 +93,16 @@ namespace XOG.AppCode.Transformers
             }
         }
 
-        public static IQueryable<SubCategory> MapToSubCategoryEntityQueryable<T>(IQueryable<BaseModel> query, object obj = null)
+        public static IQueryable<SubCategory> MapToSubCategoryEntityQueryable(IQueryable<BaseModel> query, object obj = null)
         {
-            return query == null ? null : query.Select(model => MapToSubCategoryEntity<T>(model, obj));
+            return query == null ? null : query.Select(model => MapToSubCategoryEntity(model, obj));
         }
 
-        public static SubCategory MapToSubCategoryEntity<T>(this BaseModel model, object obj = null)
+        public static SubCategory MapToSubCategoryEntity(this BaseModel model, object obj = null)
         {
             SubCategory SubCategory = null;
 
-            if (typeof(T) == typeof(SubCategoryViewModel))
+            if (model is SubCategoryViewModel)
             {
                 var _model = (SubCategoryViewModel)model;
                 SubCategory = new SubCategory()
@@ -114,7 +114,7 @@ namespace XOG.AppCode.Transformers
                     RouteKey = _model.SubCategoryName.ToRouteKey()
                 };
             }
-            else if (typeof(T) == typeof(SubCategoryRequestVM))
+            else if (model is SubCategoryRequestVM)
             {
                 var _model = (SubCategoryRequestVM)model;
                 SubCategory = new SubCategory()
