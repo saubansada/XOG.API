@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using XOG.AppCode.BLL;
+using XOG.AppCode.Filters;
 using XOG.AppCode.Helpers;
 using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
@@ -12,6 +17,7 @@ using XOG.Models;
 using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
+using XOG.Util;
 
 namespace XOG.Controllers
 {
@@ -20,12 +26,30 @@ namespace XOG.Controllers
     {
         [HttpGet]
         [Route("get-list")]
-        [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
         public IHttpActionResult List([FromUri] ProductFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
             res.Data = new ProductBL().GetList<ProductViewModel>(filter);
+
+            res.IsSuccess = true;
+
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [Route("get-variant-list")]
+        public IHttpActionResult VariantList([FromUri] ProductFilterRequestVM filter)
+        {
+            var res = new ReturnObject<object>();
+
+            if (filter == null)
+            {
+                filter = new ProductFilterRequestVM();
+            }
+            filter.ProductQueryType = ProductQueryType.Variants;
+
+            res.Data = new ProductBL().GetList<ProductVariantViewModel>(filter);
 
             res.IsSuccess = true;
 
@@ -47,7 +71,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult GetProduct(int id)
+        public IHttpActionResult Get(int id)
         {
             var res = new ReturnObject<ProductViewModel>();
 
@@ -60,6 +84,7 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
+        [TwoFactorAhorize]
         public async Task<IHttpActionResult> AddAsync(ProductRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
@@ -70,8 +95,14 @@ namespace XOG.Controllers
 
             res.IsSuccess = res.Data == DBStatus.Success;
 
+            res.Result = ApiResult.Success;
+
+            res.Message = "Saved Successfully!";
+
             if (!res.IsSuccess)
             {
+                res.Result = ApiResult.Failure;
+
                 return BadRequest("Error Occurred while saving");
             }
 
@@ -80,26 +111,40 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
+        [TwoFactorAhorize]
         public async Task<IHttpActionResult> EditAsync(ProductRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
-
-            var entity = request.MapToProductEntity();
-
-            res.Data = await new ProductBL().EditAsync(entity);
-
-            res.IsSuccess = res.Data == DBStatus.Success;
-
-            if (!res.IsSuccess)
+            try
             {
+                var entity = request.MapToProductEntity();
+
+                res.Data = await new ProductBL().EditAsync(entity);
+
+                res.IsSuccess = res.Data == DBStatus.Success;
+
+                res.Result = ApiResult.Success;
+
+                res.Message = "Saved Successfully!";
+
+                if (!res.IsSuccess)
+                {
+                    res.Result = ApiResult.Failure;
+
+                    return BadRequest("Error Occurred while saving");
+                }
+            }
+            catch (Exception)
+            {
+                res.Result = ApiResult.Error;
                 return BadRequest("Error Occurred while saving");
             }
-
             return Ok(res);
         }
 
         [HttpDelete]
         [Route("delete/{id}")]
+        [TwoFactorAhorize]
         public async Task<IHttpActionResult> DeleteAsync(int id)
         {
             var res = new ReturnObject<DBStatus>();
@@ -108,14 +153,90 @@ namespace XOG.Controllers
 
             res.IsSuccess = res.Data == DBStatus.Success;
 
+            res.Result = ApiResult.Success;
+
+            res.Message = "Deleted Successfully!";
+
             if (!res.IsSuccess)
             {
+                res.Result = ApiResult.Failure;
+
                 string message = res.Data == DBStatus.Error ? "Error occurred while deleting!" : "Category doesn't exist!";
 
                 return BadRequest(message);
             }
 
             return Ok(res);
+        }
+        
+        [Route("upload-images")]
+        [HttpPost]
+        [TwoFactorAhorize]
+        public IHttpActionResult UploadImages(string storageType)
+        {
+            var res = new ReturnObject<FileUploadResult>();
+
+            var httpRequest = HttpContext.Current.Request;
+
+            string storagePath = storageType == "product" ? LocalStorages.Storage_Product_Image_Uploads :
+                                    storageType == "category" ? LocalStorages.Storage_Category_Image_Uploads :
+                                        storageType == "subcategory" ? LocalStorages.Storage_Sub_Category_Image_Uploads :
+                                            storageType == "brand" ? LocalStorages.Storage_Brand_Image_Uploads : LocalStorages.Storage_Uploads;
+
+            if (httpRequest.Files.Count > 0)
+            {
+                try
+                {
+                    var postedFile = httpRequest.Files[0];
+                    res.Data = Utilities.UploadFile(postedFile, new FileUploadSettings
+                    {
+                        FileType = FileType.Image,
+                        MaxSize = 5,
+                        StoragePath = storagePath
+                    });
+
+                    res.Result = ApiResult.Success;
+
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    res.Result = ApiResult.Error;
+
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return InternalServerError();
+            }
+        }
+         
+        [Route("delete-image")]
+        [HttpDelete]
+        [TwoFactorAhorize]
+        public IHttpActionResult DeleteImages(string imageUrl)
+        {
+            var res = new ReturnObject<bool>();
+            try
+            {
+                if (File.Exists(imageUrl.MapPath()))
+                {
+                    File.Delete(imageUrl.MapPath());
+                    res.IsSuccess = true;
+                    res.Data = true;
+                }
+
+                res.Result = ApiResult.Success;
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                res.Result = ApiResult.Error;
+
+                return BadRequest(ex.Message);
+            }
         }
     }
 

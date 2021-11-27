@@ -154,7 +154,7 @@
 
     public enum UserType
     {
-        User,
+        Customer,
         Staff,
         Admin,
         SubAdmin,
@@ -181,6 +181,7 @@
     public enum ProductQueryType
     {
         FilterOrNone,
+        Variants,
         Suggestions,
         Featured,
         Trending,

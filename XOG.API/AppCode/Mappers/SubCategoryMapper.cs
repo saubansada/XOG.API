@@ -29,6 +29,7 @@ namespace XOG.AppCode.Mappers
                     CategoryName = model.Category.CategoryName,
                     SubCategoryDescription = model.SubCategoryDescription,
                     SubCategoryName = model.SubCategoryName,
+                    SubCategoryImage = model.SubCategoryImage,
                     RouteKey = model.RouteKey
                 });
             }
@@ -39,6 +40,10 @@ namespace XOG.AppCode.Mappers
                 {
                     Text = model.SubCategoryName,
                     Value = model.Id.ToString(),
+                    Extras = new
+                    {
+                        FilterId = model.CategoryId,
+                    },
                     Selected = id != -1 ? model.Id == id : false
                 });
                 return res.ToList();
@@ -72,6 +77,7 @@ namespace XOG.AppCode.Mappers
                     CategoryName = model.Category.CategoryName,
                     SubCategoryDescription = model.SubCategoryDescription,
                     SubCategoryName = model.SubCategoryName,
+                    SubCategoryImage = model.SubCategoryImage,
                     RouteKey = model.RouteKey
                 };
                 return (T)Convert.ChangeType(returnObj, typeof(T));
@@ -83,6 +89,10 @@ namespace XOG.AppCode.Mappers
                 {
                     Text = model.SubCategoryName,
                     Value = model.Id.ToString(),
+                    Extras = new
+                    {
+                        FilterId = model.CategoryId,
+                    },
                     Selected = id != -1 ? model.Id == id : false
                 };
                 return (T)Convert.ChangeType(returnObj, typeof(T));
@@ -108,9 +118,10 @@ namespace XOG.AppCode.Mappers
                 SubCategory = new SubCategory()
                 {
                     Id = _model.Id,
-                    CategoryId = (byte)_model.CategoryId,
+                    CategoryId = _model.CategoryId,
                     SubCategoryDescription = _model.SubCategoryDescription,
                     SubCategoryName = _model.SubCategoryName,
+                    SubCategoryImage = _model.SubCategoryImage,
                     RouteKey = _model.SubCategoryName.ToRouteKey()
                 };
             }
@@ -120,9 +131,10 @@ namespace XOG.AppCode.Mappers
                 SubCategory = new SubCategory()
                 {
                     Id = _model.Id,
-                    CategoryId = (byte)_model.CategoryId,
+                    CategoryId = _model.CategoryId,
                     SubCategoryDescription = _model.SubCategoryDescription,
                     SubCategoryName = _model.SubCategoryName,
+                    SubCategoryImage = _model.SubCategoryImage,
                     RouteKey = _model.SubCategoryName.ToRouteKey()
                 };
             }

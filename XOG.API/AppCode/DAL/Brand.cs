@@ -24,6 +24,7 @@ namespace XOG.AppCode.DAL
         public string BrandName { get; set; }
         public string BrandUrl { get; set; }
         public string BrandDescription { get; set; }
+        public string BrandImage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }

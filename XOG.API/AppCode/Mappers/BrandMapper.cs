@@ -29,6 +29,7 @@ namespace XOG.AppCode.Mappers
                     Id = model.Id,
                     BrandDescription = model.BrandDescription,
                     BrandUrl = model.BrandUrl,
+                    BrandImage = model.BrandImage,
                     BrandName = model.BrandName
                 });
             }
@@ -63,6 +64,7 @@ namespace XOG.AppCode.Mappers
                     Id = model.Id,
                     BrandDescription = model.BrandDescription,
                     BrandUrl = model.BrandUrl,
+                    BrandImage = model.BrandImage,
                     BrandName = model.BrandName
                 };
                 return (T)Convert.ChangeType(returnObj, typeof(T));
@@ -101,6 +103,7 @@ namespace XOG.AppCode.Mappers
                     Id = _model.Id,
                     BrandDescription = _model.BrandDescription,
                     BrandUrl = _model.BrandUrl,
+                    BrandImage = _model.BrandImage,
                     BrandName = _model.BrandName
                 };
             }
@@ -112,6 +115,7 @@ namespace XOG.AppCode.Mappers
                     Id = _model.Id,
                     BrandDescription = _model.BrandDescription,
                     BrandUrl = _model.BrandUrl,
+                    BrandImage = _model.BrandImage,
                     BrandName = _model.BrandName
                 };
 

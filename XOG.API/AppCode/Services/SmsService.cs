@@ -48,7 +48,7 @@ namespace XOG.Services
                         if (!AppConfig.IsProduction.ToLower().Equals("True"))
                         {
 
-                            using (StreamWriter writetext = new StreamWriter(@"C:\OTP.txt"))
+                            using (StreamWriter writetext = new StreamWriter(@"C:\Users\DELL\Desktop\OTP.txt"))
                             {
                                 writetext.WriteLine(message.Body);
                             }

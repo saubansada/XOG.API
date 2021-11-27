@@ -23,9 +23,7 @@ namespace XOG.AppCode.BLL
             {
                 query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.CategoryName.Contains(filter.Search) ||
                                                                                       filter.Search.Contains(i.CategoryName))
-                                                                   : query;
-
-                query = (int)filter.ProductDivision != -1 ? query.Where(i => i.ProductMainType == (int)filter.ProductDivision) : query;
+                                                                   : query; 
 
                 query = !(string.IsNullOrWhiteSpace(filter.Ids)) ? query.Where(i => filter.Ids.StartsWith(i.Id + ",") ||
                                                                                     filter.Ids.Contains("," + i.Id + ",")

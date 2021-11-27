@@ -17,6 +17,7 @@ namespace XOG.AppCode.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SubCategory()
         {
+            this.ProductGroups = new HashSet<ProductGroup>();
             this.Products = new HashSet<Product>();
         }
     
@@ -25,8 +26,11 @@ namespace XOG.AppCode.DAL
         public string SubCategoryName { get; set; }
         public string SubCategoryDescription { get; set; }
         public string RouteKey { get; set; }
+        public string SubCategoryImage { get; set; }
     
         public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductGroup> ProductGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
     }

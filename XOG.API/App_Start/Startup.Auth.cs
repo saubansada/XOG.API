@@ -36,6 +36,11 @@ namespace XOG
                 AllowInsecureHttp = true 
             };
 
+            // Token Generation
+            //var OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
+            //app.UseOAuthBearerAuthentication(OAuthOptions);
+            //app.UseOAuthAuthorizationServer(OAuthOptions);
+
             app.UseOAuthBearerTokens(OAuthOptions);
         }
     }

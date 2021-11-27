@@ -42,8 +42,6 @@ namespace XOG.Areas.MyAdmin.Models.ViewModels
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
 
-        public bool Enabled { get; set; } = true;
-
         [Required(ErrorMessage ="Mrp is required")]  
         [Display(Name = "M.R.P")]
         [RegularExpression("^(([1-9]{1}[0-9]{0,2})|([1-9]{1}[0-9]{0,2}[.][0-9]{1,2}))$", ErrorMessage = "Please Enter Valid Amout")]

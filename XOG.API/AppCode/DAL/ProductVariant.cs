@@ -17,15 +17,17 @@ namespace XOG.AppCode.DAL
         public long Id { get; set; }
         public long ProductId { get; set; }
         public double Mrp { get; set; }
-        public short Measure { get; set; }
-        public string Volume { get; set; }
+        public short MeasureId { get; set; }
+        public short Volume { get; set; }
         public long StocksAvailable { get; set; }
         public short Gst { get; set; }
         public double Cost { get; set; }
         public double DiscountPercentage { get; set; }
         public bool Enabled { get; set; }
         public int MaxPurchase { get; set; }
+        public string HSNCode { get; set; }
     
         public virtual Product Product { get; set; }
+        public virtual QuantityMeasure QuantityMeasure { get; set; }
     }
 }

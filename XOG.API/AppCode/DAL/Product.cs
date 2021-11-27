@@ -20,8 +20,8 @@ namespace XOG.AppCode.DAL
             this.Carts = new HashSet<Cart>();
             this.OrderDetails = new HashSet<OrderDetail>();
             this.ProductImages = new HashSet<ProductImage>();
-            this.ProductVariants = new HashSet<ProductVariant>();
             this.WishLists = new HashSet<WishList>();
+            this.ProductVariants = new HashSet<ProductVariant>();
         }
     
         public long Id { get; set; }
@@ -32,18 +32,20 @@ namespace XOG.AppCode.DAL
         public bool Enabled { get; set; }
         public string ImageUrl { get; set; }
         public string ProductCode { get; set; }
+        public Nullable<short> ProductGroupId { get; set; }
     
         public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ProductGroup ProductGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual SubCategory SubCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductVariant> ProductVariants { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WishList> WishLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductVariant> ProductVariants { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace XOG.Models.ViewModels
         public string CategoryName { get; set; }
 
         public string SubCategoryDescription { get; set; }
+
+        public string SubCategoryImage { get; set; }
          
         public string SubCategoryName { get; set; }
     } 

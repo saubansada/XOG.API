@@ -18,11 +18,13 @@ namespace XOG.Models.ViewModels.RequestViewModels.Data
 
         [Required]
         public short SubCategoryId { get; set; }
-         
+
+        [Required]
+        public short ProductGroupId { get; set; }
+
         [Required]
         public string ProductName { get; set; }
-
-
+         
         public string Description { get; set; }
         public List<string> ProductImages { get; set; }
         public List<ProductVariantRequestVM> ProductVariants { get; set; }
@@ -39,12 +41,12 @@ namespace XOG.Models.ViewModels.RequestViewModels.Data
 
         [Required]
         public double Mrp { get; set; }
+          
+        [Required]
+        public short MeasureId { get; set; }
 
         [Required]
-        public short Measure { get; set; }
-
-        [Required]
-        public string Volume { get; set; }
+        public short Volume { get; set; }
 
         [Required]
         public long StocksAvailable { get; set; }
@@ -57,6 +59,8 @@ namespace XOG.Models.ViewModels.RequestViewModels.Data
 
         [Required]
         public int MaxPurchase { get; set; }
+
+        public string HSNCode { get; set; }
 
         [Required]
         public double DiscountPercentage { get; set; }

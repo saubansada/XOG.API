@@ -81,7 +81,7 @@ namespace XOG
                 LocalStoragesHelper.SetStoragePath("Storage_Category_Image_Uploads", value);
             }
         }
-
+         
         public static string Storage_Brand_Image_Uploads
         {
             get

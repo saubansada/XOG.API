@@ -28,7 +28,7 @@ namespace XOG.AppCode.BLL
 
             var mainCategories = EnumsBL.GetProductDivisionList();
               
-            mainCategories = mainCategories.Where(i => context.Categories.Count(j => (j.ProductMainType + "") == i.Value) > 0).ToList();
+            mainCategories = mainCategories.ToList();
   
             var categories = context.Categories.Where(i => i.SubCategories.Count() > 0).ToList();
 
@@ -41,7 +41,7 @@ namespace XOG.AppCode.BLL
 
                     siteMapString.Append("{ \"action\":\"" + mainCategory.Text.ToRouteKey() + "\", \"title\":\"" + mainCategory.Text + "\",");
 
-                    var _categories = categories.Where(i => Int16.Parse(mainCategory.Value) == i.ProductMainType).ToList();
+                    var _categories = categories.ToList();
 
                     if (_categories.Count() > 0)
                     {

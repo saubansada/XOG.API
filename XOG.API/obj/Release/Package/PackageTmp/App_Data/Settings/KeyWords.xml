@@ -12,6 +12,7 @@
   <!--__________________________________________________Themes File Section________________________________________________________________________________________-->
   <!--__________________________________________________________________________________________________________________________________________-->
   <key name="AppDBContext" value="DefaultConnection" />
+  <key name="AppDBContextLocal" value="DefaultConnectionLocal" />
   <key name="EventLogSourceName" value="OFrame" />
   <key name="EnableQA" value="False" />
   <key name="AppInstalled" value="True" />
@@ -141,9 +142,11 @@
   <key name="HomePagePostID" value="1" />
   <key name="HomePageTopBlockPostID" value="-1" />
   <key name="HomePageBottomBlockPostID" value="-1" />
+  <!--__________SETTINGS_ SECTION______________________________________________________________________________________________________________-->
+  <key name="taxes" value="5,12,18,28" />
   <!--__________________________________________________________________________________________________________________________________________-->
   <key name="SiteName" value="XOG" />
-  <key name="SiteAdminName" value="Meeran Sada" />
+  <key name="SiteAdminName" value="Sauban Sada" />
   <key name="WebsiteMainEmail" value="sadasauban123@gmail.com" />
   <key name="WebsiteAdminEmail" value="meeransada@gmail.com" />
   <key name="ErrorAdminEmail" value="sadasauban123@gmail.com" />

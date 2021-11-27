@@ -64,13 +64,13 @@ namespace XOG
         public static string AppDBContext
         {
             get
-            {
-                return KeywordsHelper.GetKeywordValue("AppDBContext");
+            { 
+                return KeywordsHelper.GetKeywordValue("AppDBContext"); 
             }
 
             set
-            {
-                KeywordsHelper.SetKeywordValue("AppDBContext", value);
+            { 
+                KeywordsHelper.SetKeywordValue("AppDBContext", value);  
             }
         }
 

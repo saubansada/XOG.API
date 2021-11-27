@@ -40,6 +40,8 @@ namespace XOG
             public static readonly string PRODUCT = Language("Product");
             public static readonly string CATEGORY = Language("Category");
             public static readonly string SUB_CATEGORY = Language("SubCategory");
+            public static readonly string PRODUCT_GROUP = Language("ProductGroup");
+            public static readonly string QUANTITY_MEASURE = Language("QuantityMeasure");
             public static readonly string BRAND = Language("Brand");
             public static readonly string CART = Language("Cart");
 
@@ -57,6 +59,15 @@ namespace XOG
             public static readonly string ERROR_ADDING_SUB_CATEGORY = string.Format(ERROR, ADDING, SUB_CATEGORY);
             public static readonly string ERROR_UPDATING_SUB_CATEGORY = string.Format(ERROR, UPDATING, SUB_CATEGORY);
             public static readonly string ERROR_DELETING_SUB_CATEGORY = string.Format(ERROR, DELETING, SUB_CATEGORY);
+
+
+            public static readonly string ERROR_ADDING_PRODUCT_GROUP = string.Format(ERROR, ADDING, PRODUCT_GROUP);
+            public static readonly string ERROR_UPDATING_PRODUCT_GROUP = string.Format(ERROR, UPDATING, PRODUCT_GROUP);
+            public static readonly string ERROR_DELETING_PRODUCT_GROUP = string.Format(ERROR, DELETING, PRODUCT_GROUP);
+
+            public static readonly string ERROR_ADDING_QUANTITY_MEASURE = string.Format(ERROR, ADDING, QUANTITY_MEASURE);
+            public static readonly string ERROR_UPDATING_QUANTITY_MEASURE = string.Format(ERROR, UPDATING, QUANTITY_MEASURE);
+            public static readonly string ERROR_DELETING_QUANTITY_MEASURE = string.Format(ERROR, DELETING, QUANTITY_MEASURE);
 
             public static readonly string ERROR_ADDING_BRAND = string.Format(ERROR, ADDING, BRAND);
             public static readonly string ERROR_UPDATING_BRAND = string.Format(ERROR, UPDATING, BRAND);

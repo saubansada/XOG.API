@@ -9,7 +9,9 @@ namespace XOG.Models.ViewModels
         public string BrandName { get; set; }
 
         public string BrandUrl { get; set; }
-         
+
+        public string BrandImage { get; set; }
+
         public string BrandDescription { get; set; }
     }
 }

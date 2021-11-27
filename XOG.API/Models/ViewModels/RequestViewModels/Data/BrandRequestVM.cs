@@ -13,6 +13,8 @@ namespace XOG.Models.ViewModels.RequestViewModels.Data
           
         public string BrandUrl { get; set; }
 
+        public string BrandImage { get; set; }
+
         [Required(ErrorMessage = "Please Provide the Brand Description")] 
         public string BrandDescription { get; set; } = "-";
     }

@@ -9,9 +9,7 @@
         public string Ids { get; set; }
 
         public int? SubCategoryId { get; set; }
-
-        public string MainCategoryKey { get; set; }
-
+        
         public string CategoryKey { get; set; }
 
         public string SubCategoryKey { get; set; }

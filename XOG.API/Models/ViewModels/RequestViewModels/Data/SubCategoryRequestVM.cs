@@ -11,11 +11,14 @@ namespace XOG.Models.ViewModels.RequestViewModels.Data
         [Required(ErrorMessage = "Please Select the Category")]
         public short CategoryId { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Category Name")]
-        [MaxLength(30, ErrorMessage = "Maximum characters for category name is 30")]
+        [Required(ErrorMessage = "Please Enter Sub-Category Name")]
+        [MaxLength(30, ErrorMessage = "Maximum characters for name is 30")]
         public string SubCategoryName { get; set; }
 
-        [Required(ErrorMessage = "Please Provide the Category Description")]
+        [Required(ErrorMessage = "Please Provide Sub-Category Image")]
+        public string SubCategoryImage { get; set; }
+
+        [Required(ErrorMessage = "Please Provide the Description")]
         [MaxLength(300, ErrorMessage = "Maximum characters for description is 300")]
         public string SubCategoryDescription { get; set; } = "-";
     }

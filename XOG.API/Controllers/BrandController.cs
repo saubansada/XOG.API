@@ -42,13 +42,15 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult GetA(int id)
+        public IHttpActionResult Get(int id)
         {
             var res = new ReturnObject<BrandViewModel>();
 
             res.Data = (BrandViewModel)new BrandBL().GetBrandByNameOrId<BrandViewModel>(id);
 
             res.IsSuccess = true;
+
+            res.Result = ApiResult.Success;
 
             return Ok(res);
         }
@@ -65,8 +67,14 @@ namespace XOG.Controllers
 
             res.IsSuccess = res.Data == DBStatus.Success;
 
+            res.Result = ApiResult.Success;
+
+            res.Message = "Saved Successfully!";
+
             if (!res.IsSuccess)
             {
+                res.Result = ApiResult.Failure;
+
                 return BadRequest("Error Occurred while saving");
             }
 
@@ -85,8 +93,14 @@ namespace XOG.Controllers
 
             res.IsSuccess = res.Data == DBStatus.Success;
 
+            res.Result = ApiResult.Success;
+
+            res.Message = "Saved Successfully!";
+
             if (!res.IsSuccess)
             {
+                res.Result = ApiResult.Failure;
+
                 return BadRequest("Error Occurred while saving");
             }
 
@@ -103,8 +117,14 @@ namespace XOG.Controllers
 
             res.IsSuccess = res.Data == DBStatus.Success;
 
+            res.Result = ApiResult.Success;
+
+            res.Message = "Deleted Successfully!";
+
             if (!res.IsSuccess)
             {
+                res.Result = ApiResult.Failure;
+
                 string message = res.Data == DBStatus.Error ? "Error occurred while deleting!" : "Category doesn't exist!";
 
                 return BadRequest(message);

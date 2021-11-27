@@ -25,9 +25,10 @@ namespace XOG.AppCode.Mappers
                 _query = query.Select(model => new CategoryViewModel
                 {
                     Id = model.Id,
-                    ProductDivision = (ProductDivision)model.ProductMainType,
                     CategoryDescription = model.CategoryDescription,
                     CategoryName = model.CategoryName,
+                    CategoryBanner = model.CategoryBanner,
+                    CategoryImage = model.CategoryImage,
                     RouteKey = model.RouteKey
                 });
             }
@@ -67,9 +68,10 @@ namespace XOG.AppCode.Mappers
                 var returnObj = new CategoryViewModel
                 {
                     Id = model.Id,
-                    ProductDivision = (ProductDivision)model.ProductMainType,
                     CategoryDescription = model.CategoryDescription,
                     CategoryName = model.CategoryName,
+                    CategoryBanner = model.CategoryBanner,
+                    CategoryImage = model.CategoryImage,
                     RouteKey = model.RouteKey
                 };
                 return (T)Convert.ChangeType(returnObj, typeof(T));
@@ -106,9 +108,10 @@ namespace XOG.AppCode.Mappers
                 Category = new Category()
                 {
                     Id = _model.Id,
-                    ProductMainType = (byte)_model.ProductDivision,
                     CategoryDescription = _model.CategoryDescription,
                     CategoryName = _model.CategoryName,
+                    CategoryBanner = _model.CategoryBanner,
+                    CategoryImage = _model.CategoryImage,
                     RouteKey = _model.CategoryName.ToRouteKey()
                 };
             }
@@ -118,9 +121,10 @@ namespace XOG.AppCode.Mappers
                 Category = new Category()
                 {
                     Id = _model.Id,
-                    ProductMainType = (byte)_model.ProductDivision,
                     CategoryDescription = _model.CategoryDescription,
                     CategoryName = _model.CategoryName,
+                    CategoryBanner = _model.CategoryBanner,
+                    CategoryImage = _model.CategoryImage,
                     RouteKey = _model.CategoryName.ToRouteKey()
                 };
             }

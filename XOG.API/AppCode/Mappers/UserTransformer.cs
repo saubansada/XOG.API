@@ -106,12 +106,9 @@ namespace XOG.AppCode.Transformers
                 {
                     address.Id,
                     address.AddressOfUserId,
-                    address.AreaCode,
-                    address.CityTown,
+                    address.AreaCode, 
                     address.Country,
-                    address.GPS,
-                    address.HouseApartment,
-                    address.StateProvinces,
+                    address.GPS,  
                     address.PhoneNumber
                 });
 

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using XOG.AppCode.Filters;
 using XOG.Filters;
 
 namespace XOG
@@ -10,7 +11,6 @@ namespace XOG
             filters.Add(new HandleErrorAttribute());
             filters.Add(new AuthorizeAttribute());
             filters.Add(new LanguageSelectorFilter());
-            filters.Add(new OFAuthorize());
         }
     }
 }

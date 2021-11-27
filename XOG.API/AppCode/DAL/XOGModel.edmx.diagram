@@ -4,32 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3a9339966c6d408db7480b3488417766" Name="Diagram1" ZoomLevel="101">
-        <EntityTypeShape EntityType="XOGModel.Address" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+      <Diagram DiagramId="3a9339966c6d408db7480b3488417766" Name="Diagram1" ZoomLevel="94">
         <EntityTypeShape EntityType="XOGModel.AdSenseAd" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.AspNetRole" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="XOGModel.AspNetRole" Width="1.5" PointX="0.5" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="15.625" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="18.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.Brand" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="XOGModel.Brand" Width="1.5" PointX="5.5" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.C__MigrationHistory" Width="1.5" PointX="7.125" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.Cart" Width="1.5" PointX="8.25" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.Category" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.CategoriesImage" Width="1.5" PointX="5.25" PointY="21.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.EmailTemplate" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.OrderDetail" Width="1.5" PointX="9.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="XOGModel.EmailTemplate" Width="1.5" PointX="3.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="XOGModel.OrderDetail" Width="1.5" PointX="10" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.Order" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.ProductImage" Width="1.5" PointX="9.75" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="XOGModel.SubCategory" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.Transaction" Width="1.5" PointX="10.75" PointY="15.5" IsExpanded="true" />
         <EntityTypeShape EntityType="XOGModel.WishList" Width="1.5" PointX="10.25" PointY="11.875" IsExpanded="true" />
-        <AssociationConnector Association="XOGModel.FK_Orders_Addresses" ManuallyRouted="false" />
-        <AssociationConnector Association="XOGModel.FK_CategoriesImages_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="XOGModel.fk_MainCategory" ManuallyRouted="false" />
         <AssociationConnector Association="XOGModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="XOGModel.FK_Transactions_orders" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="XOGModel.ProductVariant" Width="1.5" PointX="9.75" PointY="19.75" />
-        <EntityTypeShape EntityType="XOGModel.AspNetUser" Width="1.5" PointX="3" PointY="10.875" />
-        <AssociationConnector Association="XOGModel.FK_Addresses_AspNetUsers" />
+        <EntityTypeShape EntityType="XOGModel.AspNetUser" Width="1.5" PointX="2.375" PointY="10.875" />
         <AssociationConnector Association="XOGModel.FK_AdSenseAds_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="XOGModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
@@ -38,14 +29,26 @@
         <AssociationConnector Association="XOGModel.FK_Transactions_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_WishList_AspNetUsers" />
         <AssociationConnector Association="XOGModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="XOGModel.Product" Width="1.5" PointX="7.5" PointY="1.5" />
+        <EntityTypeShape EntityType="XOGModel.Category" Width="1.5" PointX="1.5" PointY="2.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="XOGModel.ProductGroup" Width="1.625" PointX="3" PointY="6" />
+        <EntityTypeShape EntityType="XOGModel.Product" Width="1.5" PointX="7.625" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="XOGModel.SubCategory" Width="1.5" PointX="0.875" PointY="5.375" />
         <AssociationConnector Association="XOGModel.FK_Product_Brands" />
         <AssociationConnector Association="XOGModel.FK_Carts_Products" />
+        <AssociationConnector Association="XOGModel.fk_SubCategory_Category" />
         <AssociationConnector Association="XOGModel.FK_OrderDetails_Products" />
+        <AssociationConnector Association="XOGModel.FK_Product_ProductGroups" />
+        <AssociationConnector Association="XOGModel.fk_ProductGroup_SubCategories" />
         <AssociationConnector Association="XOGModel.FK_ProductImages_Products" />
-        <AssociationConnector Association="XOGModel.fk_product_subcategoryId" />
-        <AssociationConnector Association="XOGModel.fk_productVariants_productId" />
+        <AssociationConnector Association="XOGModel.FK_Product_SubCategory" />
         <AssociationConnector Association="XOGModel.FK_WishList_Products" />
+        <EntityTypeShape EntityType="XOGModel.ProductVariant" Width="1.5" PointX="14.625" PointY="2.25" />
+        <AssociationConnector Association="XOGModel.fk_productVariants_productId" />
+        <EntityTypeShape EntityType="XOGModel.QuantityMeasure" Width="1.5" PointX="12.375" PointY="6.875" />
+        <AssociationConnector Association="XOGModel.fk_productVariants_quantityMeasureId" />
+        <EntityTypeShape EntityType="XOGModel.Address" Width="1.5" PointX="4.625" PointY="21.125" />
+        <AssociationConnector Association="XOGModel.FK_Addresses_AspNetUsers" />
+        <AssociationConnector Association="XOGModel.FK_Orders_Addresses" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -8,6 +8,7 @@ namespace XOG.Models
         public string Value { get; set; }
         public bool Selected { get; set; }
         public bool Disabled { get; set; }
+        public dynamic Extras { get; set; }
         public AttributeCollection Attributes { get; set; }
     }
 }
