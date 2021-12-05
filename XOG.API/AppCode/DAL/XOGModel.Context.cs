@@ -25,26 +25,26 @@ namespace XOG.AppCode.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AdSenseAd> AdSenseAds { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<ProductImage> ProductImages { get; set; }
-        public virtual DbSet<Transaction> Transactions { get; set; }
-        public virtual DbSet<WishList> WishLists { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<ProductGroup> ProductGroups { get; set; }
+        public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<ProductVariant> ProductVariants { get; set; }
         public virtual DbSet<QuantityMeasure> QuantityMeasures { get; set; }
-        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<SubCategory> SubCategories { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<WishList> WishLists { get; set; }
     }
 }

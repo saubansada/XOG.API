@@ -18,6 +18,7 @@ namespace XOG.AppCode.Mappers
             {
                 return null;
             }
+
             var _query = (IQueryable<object>)query;
 
             if (typeof(T) == typeof(CategoryViewModel))

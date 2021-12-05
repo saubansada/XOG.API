@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Models;
@@ -100,6 +101,20 @@ namespace XOG.AppCode.Mappers
                     LastName = model.LastName,
                     RegistrationDate = model.RegistrationDate,
                     AlternateMobileNumber = model.AlternateMobileNumber,
+                    DefaultAddress = model.Addresses.Count == 0 ? null : (model.Addresses.Count == 1 ? model.Addresses : model.Addresses.Where(i => i.IsDefault)).Select(m => 
+                    new UserAddressVM
+                    {
+                        Id = m.Id,
+                        PhoneNumber = m.PhoneNumber,
+                        AddressLine1 = m.AddressLine1,
+                        AddressLine2 = m.AddressLine2,
+                        LandMark = m.LandMark,
+                        AreaCode = m.AreaCode,
+                        Country = m.Country,
+                        FullName = m.FullName,
+                        GPS = m.GPS,
+                        IsDefault = m.IsDefault
+                    }).First(),
                     Roles = model.AspNetRoles.Select(i =>
                         new UserRoleVM
                         {
@@ -183,6 +198,21 @@ namespace XOG.AppCode.Mappers
                 };
             }
             return User;
+        }
+
+        internal static T UnProxy<T>(this T proxyObject, DbContext context) where T : class
+        {
+            var proxyCreationEnabled = context.Configuration.ProxyCreationEnabled;
+            try
+            {
+                context.Configuration.ProxyCreationEnabled = false;
+                //T poco = context.Entry(proxyObject).CurrentValues.ToObject() as T;
+                return proxyObject;
+            }
+            finally
+            {
+                context.Configuration.ProxyCreationEnabled = proxyCreationEnabled;
+            }
         }
     }
 }

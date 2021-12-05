@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
-using XOG.AppCode.Transformers;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL
@@ -64,7 +63,7 @@ namespace XOG.AppCode.BLL
                 {
                     query = query.Where(i => i.Enabled);
 
-                    query = query.Where(i => i.OrderDetails.Count() > 1 && i.OrderDetails.FirstOrDefault().Order.OrderDate >= DateTime.Now).OrderByDescending(i => i.Id).Take(filter.PageSize);
+                    //query = query.Where(i => i.OrderDetails.Count() > 1 && i.OrderDetails.FirstOrDefault().Order.OrderDate >= DateTime.Now).OrderByDescending(i => i.Id).Take(filter.PageSize);
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Featured)
                 {
@@ -114,6 +113,12 @@ namespace XOG.AppCode.BLL
                                                (i.Product.Brand.BrandName.ToLower().StartsWith(filter.Search.ToLower()) ? 1 :
                                                i.Product.SubCategory.SubCategoryName.ToLower().StartsWith(filter.Search.ToLower())
                     ? 2 : 3));
+                }
+                else if (filter.ProductQueryType == ProductQueryType.Variants)
+                {
+                    var list = filter.Ids.Split(',').ToList();
+
+                    query = query.Where(i => list.Contains(i.Id + ""));
                 }
             }
             return query;

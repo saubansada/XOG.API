@@ -118,7 +118,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AddedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ProductId" Type="bigint" />
+          <Property Name="ProductVariantId" Type="bigint" />
           <Property Name="Quantity" Type="smallint" />
         </EntityType>
         <EntityType Name="Categories">
@@ -148,7 +148,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="bigint" Nullable="false" />
-          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="ProductVariantId" Type="bigint" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
           <Property Name="Price" Type="float" Nullable="false" />
           <Property Name="Discount" Type="float" Nullable="false" />
@@ -283,7 +283,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetRoles">
+        <Association Name="FK_AspNetUserRoles_AspNetRole">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
           <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -295,7 +295,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetUsers">
+        <Association Name="FK_AspNetUserRoles_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -321,17 +321,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Carts_Products">
-          <End Role="Products" Type="Self.Products" Multiplicity="0..1">
+        <Association Name="FK_Carts_ProductVariants">
+          <End Role="ProductVariants" Type="Self.ProductVariants" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Products">
+            <Principal Role="ProductVariants">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Carts">
-              <PropertyRef Name="ProductId" />
+              <PropertyRef Name="ProductVariantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -377,17 +377,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderDetails_Products">
-          <End Role="Products" Type="Self.Products" Multiplicity="1">
+        <Association Name="FK_OrderDetails_ProductVariants">
+          <End Role="ProductVariants" Type="Self.ProductVariants" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Products">
+            <Principal Role="ProductVariants">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrderDetails">
-              <PropertyRef Name="ProductId" />
+              <PropertyRef Name="ProductVariantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -606,11 +606,11 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AdSenseAds" EntitySet="AdSenseAds" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="Self.FK_AspNetUserRoles_AspNetRoles">
+          <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers" Association="Self.FK_AspNetUserRoles_AspNetUsers">
+          <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
@@ -618,8 +618,8 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Carts" EntitySet="Carts" />
           </AssociationSet>
-          <AssociationSet Name="FK_Carts_Products" Association="Self.FK_Carts_Products">
-            <End Role="Products" EntitySet="Products" />
+          <AssociationSet Name="FK_Carts_ProductVariants" Association="Self.FK_Carts_ProductVariants">
+            <End Role="ProductVariants" EntitySet="ProductVariants" />
             <End Role="Carts" EntitySet="Carts" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -634,8 +634,8 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
-            <End Role="Products" EntitySet="Products" />
+          <AssociationSet Name="FK_OrderDetails_ProductVariants" Association="Self.FK_OrderDetails_ProductVariants">
+            <End Role="ProductVariants" EntitySet="ProductVariants" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Addresses" Association="Self.FK_Orders_Addresses">
@@ -699,210 +699,36 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="XOGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AdSenseAd">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Page" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SortOrder" Type="Byte" Nullable="false" />
-          <Property Name="ValidTill" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AdLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ViewCount" Type="Int64" Nullable="false" />
-          <Property Name="UpdatedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_AdSenseAds_AspNetUsers" FromRole="AdSenseAd" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="AspNetRole">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogin">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="Brand">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BrandName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="BrandUrl" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="BrandDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="XOGModel.FK_Product_Brands" FromRole="Brand" ToRole="Product" />
-          <Property Name="BrandImage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="C__MigrationHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-            <PropertyRef Name="ContextKey" />
-          </Key>
-          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Cart">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AddedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductId" Type="Int64" />
-          <Property Name="Quantity" Type="Int16" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Carts_AspNetUsers" FromRole="Cart" ToRole="AspNetUser" />
-          <NavigationProperty Name="Product" Relationship="XOGModel.FK_Carts_Products" FromRole="Cart" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="EmailTemplate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TemplateName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="HtmlMarkup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TemplateCategory" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="OrderDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int64" Nullable="false" />
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Double" Nullable="false" />
-          <Property Name="Discount" Type="Double" Nullable="false" />
-          <Property Name="Gst" Type="Int16" Nullable="false" />
-          <Property Name="Cost" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetails_Orders" FromRole="OrderDetails" ToRole="Orders" />
-          <NavigationProperty Name="Product" Relationship="XOGModel.FK_OrderDetails_Products" FromRole="OrderDetail" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OrderState" Type="Byte" Nullable="false" />
-          <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
-          <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
-          <Property Name="Returned" Type="Boolean" />
-          <Property Name="TotalAmount" Type="Double" Nullable="false" />
-          <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
-          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transactions_orders" FromRole="Orders" ToRole="Transactions" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="Order" ToRole="AspNetUser" />
-          <NavigationProperty Name="Address" Relationship="XOGModel.FK_Orders_Addresses" FromRole="Order" ToRole="Address" />
-        </EntityType>
-        <EntityType Name="ProductImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="XOGModel.FK_ProductImages_Products" FromRole="ProductImage" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Transaction">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BilledByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="OrderId" Type="Int64" Nullable="false" />
-          <Property Name="TotalAmount" Type="Double" Nullable="false" />
-          <Property Name="PaymentDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Canceled" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Transactions_orders" FromRole="Transactions" ToRole="Orders" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="Transaction" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="WishList">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WishedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductId" Type="Int64" />
-          <Property Name="Quantity" Type="Int16" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="WishList" ToRole="AspNetUser" />
-          <NavigationProperty Name="Product" Relationship="XOGModel.FK_WishList_Products" FromRole="WishList" ToRole="Product" />
-        </EntityType>
-        <Association Name="FK_OrderDetails_Orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderDetails">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Transactions_orders">
-          <End Role="Orders" Type="Self.Order" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Transactions">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="XOGEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AdSenseAds" EntityType="Self.AdSenseAd" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="Brands" EntityType="Self.Brand" />
-          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
-          <EntitySet Name="Carts" EntityType="Self.Cart" />
-          <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplate" />
-          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="ProductImages" EntityType="Self.ProductImage" />
-          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
-          <EntitySet Name="WishLists" EntityType="Self.WishList" />
-          <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="OrderDetails" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Transactions_orders" Association="Self.FK_Transactions_orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="Transactions" EntitySet="Transactions" />
-          </AssociationSet>
+          <EntitySet Name="Addresses" EntityType="XOGModel.Address" />
+          <EntitySet Name="AdSenseAds" EntityType="XOGModel.AdSenseAd" />
+          <EntitySet Name="AspNetRoles" EntityType="XOGModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="XOGModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="XOGModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="XOGModel.AspNetUser" />
+          <EntitySet Name="Brands" EntityType="XOGModel.Brand" />
+          <EntitySet Name="C__MigrationHistory" EntityType="XOGModel.C__MigrationHistory" />
+          <EntitySet Name="Carts" EntityType="XOGModel.Cart" />
+          <EntitySet Name="Categories" EntityType="XOGModel.Category" />
+          <EntitySet Name="EmailTemplates" EntityType="XOGModel.EmailTemplate" />
+          <EntitySet Name="OrderDetails" EntityType="XOGModel.OrderDetail" />
+          <EntitySet Name="Orders" EntityType="XOGModel.Order" />
+          <EntitySet Name="ProductGroups" EntityType="XOGModel.ProductGroup" />
+          <EntitySet Name="ProductImages" EntityType="XOGModel.ProductImage" />
+          <EntitySet Name="Products" EntityType="XOGModel.Product" />
+          <EntitySet Name="ProductVariants" EntityType="XOGModel.ProductVariant" />
+          <EntitySet Name="QuantityMeasures" EntityType="XOGModel.QuantityMeasure" />
+          <EntitySet Name="SubCategories" EntityType="XOGModel.SubCategory" />
+          <EntitySet Name="Transactions" EntityType="XOGModel.Transaction" />
+          <EntitySet Name="WishLists" EntityType="XOGModel.WishList" />
+          <AssociationSet Name="FK_Addresses_AspNetUsers" Association="XOGModel.FK_Addresses_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Addresses" Association="XOGModel.FK_Orders_Addresses">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_AdSenseAds_AspNetUsers" Association="XOGModel.FK_AdSenseAds_AspNetUsers">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AdSenseAd" EntitySet="AdSenseAds" />
@@ -931,29 +757,29 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="WishList" EntitySet="WishLists" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
-            <End Role="AspNetRole" EntitySet="AspNetRoles" />
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <EntitySet Name="Categories" EntityType="XOGModel.Category" />
-          <EntitySet Name="ProductGroups" EntityType="XOGModel.ProductGroup" />
-          <EntitySet Name="Products" EntityType="XOGModel.Product" />
-          <EntitySet Name="SubCategories" EntityType="XOGModel.SubCategory" />
           <AssociationSet Name="FK_Product_Brands" Association="XOGModel.FK_Product_Brands">
             <End Role="Brand" EntitySet="Brands" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_Carts_Products" Association="XOGModel.FK_Carts_Products">
-            <End Role="Product" EntitySet="Products" />
+          <AssociationSet Name="FK_Carts_ProductVariants" Association="XOGModel.FK_Carts_ProductVariants">
+            <End Role="ProductVariant" EntitySet="ProductVariants" />
             <End Role="Cart" EntitySet="Carts" />
           </AssociationSet>
           <AssociationSet Name="fk_SubCategory_Category" Association="XOGModel.fk_SubCategory_Category">
             <End Role="Category" EntitySet="Categories" />
             <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderDetails_Products" Association="XOGModel.FK_OrderDetails_Products">
-            <End Role="Product" EntitySet="Products" />
+          <AssociationSet Name="FK_OrderDetails_Orders" Association="XOGModel.FK_OrderDetails_Orders">
+            <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_ProductVariants" Association="XOGModel.FK_OrderDetails_ProductVariants">
+            <End Role="ProductVariant" EntitySet="ProductVariants" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_orders" Association="XOGModel.FK_Transactions_orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_ProductGroups" Association="XOGModel.FK_Product_ProductGroups">
             <End Role="ProductGroup" EntitySet="ProductGroups" />
@@ -971,30 +797,86 @@
             <End Role="SubCategory" EntitySet="SubCategories" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_WishList_Products" Association="XOGModel.FK_WishList_Products">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="WishList" EntitySet="WishLists" />
-          </AssociationSet>
-          <EntitySet Name="ProductVariants" EntityType="XOGModel.ProductVariant" />
           <AssociationSet Name="fk_productVariants_productId" Association="XOGModel.fk_productVariants_productId">
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductVariant" EntitySet="ProductVariants" />
           </AssociationSet>
-          <EntitySet Name="QuantityMeasures" EntityType="XOGModel.QuantityMeasure" />
+          <AssociationSet Name="FK_WishList_Products" Association="XOGModel.FK_WishList_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="WishList" EntitySet="WishLists" />
+          </AssociationSet>
           <AssociationSet Name="fk_productVariants_quantityMeasureId" Association="XOGModel.fk_productVariants_quantityMeasureId">
             <End Role="QuantityMeasure" EntitySet="QuantityMeasures" />
             <End Role="ProductVariant" EntitySet="ProductVariants" />
           </AssociationSet>
-          <EntitySet Name="Addresses" EntityType="XOGModel.Address" />
-          <AssociationSet Name="FK_Addresses_AspNetUsers" Association="XOGModel.FK_Addresses_AspNetUsers">
+          <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Address" EntitySet="Addresses" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orders_Addresses" Association="XOGModel.FK_Orders_Addresses">
-            <End Role="Address" EntitySet="Addresses" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="AreaCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="LandMark" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GPS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Addresses_AspNetUsers" FromRole="Address" ToRole="AspNetUser" />
+          <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_Addresses" FromRole="Address" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="AdSenseAd">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Page" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Byte" Nullable="false" />
+          <Property Name="ValidTill" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AdLink" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ViewCount" Type="Int64" Nullable="false" />
+          <Property Name="UpdatedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_AdSenseAds_AspNetUsers" FromRole="AdSenseAd" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -1016,6 +898,7 @@
           <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <Property Name="AlternateMobileNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Addresses" Relationship="XOGModel.FK_Addresses_AspNetUsers" FromRole="AspNetUser" ToRole="Address" />
           <NavigationProperty Name="AdSenseAds" Relationship="XOGModel.FK_AdSenseAds_AspNetUsers" FromRole="AspNetUser" ToRole="AdSenseAd" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="XOGModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="XOGModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
@@ -1024,8 +907,229 @@
           <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="AspNetUser" ToRole="Transaction" />
           <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="AspNetUser" ToRole="WishList" />
           <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
-          <NavigationProperty Name="Addresses" Relationship="XOGModel.FK_Addresses_AspNetUsers" FromRole="AspNetUser" ToRole="Address" />
         </EntityType>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BrandUrl" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="BrandDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BrandImage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="XOGModel.FK_Product_Brands" FromRole="Brand" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProductVariantId" Type="Int64" />
+          <Property Name="Quantity" Type="Int16" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Carts_AspNetUsers" FromRole="Cart" ToRole="AspNetUser" />
+          <NavigationProperty Name="ProductVariant" Relationship="XOGModel.FK_Carts_ProductVariants" FromRole="Cart" ToRole="ProductVariant" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RouteKey" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryImage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryBanner" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubCategories" Relationship="XOGModel.fk_SubCategory_Category" FromRole="Category" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateName" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="HtmlMarkup" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateCategory" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int64" Nullable="false" />
+          <Property Name="ProductVariantId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Discount" Type="Double" Nullable="false" />
+          <Property Name="Gst" Type="Int16" Nullable="false" />
+          <Property Name="Cost" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="XOGModel.FK_OrderDetails_Orders" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="ProductVariant" Relationship="XOGModel.FK_OrderDetails_ProductVariants" FromRole="OrderDetail" ToRole="ProductVariant" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderState" Type="Byte" Nullable="false" />
+          <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
+          <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
+          <Property Name="Returned" Type="Boolean" />
+          <Property Name="TotalAmount" Type="Double" Nullable="false" />
+          <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="XOGModel.FK_Orders_Addresses" FromRole="Order" ToRole="Address" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="Order" ToRole="AspNetUser" />
+          <NavigationProperty Name="OrderDetails" Relationship="XOGModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
+          <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_orders" FromRole="Order" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="ProductGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategoryId" Type="Int16" Nullable="false" />
+          <Property Name="ProductGroupName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductGroupDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RouteKey" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="XOGModel.FK_Product_ProductGroups" FromRole="ProductGroup" ToRole="Product" />
+          <NavigationProperty Name="SubCategory" Relationship="XOGModel.fk_ProductGroup_SubCategories" FromRole="ProductGroup" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="ProductImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Product" Relationship="XOGModel.FK_ProductImages_Products" FromRole="ProductImage" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategoryId" Type="Int16" Nullable="false" />
+          <Property Name="BrandId" Type="Int16" Nullable="false" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductGroupId" Type="Int16" />
+          <NavigationProperty Name="Brand" Relationship="XOGModel.FK_Product_Brands" FromRole="Product" ToRole="Brand" />
+          <NavigationProperty Name="ProductGroup" Relationship="XOGModel.FK_Product_ProductGroups" FromRole="Product" ToRole="ProductGroup" />
+          <NavigationProperty Name="ProductImages" Relationship="XOGModel.FK_ProductImages_Products" FromRole="Product" ToRole="ProductImage" />
+          <NavigationProperty Name="SubCategory" Relationship="XOGModel.FK_Product_SubCategory" FromRole="Product" ToRole="SubCategory" />
+          <NavigationProperty Name="ProductVariants" Relationship="XOGModel.fk_productVariants_productId" FromRole="Product" ToRole="ProductVariant" />
+          <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_Products" FromRole="Product" ToRole="WishList" />
+        </EntityType>
+        <EntityType Name="ProductVariant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="Mrp" Type="Double" Nullable="false" />
+          <Property Name="MeasureId" Type="Int16" Nullable="false" />
+          <Property Name="Volume" Type="Int16" Nullable="false" />
+          <Property Name="StocksAvailable" Type="Int64" Nullable="false" />
+          <Property Name="Gst" Type="Int16" Nullable="false" />
+          <Property Name="Cost" Type="Double" Nullable="false" />
+          <Property Name="DiscountPercentage" Type="Double" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="MaxPurchase" Type="Int32" Nullable="false" />
+          <Property Name="HSNCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Carts" Relationship="XOGModel.FK_Carts_ProductVariants" FromRole="ProductVariant" ToRole="Cart" />
+          <NavigationProperty Name="OrderDetails" Relationship="XOGModel.FK_OrderDetails_ProductVariants" FromRole="ProductVariant" ToRole="OrderDetail" />
+          <NavigationProperty Name="Product" Relationship="XOGModel.fk_productVariants_productId" FromRole="ProductVariant" ToRole="Product" />
+          <NavigationProperty Name="QuantityMeasure" Relationship="XOGModel.fk_productVariants_quantityMeasureId" FromRole="ProductVariant" ToRole="QuantityMeasure" />
+        </EntityType>
+        <EntityType Name="QuantityMeasure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuantityMeasureName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Acronym" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductVariants" Relationship="XOGModel.fk_productVariants_quantityMeasureId" FromRole="QuantityMeasure" ToRole="ProductVariant" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int16" Nullable="false" />
+          <Property Name="SubCategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RouteKey" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoryImage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="XOGModel.fk_SubCategory_Category" FromRole="SubCategory" ToRole="Category" />
+          <NavigationProperty Name="ProductGroups" Relationship="XOGModel.fk_ProductGroup_SubCategories" FromRole="SubCategory" ToRole="ProductGroup" />
+          <NavigationProperty Name="Products" Relationship="XOGModel.FK_Product_SubCategory" FromRole="SubCategory" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BilledByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OrderId" Type="Int64" Nullable="false" />
+          <Property Name="TotalAmount" Type="Double" Nullable="false" />
+          <Property Name="PaymentDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Canceled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="Transaction" ToRole="AspNetUser" />
+          <NavigationProperty Name="Order" Relationship="XOGModel.FK_Transactions_orders" FromRole="Transaction" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="WishList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WishedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProductId" Type="Int64" />
+          <Property Name="Quantity" Type="Int16" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="WishList" ToRole="AspNetUser" />
+          <NavigationProperty Name="Product" Relationship="XOGModel.FK_WishList_Products" FromRole="WishList" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Addresses_AspNetUsers">
+          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="XOGModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="AddressOfUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Addresses">
+          <End Type="XOGModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="XOGModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderToAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AdSenseAds_AspNetUsers">
           <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
           <End Type="XOGModel.AdSenseAd" Role="AdSenseAd" Multiplicity="*" />
@@ -1120,71 +1224,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RouteKey" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SubCategories" Relationship="XOGModel.fk_SubCategory_Category" FromRole="Category" ToRole="SubCategory" />
-          <Property Name="CategoryImage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryBanner" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ProductGroup">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubCategoryId" Type="Int16" Nullable="false" />
-          <Property Name="ProductGroupName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProductGroupDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="RouteKey" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="XOGModel.FK_Product_ProductGroups" FromRole="ProductGroup" ToRole="Product" />
-          <NavigationProperty Name="SubCategory" Relationship="XOGModel.fk_ProductGroup_SubCategories" FromRole="ProductGroup" ToRole="SubCategory" />
-        </EntityType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubCategoryId" Type="Int16" Nullable="false" />
-          <Property Name="BrandId" Type="Int16" Nullable="false" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="ImageUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductGroupId" Type="Int16" Nullable="true" />
-          <NavigationProperty Name="Brand" Relationship="XOGModel.FK_Product_Brands" FromRole="Product" ToRole="Brand" />
-          <NavigationProperty Name="Carts" Relationship="XOGModel.FK_Carts_Products" FromRole="Product" ToRole="Cart" />
-          <NavigationProperty Name="OrderDetails" Relationship="XOGModel.FK_OrderDetails_Products" FromRole="Product" ToRole="OrderDetail" />
-          <NavigationProperty Name="ProductGroup" Relationship="XOGModel.FK_Product_ProductGroups" FromRole="Product" ToRole="ProductGroup" />
-          <NavigationProperty Name="ProductImages" Relationship="XOGModel.FK_ProductImages_Products" FromRole="Product" ToRole="ProductImage" />
-          <NavigationProperty Name="SubCategory" Relationship="XOGModel.FK_Product_SubCategory" FromRole="Product" ToRole="SubCategory" />
-          <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_Products" FromRole="Product" ToRole="WishList" />
-          <NavigationProperty Name="ProductVariants" Relationship="XOGModel.fk_productVariants_productId" FromRole="Product" ToRole="ProductVariant" />
-        </EntityType>
-        <EntityType Name="SubCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryId" Type="Int16" Nullable="false" />
-          <Property Name="SubCategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SubCategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RouteKey" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="XOGModel.fk_SubCategory_Category" FromRole="SubCategory" ToRole="Category" />
-          <NavigationProperty Name="ProductGroups" Relationship="XOGModel.fk_ProductGroup_SubCategories" FromRole="SubCategory" ToRole="ProductGroup" />
-          <NavigationProperty Name="Products" Relationship="XOGModel.FK_Product_SubCategory" FromRole="SubCategory" ToRole="Product" />
-          <Property Name="SubCategoryImage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
         <Association Name="FK_Product_Brands">
           <End Type="XOGModel.Brand" Role="Brand" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1199,17 +1238,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Carts_Products">
-          <End Type="XOGModel.Product" Role="Product" Multiplicity="0..1">
+        <Association Name="FK_Carts_ProductVariants">
+          <End Type="XOGModel.ProductVariant" Role="ProductVariant" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="XOGModel.Cart" Role="Cart" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Product">
+            <Principal Role="ProductVariant">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Cart">
-              <PropertyRef Name="ProductId" />
+              <PropertyRef Name="ProductVariantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1225,17 +1264,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderDetails_Products">
-          <End Type="XOGModel.Product" Role="Product" Multiplicity="1">
+        <Association Name="FK_OrderDetails_Orders">
+          <End Type="XOGModel.Order" Role="Order" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="XOGModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Product">
+            <Principal Role="Order">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrderDetail">
-              <PropertyRef Name="ProductId" />
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_ProductVariants">
+          <End Type="XOGModel.ProductVariant" Role="ProductVariant" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="XOGModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductVariant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductVariantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_orders">
+          <End Type="XOGModel.Order" Role="Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="XOGModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1289,39 +1356,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WishList_Products">
-          <End Type="XOGModel.Product" Role="Product" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="XOGModel.WishList" Role="WishList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WishList">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ProductVariant">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="Mrp" Type="Double" Nullable="false" />
-          <Property Name="MeasureId" Type="Int16" Nullable="false" />
-          <Property Name="Volume" Type="Int16" Nullable="false" />
-          <Property Name="StocksAvailable" Type="Int64" Nullable="false" />
-          <Property Name="Gst" Type="Int16" Nullable="false" />
-          <Property Name="Cost" Type="Double" Nullable="false" />
-          <Property Name="DiscountPercentage" Type="Double" Nullable="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="MaxPurchase" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="XOGModel.fk_productVariants_productId" FromRole="ProductVariant" ToRole="Product" />
-          <NavigationProperty Name="QuantityMeasure" Relationship="XOGModel.fk_productVariants_quantityMeasureId" FromRole="ProductVariant" ToRole="QuantityMeasure" />
-          <Property Name="HSNCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <Association Name="fk_productVariants_productId">
           <End Type="XOGModel.Product" Role="Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1336,16 +1370,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="QuantityMeasure">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuantityMeasureName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Acronym" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ProductVariants" Relationship="XOGModel.fk_productVariants_quantityMeasureId" FromRole="QuantityMeasure" ToRole="ProductVariant" />
-        </EntityType>
+        <Association Name="FK_WishList_Products">
+          <End Type="XOGModel.Product" Role="Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="XOGModel.WishList" Role="WishList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WishList">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_productVariants_quantityMeasureId">
           <End Type="XOGModel.QuantityMeasure" Role="QuantityMeasure" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1360,47 +1398,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Address">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AddressOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="FullName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="AreaCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="LandMark" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="GPS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Addresses_AspNetUsers" FromRole="Address" ToRole="AspNetUser" />
-          <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_Addresses" FromRole="Address" ToRole="Order" />
-        </EntityType>
-        <Association Name="FK_Addresses_AspNetUsers">
-          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="XOGModel.Address" Role="Address" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Address">
-              <PropertyRef Name="AddressOfUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Addresses">
-          <End Type="XOGModel.Address" Role="Address" Multiplicity="1" />
-          <End Type="XOGModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Address">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OrderToAddressId" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="AspNetUserRoles">
+          <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1408,151 +1408,66 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="XOGModelStoreContainer" CdmEntityContainer="XOGEntities">
-    <EntitySetMapping Name="AdSenseAds">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.AdSenseAd)">
-        <MappingFragment StoreEntitySet="AdSenseAds">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Page" ColumnName="Page" />
-          <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-          <ScalarProperty Name="ValidTill" ColumnName="ValidTill" />
-          <ScalarProperty Name="AdLink" ColumnName="AdLink" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-          <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
-          <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
-          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetRoles">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.AspNetRole)">
-        <MappingFragment StoreEntitySet="AspNetRoles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserClaims">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.AspNetUserClaim)">
-        <MappingFragment StoreEntitySet="AspNetUserClaims">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserLogins">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.AspNetUserLogin)">
-        <MappingFragment StoreEntitySet="AspNetUserLogins">
-          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Brands">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.Brand)">
-        <MappingFragment StoreEntitySet="Brands">
-          <ScalarProperty Name="BrandImage" ColumnName="BrandImage" />
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="XOGModel.Address">
+              <MappingFragment StoreEntitySet="Addresses">
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="GPS" ColumnName="GPS" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="LandMark" ColumnName="LandMark" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AddressOfUserId" ColumnName="AddressOfUserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
-          <ScalarProperty Name="BrandUrl" ColumnName="BrandUrl" />
-          <ScalarProperty Name="BrandDescription" ColumnName="BrandDescription" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="C__MigrationHistory">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.C__MigrationHistory)">
-        <MappingFragment StoreEntitySet="C__MigrationHistory">
-          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
-          <ScalarProperty Name="Model" ColumnName="Model" />
-          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Carts">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.Cart)">
-        <MappingFragment StoreEntitySet="Carts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AddedByUserId" ColumnName="AddedByUserId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmailTemplates">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.EmailTemplate)">
-        <MappingFragment StoreEntitySet="EmailTemplates">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
-          <ScalarProperty Name="HtmlMarkup" ColumnName="HtmlMarkup" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="TemplateCategory" ColumnName="TemplateCategory" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OrderDetails">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.OrderDetail)">
-        <MappingFragment StoreEntitySet="OrderDetails">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Discount" ColumnName="Discount" />
-          <ScalarProperty Name="Gst" ColumnName="Gst" />
-          <ScalarProperty Name="Cost" ColumnName="Cost" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Orders">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.Order)">
-        <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="OrderedByUserId" ColumnName="OrderedByUserId" />
-          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-          <ScalarProperty Name="OrderState" ColumnName="OrderState" />
-          <ScalarProperty Name="DeliveredDate" ColumnName="DeliveredDate" />
-          <ScalarProperty Name="DispatchedDate" ColumnName="DispatchedDate" />
-          <ScalarProperty Name="Returned" ColumnName="Returned" />
-          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-          <ScalarProperty Name="OrderToAddressId" ColumnName="OrderToAddressId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductImages">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.ProductImage)">
-        <MappingFragment StoreEntitySet="ProductImages">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Transactions">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.Transaction)">
-        <MappingFragment StoreEntitySet="Transactions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="BilledByUserId" ColumnName="BilledByUserId" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-          <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
-          <ScalarProperty Name="Canceled" ColumnName="Canceled" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="WishLists">
-      <EntityTypeMapping TypeName="IsTypeOf(XOGModel.WishList)">
-        <MappingFragment StoreEntitySet="WishLists">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="WishedByUserId" ColumnName="WishedByUserId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdSenseAds">
+            <EntityTypeMapping TypeName="XOGModel.AdSenseAd">
+              <MappingFragment StoreEntitySet="AdSenseAds">
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
+                <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="AdLink" ColumnName="AdLink" />
+                <ScalarProperty Name="ValidTill" ColumnName="ValidTill" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="XOGModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="XOGModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="XOGModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="XOGModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
@@ -1576,14 +1491,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUser">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="XOGModel.Brand">
+              <MappingFragment StoreEntitySet="Brands">
+                <ScalarProperty Name="BrandImage" ColumnName="BrandImage" />
+                <ScalarProperty Name="BrandDescription" ColumnName="BrandDescription" />
+                <ScalarProperty Name="BrandUrl" ColumnName="BrandUrl" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="XOGModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="C__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Carts">
+            <EntityTypeMapping TypeName="XOGModel.Cart">
+              <MappingFragment StoreEntitySet="Carts">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
+                <ScalarProperty Name="AddedByUserId" ColumnName="AddedByUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="XOGModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -1592,6 +1530,46 @@
                 <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
                 <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailTemplates">
+            <EntityTypeMapping TypeName="XOGModel.EmailTemplate">
+              <MappingFragment StoreEntitySet="EmailTemplates">
+                <ScalarProperty Name="TemplateCategory" ColumnName="TemplateCategory" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HtmlMarkup" ColumnName="HtmlMarkup" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="XOGModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Gst" ColumnName="Gst" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="XOGModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderToAddressId" ColumnName="OrderToAddressId" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Returned" ColumnName="Returned" />
+                <ScalarProperty Name="DispatchedDate" ColumnName="DispatchedDate" />
+                <ScalarProperty Name="DeliveredDate" ColumnName="DeliveredDate" />
+                <ScalarProperty Name="OrderState" ColumnName="OrderState" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderedByUserId" ColumnName="OrderedByUserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1608,6 +1586,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProductImages">
+            <EntityTypeMapping TypeName="XOGModel.ProductImage">
+              <MappingFragment StoreEntitySet="ProductImages">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="XOGModel.Product">
               <MappingFragment StoreEntitySet="Products">
@@ -1619,18 +1606,6 @@
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />
                 <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SubCategories">
-            <EntityTypeMapping TypeName="XOGModel.SubCategory">
-              <MappingFragment StoreEntitySet="SubCategories">
-                <ScalarProperty Name="SubCategoryImage" ColumnName="SubCategoryImage" />
-                <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
-                <ScalarProperty Name="SubCategoryDescription" ColumnName="SubCategoryDescription" />
-                <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1663,24 +1638,49 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Addresses">
-            <EntityTypeMapping TypeName="XOGModel.Address">
-              <MappingFragment StoreEntitySet="Addresses">
-                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
-                <ScalarProperty Name="GPS" ColumnName="GPS" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="LandMark" ColumnName="LandMark" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="AddressOfUserId" ColumnName="AddressOfUserId" />
+          <EntitySetMapping Name="SubCategories">
+            <EntityTypeMapping TypeName="XOGModel.SubCategory">
+              <MappingFragment StoreEntitySet="SubCategories">
+                <ScalarProperty Name="SubCategoryImage" ColumnName="SubCategoryImage" />
+                <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
+                <ScalarProperty Name="SubCategoryDescription" ColumnName="SubCategoryDescription" />
+                <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-  </EntityContainerMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="XOGModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="Canceled" ColumnName="Canceled" />
+                <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="BilledByUserId" ColumnName="BilledByUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WishLists">
+            <EntityTypeMapping TypeName="XOGModel.WishList">
+              <MappingFragment StoreEntitySet="WishLists">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="WishedByUserId" ColumnName="WishedByUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

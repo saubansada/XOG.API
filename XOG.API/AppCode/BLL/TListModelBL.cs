@@ -5,7 +5,7 @@ namespace XOG.AppCode.BLL
 {
     public class TListModelBL
     { 
-        internal static object GetTListModel<T>(IQueryable<T> query, Func<IQueryable<T>, object, object> func, object model, ModelType type = ModelType.Default)
+        internal static object GetTListModel<T>(IQueryable<T> query, Func<IQueryable<T>, object, object> func, object model)
         {
             if (func == null)
             {

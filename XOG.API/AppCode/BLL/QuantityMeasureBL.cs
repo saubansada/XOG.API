@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
-using XOG.AppCode.Transformers;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL
@@ -50,7 +49,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.QuantityMeasures, filter);
         }
 
-        internal object GetList<T>(QuantityMeasureFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(QuantityMeasureFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -58,11 +57,11 @@ namespace XOG.AppCode.BLL
                 {
                     throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
-                return GetList<T>(_context, filter, type, listType, model);
+                return GetList<T>(_context, filter, listType, model);
             }
         }
 
-        internal object GetList<T>(XOGEntities context, QuantityMeasureFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, QuantityMeasureFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 

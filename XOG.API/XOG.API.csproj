@@ -363,6 +363,9 @@
     <Compile Include="AppCode\DAL\Transaction.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\WishList.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\XOGModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -377,9 +380,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>XOGModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="AppCode\DAL\WishList.cs">
-      <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\Factories\AppDbContext.cs" />
     <Compile Include="AppCode\Factories\ApplicationRoleManager.cs" />
@@ -494,7 +494,7 @@
     <Compile Include="AppCode\Mappers\CartTransformer.cs" />
     <Compile Include="AppCode\Mappers\CategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\OrderDetailsTransformer.cs" />
-    <Compile Include="AppCode\Mappers\OrderTransformer.cs" />
+    <Compile Include="AppCode\Mappers\OrderMapper.cs" />
     <Compile Include="AppCode\Mappers\ProductMapper.cs" />
     <Compile Include="AppCode\Mappers\SubCategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\UserTransformer.cs" />
@@ -564,6 +564,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\QuantityMeasureController.cs" />
     <Compile Include="Controllers\ProductGroupController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -582,6 +583,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReturnObject.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\AddressRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SettingsRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\QuantityMeasureRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductRequestVM.cs" />
@@ -607,7 +609,7 @@
     <Compile Include="Models\ViewModels\ResponseViewModels\BrandModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\CartModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\CategoryModels.cs" />
-    <Compile Include="Models\ViewModels\ResponseViewModels\OrdersViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\OrderViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\QuantityMeasureViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\ProductGroupViewModel.cs" />
@@ -617,6 +619,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppCode\DAL\DBLinkQueries.sql" />
     <Content Include="AppCode\DAL\XOGModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>XOGModel.edmx</DependentUpon>

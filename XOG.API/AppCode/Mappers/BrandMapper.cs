@@ -2,7 +2,6 @@
 using XOG.AppCode.DAL;
 using XOG.Helpers;
 using XOG.Models;
-using XOG.Areas.MyAdmin.Models.ViewModels;
 using XOG.AppCode.Models;
 using XOG.Util;
 using XOG.Models.ViewModels;

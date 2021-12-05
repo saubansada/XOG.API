@@ -17,6 +17,7 @@ namespace XOG.AppCode.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AspNetUser()
         {
+            this.Addresses = new HashSet<Address>();
             this.AdSenseAds = new HashSet<AdSenseAd>();
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
@@ -25,7 +26,6 @@ namespace XOG.AppCode.DAL
             this.Transactions = new HashSet<Transaction>();
             this.WishLists = new HashSet<WishList>();
             this.AspNetRoles = new HashSet<AspNetRole>();
-            this.Addresses = new HashSet<Address>();
         }
     
         public string Id { get; set; }
@@ -47,6 +47,8 @@ namespace XOG.AppCode.DAL
         public string AlternateMobileNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Address> Addresses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdSenseAd> AdSenseAds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
@@ -62,7 +64,5 @@ namespace XOG.AppCode.DAL
         public virtual ICollection<WishList> WishLists { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

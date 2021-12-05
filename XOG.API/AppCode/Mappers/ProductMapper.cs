@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Models;
-using XOG.Areas.MyAdmin.Models.ViewModels;
 using XOG.Helpers;
 using XOG.Models;
 using XOG.Models.ViewModels;

@@ -1,4 +1,5 @@
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.App.config
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CoreCompileInputs.cache
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.dll.config
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.pdb
@@ -148,4 +149,4 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.CodeDom.Providers.DotNetCom
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CopyComplete
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.pdb
-D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csprojAssemblyReference.cache
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.AssemblyReference.cache

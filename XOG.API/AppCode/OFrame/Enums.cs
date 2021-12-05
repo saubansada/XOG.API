@@ -162,14 +162,14 @@
         Any
     }
 
-    public enum ModelType
-    {
-        Default,
-        AdminView,
-        UserView,
-        OListItem,
-        NameArray
-    }
+    //public enum ModelType
+    //{
+    //    Default,
+    //    AdminView,
+    //    UserView,
+    //    OListItem,
+    //    NameArray
+    //}
 
     public enum ListingType
     {

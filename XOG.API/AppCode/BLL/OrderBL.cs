@@ -4,23 +4,22 @@ using System.Linq;
 using System.Reflection;
 using System.Transactions;
 using XOG.AppCode.DAL;
-using XOG.AppCode.Transformers;
 using XOG.Util;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOGModels.JsonModels;
 using XOG.AppCode.Models.FilterModels;
+using XOG.AppCode.Mappers;
+using System.Threading.Tasks;
 
 namespace XOG.AppCode.BLL
 {
     public class OrderBL
     {
-
-        internal static XOGEntities GetXOGContext()
+        internal XOGEntities GetXOGContext()
         {
             return new XOGEntities();
         }
-
-        private static IQueryable<Order> GetFilteredWhereQuery(IQueryable<Order> query, OrderFilter filter)
+        private IQueryable<Order> GetFilteredWhereQuery(IQueryable<Order> query, OrderFilter filter)
         {
             if (filter != null)
             {
@@ -30,8 +29,8 @@ namespace XOG.AppCode.BLL
 
                 query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.OrderDetails
                     .Where(o =>
-                        o.Product.ProductName.Equals(filter.Search) ||
-                        filter.Search.Contains(o.Product.ProductName)).Count() > 0) : query;
+                        o.ProductVariant.Product.ProductName.Equals(filter.Search) ||
+                        filter.Search.Contains(o.ProductVariant.Product.ProductName)).Count() > 0) : query;
 
                 query = !(string.IsNullOrWhiteSpace(filter.CustomerName)) ?
                         query.Where(i => i.AspNetUser.FirstName.Contains(filter.CustomerName) ||
@@ -52,7 +51,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private static IQueryable<Order> GetFilteredQuery(OrderFilter filter, XOGEntities context = null)
+        private IQueryable<Order> GetFilteredQuery<T>(OrderFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -62,14 +61,25 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                     }
-                    return GetFilteredQuery(filter, _context);
+                    return GetFilteredQuery<T>(filter, _context);
                 }
             }
             return GetFilteredWhereQuery(context.Orders, filter);
         }
 
+        internal object GetList<T>(OrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        {
+            using (var _context = new XOGEntities())
+            {
+                if (_context == null)
+                {
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
+                }
+                return GetList<T>(_context, filter, listType, model);
+            }
+        }
 
-        internal static object GetTList(XOGEntities context = null, OrderFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, OrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             if (context == null)
             {
@@ -79,123 +89,60 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                     }
-                    return GetTList(_context, filter, type, listType, model);
+                    return GetList<T>(_context, filter, listType, model);
                 }
             }
-            var query = GetFilteredQuery(filter, context);
+            var query = GetFilteredQuery<T>(filter, context);
 
-            return query.TransformToOrderModelListing(model, type, listType);
+            return query.MapToOrderModelList<T>(model, listType);
         }
 
-        internal static object PlaceOrder(XOGEntities context = null, OrdersModel model = null)
+        internal async Task<DBStatus> PlaceOrder(Order model)
         {
-            if (model == null)
+            using (var _context = new XOGEntities())
             {
-                return null;
-            }
-
-            DateTime now = Utilities.DateTimeNow();
-
-            if (context == null)
-            {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception("Error Occurred");
-                    }
-                    return PlaceOrder(_context, model);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return await PlaceOrder(_context, model);
             }
+        }
 
+        internal async Task<DBStatus> PlaceOrder(XOGEntities context, Order model)
+        {
             try
-            {
-                //var ids = "";
+            { 
+                var transaction = new DAL.Transaction()
+                {
+                    PaymentDateTime = model.OrderDate,
+                    BilledByUserId = model.OrderedByUserId,
+                    TotalAmount = model.TotalAmount,
+                    Canceled = false,
+                    Order = model
+                };
 
-                //model.cartList.ToList().ForEach(i =>
-                //{
-                //    ids += i.ProductId + ",";
-                //});
+                using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    context.Transactions.Add(transaction);
 
-                //var productList = (List<Object>)ProductBL.GetTList(context, new ProductFilterRequestVM() { Ids = ids }, listType: ListingType.List);
+                    ts.Complete();
+                }
 
-                //var orderDetails = new List<OrderDetail>();
+                await context.SaveChangesAsync();
 
-                //double totalAmount = 0.0;
-
-                //for (int i = 0; i < productList.Count; i++)
-                //{
-                //    var product = (Product)productList[i];
-
-                //    var quantity = model.cartList[i].CartCount;
-
-                //    orderDetails.Add(new OrderDetail()
-                //    {
-                //        ProductId = product.Id,
-                //        Price = product.Mrp,
-                //        Quantity = quantity,
-                //        Discount = product.DiscountPercentage,
-                //        Gst = product.Gst,
-                //        Cost = product.Cost,
-                //    });
-
-                //    totalAmount = totalAmount + GetProductTotalAmount(product.Mrp, quantity, product.DiscountPercentage, product.Gst);
-                //}
-
-                //var customerInfo = UsersBL.GetUserInfo(model.userId, context);
-
-                //Type t = customerInfo.GetType();
-
-                //PropertyInfo p = t.GetProperty("Id");
-
-                //object customerId = p.GetValue(customerInfo, null);
-
-                //var address = context.Addresses.Where(i => i.Id == model.addressesId).FirstOrDefault();
-
-                //var order = new Order()
-                //{
-                //    OrderedByUserId = customerId.ToString(),
-                //    OrderDate = now,
-                //    OrderState = (byte)OrderStatus.Placed,
-                //    OrderToAddressId = address.Id,
-                //    Returned = false,
-                //    DispatchedDate = now,
-                //    TotalAmount = totalAmount,
-                //    DeliveredDate = now,
-                //    OrderDetails = orderDetails
-                //};
-
-                //var transaction = new DAL.Transaction()
-                //{
-                //    PaymentDateTime = now,
-                //    BilledByUserId = model.userId,
-                //    TotalAmount = totalAmount,
-                //    Canceled = false,
-                //    Order = order
-                //};
-
-                //using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                //{
-
-                //    context.Transactions.Add(transaction);
-
-                //    ts.Complete();
-                //}
-
-                //context.SaveChanges();
-
-                return -1; // order.Id;
+                return DBStatus.Success;
 
             }
             catch (Exception ex)
             {
                 ErrorLogger.LogError("Some Error Occurred : Details - " + ex.Message);
 
-                return -1;
+                return DBStatus.Error;
             }
         }
 
-        internal static object GetOrder(XOGEntities context = null, long id = -1, string userId = "", ModelType modelType = ModelType.Default, bool isCurrent = false)
+        internal object GetOrder<T>(XOGEntities context = null, long id = -1, string userId = "", bool isCurrent = false)
         {
             if (id < 0 && isCurrent == false)
             {
@@ -210,7 +157,7 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception("Error Occurred");
                     }
-                    return GetOrder(_context, id, userId, modelType, isCurrent);
+                    return GetOrder<T>(_context, id, userId, isCurrent);
                 }
             }
 
@@ -228,7 +175,7 @@ namespace XOG.AppCode.BLL
                     throw new Exception("The User trying to Access to Record is Invalid");
                 }
 
-                return data.TransformToOrderModel(type: modelType);
+                return data.MapToOrderModel<T>();
 
             }
             catch (Exception ex)
@@ -239,11 +186,6 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        private static double GetProductTotalAmount(double mrp, int quantity, double discount, double gst)
-        {
-            var toReturn = (mrp - (mrp * discount / 100) - (mrp * gst / 100)) * quantity;
-            return toReturn;
-        }
 
     }
 }

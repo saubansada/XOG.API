@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using XOG.AppCode.DAL;
 using XOG.Util;
-using XOG.AppCode.Transformers;
 using XOG.AppCode.Models.FilterModels;
 using XOG.AppCode.Mappers;
 

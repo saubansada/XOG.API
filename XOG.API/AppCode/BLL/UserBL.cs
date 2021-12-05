@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
-using XOG.AppCode.Transformers;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL
 {
     public class UserBL
     {
-        internal static XOGEntities GetXOGContext()
+        internal XOGEntities GetXOGContext()
         {
             return new XOGEntities();
         }
@@ -48,7 +47,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.AspNetUsers, filter);
         }
 
-        internal object GetList<T>(UserFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(UserFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -56,18 +55,18 @@ namespace XOG.AppCode.BLL
                 {
                     throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
-                return GetList<T>(_context, filter, type, listType, model);
+                return GetList<T>(_context, filter, listType, model);
             }
         }
 
-        internal object GetList<T>(XOGEntities context, UserFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, UserFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
             return query.MapToUserModelList<T>(model, listType);
         }
 
-        internal T GetUserByNameOrId<T>(string id = "", string title = "", bool isAdmin = false)
+        internal T GetUserByNameOrId<T>(string id = "", bool isAdmin = false)
         {
             using (var _context = new XOGEntities())
             {
@@ -75,11 +74,11 @@ namespace XOG.AppCode.BLL
                 {
                     throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
-                return GetUserByNameOrId<T>(_context, id, title, isAdmin);
+                return GetUserByNameOrId<T>(_context, id, isAdmin);
             }
         }
 
-        internal T GetUserByNameOrId<T>(XOGEntities context, string id = null, string title = "", bool isAdmin = false)
+        internal T GetUserByNameOrId<T>(XOGEntities context, string id = null, bool isAdmin = false)
         {
             var User = new AspNetUser();
 
@@ -89,13 +88,8 @@ namespace XOG.AppCode.BLL
             {
                 query = context.AspNetUsers.Where(i => i.Id == id);
             }
-
-            //if (!string.IsNullOrWhiteSpace(title))
-            //{
-            //    query = context.AspNetUsers.Where(i => i..Equals(title.Replace("_", " ")));
-            //}
-
-            return query.FirstOrDefault().MapToUserModel<T>();
+ 
+            return query.Include(u => u.Addresses).Include(v => v.AspNetRoles).FirstOrDefault().MapToUserModel<T>();
         }
 
         internal async Task<DBStatus> EditAsync(AspNetUser model, XOGEntities context = null)
@@ -276,4 +270,5 @@ namespace XOG.AppCode.BLL
             return context.AspNetUsers.Count();
         }
     }
+
 }

@@ -16,10 +16,10 @@ namespace XOG.AppCode.DAL
     {
         public long Id { get; set; }
         public string AddedByUserId { get; set; }
-        public Nullable<long> ProductId { get; set; }
+        public Nullable<long> ProductVariantId { get; set; }
         public Nullable<short> Quantity { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual ProductVariant ProductVariant { get; set; }
     }
 }

@@ -1,15 +1,14 @@
-﻿using System.Threading.Tasks;
-using System.Web.Mvc;
-using XOG.AppCode.BLL;
-using XOG.AppCode.Helpers;
-using XOG.AppCode.Models.FilterModels;
-using XOG.Areas.MyAdmin.Models.ViewModels;
-using XOG.Filters;
-using XOG.Models;
-using XOG.Util;
+﻿//using System.Threading.Tasks;
+//using System.Web.Mvc;
+//using XOG.AppCode.BLL;
+//using XOG.AppCode.Helpers;
+//using XOG.AppCode.Models.FilterModels;
+//using XOG.Filters;
+//using XOG.Models;
+//using XOG.Util;
 
-namespace XOG.Areas.MyAdmin.Controllers
-{
+//namespace XOG.Areas.MyAdmin.Controllers
+//{
 //    [OFAuthorize(Roles = "Developer, Admin, Staff")]
 //    public class SubCategoryController : Controller
 //    {
@@ -163,4 +162,4 @@ namespace XOG.Areas.MyAdmin.Controllers
 //        }
          
 //    }
-}
+//}

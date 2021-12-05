@@ -14,6 +14,13 @@ namespace XOG.AppCode.DAL
     
     public partial class ProductVariant
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductVariant()
+        {
+            this.Carts = new HashSet<Cart>();
+            this.OrderDetails = new HashSet<OrderDetail>();
+        }
+    
         public long Id { get; set; }
         public long ProductId { get; set; }
         public double Mrp { get; set; }
@@ -27,6 +34,10 @@ namespace XOG.AppCode.DAL
         public int MaxPurchase { get; set; }
         public string HSNCode { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cart> Carts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Product Product { get; set; }
         public virtual QuantityMeasure QuantityMeasure { get; set; }
     }

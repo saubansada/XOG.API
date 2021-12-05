@@ -17,11 +17,9 @@ namespace XOG.AppCode.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.Carts = new HashSet<Cart>();
-            this.OrderDetails = new HashSet<OrderDetail>();
             this.ProductImages = new HashSet<ProductImage>();
-            this.WishLists = new HashSet<WishList>();
             this.ProductVariants = new HashSet<ProductVariant>();
+            this.WishLists = new HashSet<WishList>();
         }
     
         public long Id { get; set; }
@@ -35,17 +33,13 @@ namespace XOG.AppCode.DAL
         public Nullable<short> ProductGroupId { get; set; }
     
         public virtual Brand Brand { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cart> Carts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ProductGroup ProductGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual SubCategory SubCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WishList> WishLists { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductVariant> ProductVariants { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WishList> WishLists { get; set; }
     }
 }

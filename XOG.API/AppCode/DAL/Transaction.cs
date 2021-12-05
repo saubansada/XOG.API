@@ -21,7 +21,7 @@ namespace XOG.AppCode.DAL
         public System.DateTime PaymentDateTime { get; set; }
         public bool Canceled { get; set; }
     
-        public virtual Order Order { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

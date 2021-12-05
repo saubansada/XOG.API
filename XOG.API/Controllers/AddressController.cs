@@ -19,7 +19,7 @@ namespace XOG.Controllers
     {
         public AddressController() { }
          
-        public AddressController(ApplicationUserManager userManager)
+        public AddressController(ApplicationUserManager _userManager)
         {
             UserManager = _userManager;
         }
