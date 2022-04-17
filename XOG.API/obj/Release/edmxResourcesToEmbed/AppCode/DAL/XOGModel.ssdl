@@ -6,14 +6,15 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="AddressOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="15" />
     <Property Name="AreaCode" Type="nvarchar" MaxLength="20" />
-    <Property Name="HouseApartment" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="Locality" Type="nvarchar" MaxLength="150" />
-    <Property Name="CityTown" Type="nvarchar" MaxLength="100" />
-    <Property Name="StateProvinces" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="AddressLine1" Type="nvarchar" MaxLength="300" />
+    <Property Name="AddressLine2" Type="nvarchar" MaxLength="300" />
+    <Property Name="LandMark" Type="nvarchar" MaxLength="150" />
     <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="GPS" Type="nvarchar" MaxLength="40" />
-    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="15" />
+    <Property Name="IsDefault" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="AdSenseAds">
     <Key>
@@ -112,7 +113,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="AddedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="ProductId" Type="bigint" />
+    <Property Name="ProductVariantId" Type="bigint" />
     <Property Name="Quantity" Type="smallint" />
   </EntityType>
   <EntityType Name="Categories">
@@ -142,7 +143,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderId" Type="bigint" Nullable="false" />
-    <Property Name="ProductId" Type="bigint" Nullable="false" />
+    <Property Name="ProductVariantId" Type="bigint" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
     <Property Name="Price" Type="float" Nullable="false" />
     <Property Name="Discount" Type="float" Nullable="false" />
@@ -243,6 +244,17 @@
     <Property Name="TotalAmount" Type="float" Nullable="false" />
     <Property Name="PaymentDateTime" Type="datetime" Nullable="false" />
     <Property Name="Canceled" Type="bit" Nullable="false" />
+    <Property Name="WalletId" Type="bigint" />
+  </EntityType>
+  <EntityType Name="UserWallet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WalletOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="EntryType" Type="bit" />
+    <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
   </EntityType>
   <EntityType Name="WishLists">
     <Key>
@@ -252,6 +264,17 @@
     <Property Name="WishedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="ProductId" Type="bigint" />
     <Property Name="Quantity" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.UsersWalletVW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="UsersWalletVW">
+    <Key>
+      <PropertyRef Name="WalletOfUserId" />
+    </Key>
+    <Property Name="WalletOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="TotalCredited" Type="float" />
+    <Property Name="TotalDebited" Type="float" />
+    <Property Name="Amount" Type="float" />
   </EntityType>
   <Association Name="FK_Addresses_AspNetUsers">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -277,7 +300,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_AspNetUserRoles_AspNetRoles">
+  <Association Name="FK_AspNetUserRoles_AspNetRole">
     <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
     <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
     <ReferentialConstraint>
@@ -289,7 +312,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_AspNetUserRoles_AspNetUsers">
+  <Association Name="FK_AspNetUserRoles_AspNetUser">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
     <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
     <ReferentialConstraint>
@@ -315,17 +338,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Carts_Products">
-    <End Role="Products" Type="Self.Products" Multiplicity="0..1">
+  <Association Name="FK_Carts_ProductVariants">
+    <End Role="ProductVariants" Type="Self.ProductVariants" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Products">
+      <Principal Role="ProductVariants">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Carts">
-        <PropertyRef Name="ProductId" />
+        <PropertyRef Name="ProductVariantId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -371,17 +394,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_OrderDetails_Products">
-    <End Role="Products" Type="Self.Products" Multiplicity="1">
+  <Association Name="FK_OrderDetails_ProductVariants">
+    <End Role="ProductVariants" Type="Self.ProductVariants" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Products">
+      <Principal Role="ProductVariants">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="OrderDetails">
-        <PropertyRef Name="ProductId" />
+        <PropertyRef Name="ProductVariantId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -591,7 +614,16 @@
     <EntitySet Name="QuantityMeasures" EntityType="Self.QuantityMeasures" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserWallet" EntityType="Self.UserWallet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WishLists" EntityType="Self.WishLists" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UsersWalletVW" EntityType="Self.UsersWalletVW" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [UsersWalletVW].[WalletOfUserId] AS [WalletOfUserId], 
+    [UsersWalletVW].[TotalCredited] AS [TotalCredited], 
+    [UsersWalletVW].[TotalDebited] AS [TotalDebited], 
+    [UsersWalletVW].[Amount] AS [Amount]
+    FROM [dbo].[UsersWalletVW] AS [UsersWalletVW]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_Addresses_AspNetUsers" Association="Self.FK_Addresses_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="Addresses" EntitySet="Addresses" />
@@ -600,11 +632,11 @@
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AdSenseAds" EntitySet="AdSenseAds" />
     </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="Self.FK_AspNetUserRoles_AspNetRoles">
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
     </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers" Association="Self.FK_AspNetUserRoles_AspNetUsers">
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
     </AssociationSet>
@@ -612,8 +644,8 @@
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="Carts" EntitySet="Carts" />
     </AssociationSet>
-    <AssociationSet Name="FK_Carts_Products" Association="Self.FK_Carts_Products">
-      <End Role="Products" EntitySet="Products" />
+    <AssociationSet Name="FK_Carts_ProductVariants" Association="Self.FK_Carts_ProductVariants">
+      <End Role="ProductVariants" EntitySet="ProductVariants" />
       <End Role="Carts" EntitySet="Carts" />
     </AssociationSet>
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -628,8 +660,8 @@
       <End Role="Orders" EntitySet="Orders" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
-      <End Role="Products" EntitySet="Products" />
+    <AssociationSet Name="FK_OrderDetails_ProductVariants" Association="Self.FK_OrderDetails_ProductVariants">
+      <End Role="ProductVariants" EntitySet="ProductVariants" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
     </AssociationSet>
     <AssociationSet Name="FK_Orders_Addresses" Association="Self.FK_Orders_Addresses">

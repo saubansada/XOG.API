@@ -16,12 +16,17 @@ namespace XOG.AppCode.DAL
     {
         public long Id { get; set; }
         public string BilledByUserId { get; set; }
-        public long OrderId { get; set; }
+        public Nullable<long> OrderId { get; set; }
         public double TotalAmount { get; set; }
         public System.DateTime PaymentDateTime { get; set; }
-        public bool Canceled { get; set; }
+        public Nullable<int> TransactionFor { get; set; }
+        public Nullable<int> TransactionType { get; set; }
+        public Nullable<long> WalletId { get; set; }
+        public Nullable<long> ReturnId { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Order Order { get; set; }
+        public virtual ReturnOrder ReturnOrder { get; set; }
+        public virtual UserWallet UserWallet { get; set; }
     }
 }

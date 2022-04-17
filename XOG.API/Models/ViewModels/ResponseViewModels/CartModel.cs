@@ -6,12 +6,8 @@ namespace XOG.Models.ViewModels
     {
         public long Id { get; set; }
 
-        public long ProductId { get; set; }
-
-        public string AddedByUserId { get;set;}
-
-        public int MaxPurchase { get; set; }
-
-        public short CartCount { get; set; }
+        public long ProductVariantId { get; set; } 
+          
+        public short Quantity { get; set; }
     }
 }

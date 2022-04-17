@@ -88,8 +88,10 @@ namespace XOG.AppCode.BLL
             {
                 query = context.AspNetUsers.Where(i => i.Id == id);
             }
+
+            var obj = query.ToList();
  
-            return query.Include(u => u.Addresses).Include(v => v.AspNetRoles).FirstOrDefault().MapToUserModel<T>();
+            return query.FirstOrDefault().MapToUserModel<T>();
         }
 
         internal async Task<DBStatus> EditAsync(AspNetUser model, XOGEntities context = null)

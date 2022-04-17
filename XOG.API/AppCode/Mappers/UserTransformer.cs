@@ -3,7 +3,6 @@ using System.Linq;
 using XOG.AppCode.DAL;
 using XOG.Helpers;
 using XOG.Models;
-using XOG.Models.ViewModels.ResponseViewModels;
 using XOG.Util;
 
 //namespace XOG.AppCode.Transformers

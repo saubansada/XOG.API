@@ -18,7 +18,13 @@ namespace XOG.Controllers
         {
             return View();
         }
-        
+
+        [AllowAnonymous]
+        public ActionResult CurrentOtp()
+        {
+            return PartialView("CurrentOtp");
+        }
+
         [AllowAnonymous]
         public async Task<ActionResult> Init()
         {

@@ -9,14 +9,13 @@ using XOG.Helpers;
 using XOG.Models;
 using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
-using XOG.Models.ViewModels.ResponseViewModels;
 using XOG.Util;
 
 namespace XOG.AppCode.Mappers
 {
     public static class OrderTransformer
     {
-        public static object MapToOrderModelList<T>(this IQueryable<Order> query, object obj = null, ListingType listType = ListingType.List)
+        public static object MapToOrderRetunsModelList<T>(this IQueryable<OrderVW> query, object obj = null, ListingType listType = ListingType.List)
         {
             if (query == null)
             {
@@ -25,32 +24,65 @@ namespace XOG.AppCode.Mappers
 
             var _query = (IQueryable<object>)query;
 
-            query = _query.Select(model => (Order)model);
+            query = _query.Select(model => (OrderVW)model);
 
             var list = query.ToList();
 
             if (typeof(T) == typeof(OrderViewModel))
             {
-                var orders = list.Select(model => new OrderViewModel()
-                {
-                    Id = model.Id,
-                    OrderDate = model.OrderDate,
-                    OrderState = (OrderStatus)model.OrderState,
-                    DeliveryDate = model.DeliveredDate,
-                    DispatchedDate = model.DispatchedDate,
-                    SumAmount = (float)(model.OrderDetails.Sum(i => (i.Price - ((i.Price * i.Discount / 100) + (i.Price * i.Gst / 100))) * i.Quantity)),
-                    TotalBill = (float)model.TotalAmount,
-                    Purchases = model.OrderDetails.Select(i => new OrderDetailViewModel()
+                var orders = list.ToList().GroupBy(i => i.ReturnId)
+                    .Select(model => new OrderViewModel()
                     {
-                        Id = i.Id,
-                        Discount = i.Discount,
-                        Gst = i.Gst,
-                        Price = i.Price,
-                        ProductName = i.ProductVariant.Product.ProductName,
-                        Quantity = i.Quantity,
-                        Total = (i.Price - (i.Price * i.Discount / 100) + (i.Price * i.Gst / 100)) * i.Quantity
-                    }).ToArray(),
-                }).ToList();
+                        Id = model.FirstOrDefault().Id,
+                        ReturnId = model.FirstOrDefault().ReturnId ?? -1,
+                        OrderReturnState = (OrderStatus)model.FirstOrDefault().ReturnOrderStatus,
+                        PhoneNumber = model.FirstOrDefault().PhoneNumber,
+                        OrderDate = model.FirstOrDefault().OrderDate,
+                        OrderState = (OrderStatus)model.FirstOrDefault().OrderState,
+                        DeliveryDate = model.FirstOrDefault().DeliveredDate,
+                        DispatchedDate = model.FirstOrDefault().DispatchedDate,
+                        SumAmount = (float)model.Sum(i => i.OrderedTotal),
+                        TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
+                        Address = new AddressViewModel()
+                        {
+                            AddressLine1 = model.FirstOrDefault().AddressLine1,
+                            AddressLine2 = model.FirstOrDefault().AddressLine2,
+                            Id = model.FirstOrDefault().OrderToAddressId,
+                        },
+                        IsDelivery = model.FirstOrDefault().OrderToAddressId != 0,
+                        Purchases = list.Where(j => model.Key == j.OrderId).Select(i => new OrderDetailViewModel()
+                        {
+                            Id = i.Id,
+                            OrderId = i.OrderId,
+                            ReturnDetailId = i.ReturnDetailId ?? -1,
+                            Discount = i.Discount,
+                            Gst = i.Gst,
+                            Price = i.Price,
+                            DiscPrice = i.DiscPrice,
+                            ProductName = i.ProductName,
+                            ReturnedQuantity = i.ReturnedQuantity ?? 0,
+                            TotalQuantity = i.TotalQuantity ?? 0,
+                            OrderedQuantity = i.OrderedQuantity,
+                            TotalReturnedQuantity = i.TotalReturnedQuantity ?? 0,
+                            ReturnTotalSum = i.ReturnTotalSum ?? 0,
+                            ReturnTotal = i.ReturnTotal ?? 0,
+                            Total = i.Total ?? 0,
+                            ReturnOrderDate = i.ReturnOrderDate ?? DateTime.Now,
+                            OrderedTotal = i.OrderedTotal,
+                            UnitType = new QuantityMeasure()
+                            {
+                                Acronym = i.Acronym,
+                                QuantityMeasureName = i.QuantityMeasureName,
+                                Id = i.QuantityMeasureId,
+                            },
+                            ProductImage = new ProductImage()
+                            {
+                                Id = i.ImageId,
+                                ImageUrl = i.ImageUrl,
+                                ProductId = i.ProductId
+                            }
+                        }).ToArray(),
+                    }).ToList();
 
                 return orders;
             }
@@ -60,9 +92,9 @@ namespace XOG.AppCode.Mappers
 
                 return list.Select(model => new OListItem
                 {
-                    Text = model.AspNetUser.FirstName + " " + model.AspNetUser.LastName + " - " + model.Id,
-                    Value = model.Id.ToString(),
-                    Selected = id != -1 ? model.Id == id : false
+                    Text = model.OrderId + "",
+                    Value = model.OrderId.ToString(),
+                    Selected = id != -1 ? model.OrderId == id : false
                 }).ToList();
             }
 
@@ -79,53 +111,212 @@ namespace XOG.AppCode.Mappers
             return _query.ToList();
         }
 
-
-        public static object MapToOrderModel<T>(this Order model, object obj = null)
+        public static object MapToOrderModelList<T>(this IQueryable<OrderVW> query, object obj = null, ListingType listType = ListingType.List)
         {
+            if (query == null)
+            {
+                return null;
+            }
+
+            var _query = (IQueryable<object>)query;
+
+            query = _query.Select(model => (OrderVW)model);
+
+            var list = query.ToList();
+
             if (typeof(T) == typeof(OrderViewModel))
             {
-                var res = model == null ? null : new OrderViewModel
-                {
-                    Id = model.Id,
-                    OrderDate = model.OrderDate,
-                    OrderState = (OrderStatus)model.OrderState,
-                    DeliveryDate = model.DeliveredDate,
-                    DispatchedDate = model.DispatchedDate,
-                    SumAmount = (float)(model.OrderDetails.Sum(i => (i.Price - ((i.Price * i.Discount / 100) + (i.Price * i.Gst / 100))) * i.Quantity)),
-                    TotalBill = (float)model.TotalAmount,
-                    Purchases = model.OrderDetails.Select(i => new OrderDetailViewModel()
+                var orders = list.ToList().GroupBy(i => i.OrderId)
+                    .Select(model => new OrderViewModel()
                     {
-                        Id = i.Id,
-                        Discount = i.Discount,
-                        Gst = i.Gst,
-                        Price = i.Price,
-                        ProductName = i.ProductVariant.Product.ProductName,
-                        Quantity = i.Quantity,
-                        Total = (i.Price - (i.Price * i.Discount / 100) + (i.Price * i.Gst / 100)) * i.Quantity
-                    }).ToArray(),
-                };
+                        Id = model.Key,
+                        ReturnId = model.FirstOrDefault().ReturnId ?? -1,
+                        OrderReturnState = (OrderStatus)model.FirstOrDefault().ReturnOrderStatus,
+                        PhoneNumber = model.FirstOrDefault().PhoneNumber,
+                        OrderDate = model.FirstOrDefault().OrderDate,
+                        OrderState = (OrderStatus)model.FirstOrDefault().OrderState,
+                        DeliveryDate = model.FirstOrDefault().DeliveredDate,
+                        DispatchedDate = model.FirstOrDefault().DispatchedDate,
+                        SumAmount = (float)model.Sum(i => i.OrderedTotal),
+                        TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
+                        Address = new AddressViewModel()
+                        {
+                            AddressLine1 = model.FirstOrDefault().AddressLine1,
+                            AddressLine2 = model.FirstOrDefault().AddressLine2,
+                            Id = model.FirstOrDefault().OrderToAddressId,
+                        },
+                        IsDelivery = model.FirstOrDefault().OrderToAddressId != 0,
+                        Purchases = list.Where(j => model.Key == j.OrderId).Select(i => new OrderDetailViewModel()
+                        {
+                            Id = i.Id,
+                            OrderId = i.OrderId,
+                            ReturnDetailId = i.ReturnDetailId ?? -1,
+                            Discount = i.Discount,
+                            Gst = i.Gst,
+                            DiscPrice = i.DiscPrice,
+                            Price = i.Price,
+                            ProductName = i.ProductName,
+                            ReturnedQuantity = i.ReturnedQuantity ?? 0,
+                            TotalQuantity = i.TotalQuantity ?? 0,
+                            OrderedQuantity = i.OrderedQuantity,
+                            TotalReturnedQuantity = i.TotalReturnedQuantity ?? 0,
+                            ReturnTotalSum = i.ReturnTotalSum ?? 0,
+                            ReturnTotal = i.ReturnTotal ?? 0,
+                            Total = i.Total ?? 0,
+                            ReturnOrderDate = i.ReturnOrderDate ?? DateTime.Now,
+                            OrderedTotal = i.OrderedTotal,
+                            UnitType = new QuantityMeasure()
+                            {
+                                Acronym = i.Acronym,
+                                QuantityMeasureName = i.QuantityMeasureName,
+                                Id = i.QuantityMeasureId,
+                            },
+                            ProductImage = new ProductImage()
+                            {
+                                Id = i.ImageId,
+                                ImageUrl = i.ImageUrl,
+                                ProductId = i.ProductId
+                            }
+                        }).ToArray(),
+                    }).ToList();
+
+                return orders;
+            }
+            else if (typeof(T) == typeof(string[]))
+            {
+                int id = obj.NullReverse();
+
+                return list.Select(model => new OListItem
+                {
+                    Text = model.OrderId + "",
+                    Value = model.OrderId.ToString(),
+                    Selected = id != -1 ? model.OrderId == id : false
+                }).ToList();
+            }
+
+
+            if (listType == ListingType.Queryable)
+            {
+                return (T)Convert.ChangeType(_query, typeof(T)); ;
+            }
+            else if (listType == ListingType.GridList && obj != null)
+            {
+                _query = _query.UpdateGridModelList((GridModel)obj);
+            }
+
+            return _query.ToList();
+        }
+
+        public static object MapToOrderModel<T>(this IQueryable<OrderVW> vList, object obj = null)
+        {
+            var list = vList.ToList();
+            if (typeof(T) == typeof(OrderViewModel))
+            {
+                var res = list.ToList().GroupBy(i => i.OrderId)
+                    .Select(model => new OrderViewModel()
+                    {
+                        Id = model.FirstOrDefault().OrderId,
+                        ReturnId = model.FirstOrDefault().ReturnId ?? -1,
+                        OrderReturnState = (OrderStatus)model.FirstOrDefault().ReturnOrderStatus,
+                        PhoneNumber = model.FirstOrDefault().PhoneNumber,
+                        OrderDate = model.FirstOrDefault().OrderDate,
+                        OrderState = (OrderStatus)model.FirstOrDefault().OrderState,
+                        DeliveryDate = model.FirstOrDefault().DeliveredDate,
+                        DispatchedDate = model.FirstOrDefault().DispatchedDate,
+                        SumAmount = (float)model.Sum(i => i.OrderedTotal),
+                        TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
+                        Address = new AddressViewModel()
+                        {
+                            AddressLine1 = model.FirstOrDefault().AddressLine1,
+                            AddressLine2 = model.FirstOrDefault().AddressLine2,
+                            Id = model.FirstOrDefault().OrderToAddressId,
+                        },
+                        IsDelivery = model.FirstOrDefault().OrderToAddressId != 0,
+                        Purchases = list.Where(j => model.FirstOrDefault().OrderId == j.OrderId)
+                        .Select(i => new OrderDetailViewModel()
+                        {
+                            Id = i.Id,
+                            ReturnDetailId = i.ReturnDetailId ?? -1,
+                            OrderId = i.OrderId,
+                            Discount = i.Discount,
+                            Gst = i.Gst,
+                            DiscPrice = i.DiscPrice,
+                            Price = i.Price,
+                            ProductName = i.ProductName,
+                            ReturnedQuantity = i.ReturnedQuantity ?? 0,
+                            TotalQuantity = i.TotalQuantity ?? 0,
+                            OrderedQuantity = i.OrderedQuantity,
+                            ReturnTotalSum = i.ReturnTotalSum ?? 0,
+                            TotalReturnedQuantity = i.TotalReturnedQuantity ?? 0,
+                            ReturnOrderDate = i.ReturnOrderDate ?? DateTime.Now,
+                            ReturnTotal = i.ReturnTotal ?? 0,
+                            Total = i.Total ?? 0,
+                            OrderedTotal = i.OrderedTotal,
+                            UnitType = new QuantityMeasure()
+                            {
+                                Acronym = i.Acronym,
+                                QuantityMeasureName = i.QuantityMeasureName,
+                                Id = i.QuantityMeasureId,
+                            },
+                            ProductImage = new ProductImage()
+                            {
+                                Id = i.ImageId,
+                                ImageUrl = i.ImageUrl,
+                                ProductId = i.ProductId
+                            }
+                        }).ToArray(),
+                    }).FirstOrDefault();
 
                 return res;
             }
             else if (typeof(T) == typeof(string[]))
             {
                 int id = obj.NullReverse();
-                return new OListItem
+                return list.Select(model => new OListItem
                 {
-                    Text = model.AspNetUser.FirstName + " " + model.AspNetUser.LastName,
+                    Text = model.FirstName + " " + model.LastName,
                     Value = model.Id.ToString(),
                     Selected = id != -1 ? model.Id == id : false
-                };
+                }).FirstOrDefault();
             }
             else
             {
-                return model;
+                return list;
             }
         }
 
         public static IQueryable<Order> MapOrderEtityQueryable(IQueryable<BaseModel> query, object obj = null)
         {
             return query == null ? null : query.Select(model => MapToOrderEntity(model, obj));
+        }
+
+
+        public static ReturnOrder MapToOrderReturnEntity(this BaseModel model, object obj = null)
+        {
+            DateTime now = Utilities.DateTimeNow();
+
+            XOGEntities context = (XOGEntities)obj;
+
+            ReturnOrder order = new ReturnOrder();
+
+            if (model is OrderReturnRequestViewModel)
+            {
+                var _model = (OrderReturnRequestViewModel)model;
+                order.OrderId = _model.OrderId;
+                order.IsReturn = false;
+                order.ReturnOrderDate = now;
+                order.ReturnOrderState = (byte)OrderStatus.Pending;
+                order.ReturnOrderDetails = _model.ReturnOrderDetails.Select(i =>
+                     new ReturnOrderDetail
+                     {
+                         ReturnOrderId = i.ReturnOrderId,
+                         IsCancelled = i.IsCancelled,
+                         OrderDetailsId = i.OrderDetailsId,
+                         Quantity = i.Quantity,
+                     }).ToList();
+            }
+
+            return order;
         }
 
         public static Order MapToOrderEntity(this BaseModel model, object obj = null)
@@ -171,24 +362,24 @@ namespace XOG.AppCode.Mappers
                 ids = ((OrderViewModel)model).Purchases.Select(i => i.Id).ToArray().Join();
 
                 customerInfo = new UserBL().GetUserByNameOrId<UserViewModel>(context, _model.UserId);
-                 
+
                 ProductFilter productFilter = new ProductFilter() { Ids = ids, ProductQueryType = ProductQueryType.Variants };
 
                 productVariantsList = ((List<object>)new ProductBL().GetList<ProductVariantViewModel>(context, productFilter, ListingType.List)).Select(i => (ProductVariantViewModel)i).ToList();
 
-                purchases = _model.Purchases.ToDictionary(i => i.Id, y => y.Quantity);
+                purchases = _model.Purchases.ToDictionary(i => i.Id, y => y.OrderedQuantity);
 
                 order.OrderToAddressId = customerInfo.DefaultAddress != null ? customerInfo.DefaultAddress.Id : 1;
 
                 order.Id = _model.Id;
             }
-             
+
             order.TotalAmount = 0.0;
 
             for (int i = 0; i < productVariantsList.Count; i++)
             {
                 var product = productVariantsList[i];
-                 
+
                 orderDetails.Add(new OrderDetail()
                 {
                     ProductVariantId = product.Id,
@@ -222,11 +413,11 @@ namespace XOG.AppCode.Mappers
             order.OrderDetails = orderDetails;
 
             return order;
-        } 
+        }
 
         private static double GetProductTotalAmount(double mrp, int quantity, double discount, double gst)
         {
-            var toReturn = (mrp - (mrp * discount / 100) - (mrp * gst / 100)) * quantity;
+            var toReturn = (mrp - (mrp * discount / 100)) * quantity;
 
             return toReturn;
         }

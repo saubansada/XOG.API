@@ -28,6 +28,12 @@ namespace XOG
             );
 
             routes.MapRoute(
+               name: "CurrentOtp",
+               url: "CurrentOtp",
+               defaults: new { controller = "Home", action = "CurrentOtp", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                name: "angualr",
                url: "{*url}",
                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

@@ -7,7 +7,6 @@ using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOG.AppCode.Mappers;
-using XOG.Models.ViewModels.ResponseViewModels;
 
 namespace XOG.Controllers
 {

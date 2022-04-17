@@ -220,21 +220,22 @@ namespace XOG.Helpers
         {
             var msg = GetMessage(message);
 
-            using (var smtp = new SmtpClient(AppConfig.MailServer)
-            {
-                EnableSsl = AppConfig.EnableSsl,
+            var smtp = new SmtpClient(AppConfig.MailServer);
 
-                Credentials = new NetworkCredential(AppConfig.MailLogOnId, AppConfig.MailLogOnPassword),
+            smtp.EnableSsl = AppConfig.EnableSsl;
 
-                Port = AppConfig.MailServerPort
-            })
-            {
-                smtp.SendCompleted += smtp_SendCompleted;
 
-                token = msg;
+            smtp.Credentials = new NetworkCredential(AppConfig.MailLogOnId, "51435143Ak");
 
-                return Task.Run(() => smtp.SendAsync(msg, token));
-            }
+            smtp.Port = AppConfig.MailServerPort;
+
+            smtp.UseDefaultCredentials = false;
+
+            smtp.SendCompleted += smtp_SendCompleted;
+
+            token = msg;
+
+            return Task.Run(() => smtp.SendAsync(msg, token));
         }
 
         public static void SendUsingSmtpWithAttachments(IdentityMessage message, List<Attachment> attachments)

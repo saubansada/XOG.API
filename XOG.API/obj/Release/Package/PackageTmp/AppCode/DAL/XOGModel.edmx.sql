@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/24/2021 13:45:12
+-- Date Created: 12/05/2021 17:35:16
 -- Generated from EDMX file: D:\Projects\XOGProject\XOG.API\XOG.API\AppCode\DAL\XOGModel.edmx
 -- --------------------------------------------------
 
@@ -23,11 +23,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AdSenseAds_AspNetUsers]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdSenseAds] DROP CONSTRAINT [FK_AdSenseAds_AspNetUsers];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetRole]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetRole];
+IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetRoles]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetRoles];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetUser];
+IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetUsers]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetUsers];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Carts_AspNetUsers]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Carts] DROP CONSTRAINT [FK_Carts_AspNetUsers];
@@ -35,17 +35,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Carts_Products]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Carts] DROP CONSTRAINT [FK_Carts_Products];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CategoriesImages_Category]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CategoriesImages] DROP CONSTRAINT [FK_CategoriesImages_Category];
-GO
 IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AspNetUserClaims] DROP CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId];
 GO
 IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AspNetUserLogins] DROP CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId];
-GO
-IF OBJECT_ID(N'[dbo].[fk_MainCategory]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SubCategories] DROP CONSTRAINT [fk_MainCategory];
 GO
 IF OBJECT_ID(N'[dbo].[FK_OrderDetails_Orders]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderDetails] DROP CONSTRAINT [FK_OrderDetails_Orders];
@@ -62,11 +56,26 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Product_Brands]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_Product_Brands];
 GO
-IF OBJECT_ID(N'[dbo].[fk_product_subcategoryId]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [fk_product_subcategoryId];
+IF OBJECT_ID(N'[dbo].[FK_Product_ProductGroups]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_Product_ProductGroups];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Product_SubCategory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_Product_SubCategory];
+GO
+IF OBJECT_ID(N'[dbo].[fk_ProductGroup_SubCategories]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProductGroups] DROP CONSTRAINT [fk_ProductGroup_SubCategories];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProductImages_Products]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProductImages] DROP CONSTRAINT [FK_ProductImages_Products];
+GO
+IF OBJECT_ID(N'[dbo].[fk_productVariants_productId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProductVariants] DROP CONSTRAINT [fk_productVariants_productId];
+GO
+IF OBJECT_ID(N'[dbo].[fk_productVariants_quantityMeasureId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProductVariants] DROP CONSTRAINT [fk_productVariants_quantityMeasureId];
+GO
+IF OBJECT_ID(N'[dbo].[fk_SubCategory_Category]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SubCategories] DROP CONSTRAINT [fk_SubCategory_Category];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Transactions_AspNetUsers]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions] DROP CONSTRAINT [FK_Transactions_AspNetUsers];
@@ -118,9 +127,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Categories];
 GO
-IF OBJECT_ID(N'[dbo].[CategoriesImages]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[CategoriesImages];
-GO
 IF OBJECT_ID(N'[dbo].[EmailTemplates]', 'U') IS NOT NULL
     DROP TABLE [dbo].[EmailTemplates];
 GO
@@ -130,11 +136,20 @@ GO
 IF OBJECT_ID(N'[dbo].[Orders]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Orders];
 GO
+IF OBJECT_ID(N'[dbo].[ProductGroups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProductGroups];
+GO
 IF OBJECT_ID(N'[dbo].[ProductImages]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ProductImages];
 GO
 IF OBJECT_ID(N'[dbo].[Products]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Products];
+GO
+IF OBJECT_ID(N'[dbo].[ProductVariants]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProductVariants];
+GO
+IF OBJECT_ID(N'[dbo].[QuantityMeasures]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[QuantityMeasures];
 GO
 IF OBJECT_ID(N'[dbo].[SubCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SubCategories];
@@ -149,21 +164,6 @@ GO
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
-
--- Creating table 'Addresses'
-CREATE TABLE [dbo].[Addresses] (
-    [Id] bigint IDENTITY(1,1) NOT NULL,
-    [AddressOfUserId] nvarchar(128)  NOT NULL,
-    [AreaCode] nvarchar(20)  NULL,
-    [HouseApartment] nvarchar(200)  NOT NULL,
-    [Locality] nvarchar(150)  NULL,
-    [CityTown] nvarchar(100)  NULL,
-    [StateProvinces] nvarchar(100)  NOT NULL,
-    [Country] nvarchar(100)  NOT NULL,
-    [GPS] nvarchar(40)  NULL,
-    [PhoneNumber] nvarchar(15)  NULL
-);
-GO
 
 -- Creating table 'AdSenseAds'
 CREATE TABLE [dbo].[AdSenseAds] (
@@ -204,34 +204,13 @@ CREATE TABLE [dbo].[AspNetUserLogins] (
 );
 GO
 
--- Creating table 'AspNetUsers'
-CREATE TABLE [dbo].[AspNetUsers] (
-    [Id] nvarchar(128)  NOT NULL,
-    [UserType] nvarchar(max)  NULL,
-    [Email] nvarchar(256)  NULL,
-    [EmailConfirmed] bit  NOT NULL,
-    [PasswordHash] nvarchar(max)  NULL,
-    [SecurityStamp] nvarchar(max)  NULL,
-    [PhoneNumber] nvarchar(max)  NULL,
-    [PhoneNumberConfirmed] bit  NOT NULL,
-    [TwoFactorEnabled] bit  NOT NULL,
-    [LockoutEndDateUtc] datetime  NULL,
-    [LockoutEnabled] bit  NOT NULL,
-    [AccessFailedCount] int  NOT NULL,
-    [UserName] nvarchar(256)  NOT NULL,
-    [FirstName] nvarchar(30)  NULL,
-    [LastName] nvarchar(30)  NULL,
-    [RegistrationDate] datetime  NOT NULL,
-    [AlternateMobileNumber] nvarchar(15)  NULL
-);
-GO
-
 -- Creating table 'Brands'
 CREATE TABLE [dbo].[Brands] (
     [Id] smallint IDENTITY(1,1) NOT NULL,
     [BrandName] nvarchar(50)  NOT NULL,
     [BrandUrl] nvarchar(30)  NULL,
-    [BrandDescription] nvarchar(max)  NULL
+    [BrandDescription] nvarchar(max)  NULL,
+    [BrandImage] nvarchar(150)  NULL
 );
 GO
 
@@ -250,24 +229,6 @@ CREATE TABLE [dbo].[Carts] (
     [AddedByUserId] nvarchar(128)  NOT NULL,
     [ProductId] bigint  NULL,
     [Quantity] smallint  NULL
-);
-GO
-
--- Creating table 'Categories'
-CREATE TABLE [dbo].[Categories] (
-    [Id] smallint IDENTITY(1,1) NOT NULL,
-    [ProductMainType] tinyint  NOT NULL,
-    [CategoryName] nvarchar(50)  NOT NULL,
-    [CategoryDescription] nvarchar(max)  NULL,
-    [RouteKey] nvarchar(30)  NOT NULL
-);
-GO
-
--- Creating table 'CategoriesImages'
-CREATE TABLE [dbo].[CategoriesImages] (
-    [Id] smallint IDENTITY(1,1) NOT NULL,
-    [CategoryId] smallint  NOT NULL,
-    [ImageUrl] varchar(max)  NOT NULL
 );
 GO
 
@@ -316,36 +277,6 @@ CREATE TABLE [dbo].[ProductImages] (
 );
 GO
 
--- Creating table 'Products'
-CREATE TABLE [dbo].[Products] (
-    [Id] bigint IDENTITY(1,1) NOT NULL,
-    [SubCategoryId] smallint  NOT NULL,
-    [BrandId] smallint  NOT NULL,
-    [ProductName] nvarchar(50)  NOT NULL,
-    [Description] nvarchar(max)  NOT NULL,
-    [Mrp] float  NOT NULL,
-    [Measure] smallint  NOT NULL,
-    [Volume] varchar(5)  NOT NULL,
-    [StocksAvailable] bigint  NOT NULL,
-    [Gst] smallint  NOT NULL,
-    [Cost] float  NOT NULL,
-    [DiscountPercentage] float  NOT NULL,
-    [Enabled] bit  NOT NULL,
-    [ImageUrl] varchar(max)  NULL,
-    [MaxPurchase] int  NOT NULL
-);
-GO
-
--- Creating table 'SubCategories'
-CREATE TABLE [dbo].[SubCategories] (
-    [Id] smallint IDENTITY(1,1) NOT NULL,
-    [CategoryId] smallint  NOT NULL,
-    [SubCategoryName] nvarchar(50)  NOT NULL,
-    [SubCategoryDescription] nvarchar(max)  NULL,
-    [RouteKey] nvarchar(30)  NOT NULL
-);
-GO
-
 -- Creating table 'Transactions'
 CREATE TABLE [dbo].[Transactions] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
@@ -366,6 +297,117 @@ CREATE TABLE [dbo].[WishLists] (
 );
 GO
 
+-- Creating table 'AspNetUsers'
+CREATE TABLE [dbo].[AspNetUsers] (
+    [Id] nvarchar(128)  NOT NULL,
+    [UserType] nvarchar(max)  NULL,
+    [Email] nvarchar(256)  NULL,
+    [EmailConfirmed] bit  NOT NULL,
+    [PasswordHash] nvarchar(max)  NULL,
+    [SecurityStamp] nvarchar(max)  NULL,
+    [PhoneNumber] nvarchar(max)  NULL,
+    [PhoneNumberConfirmed] bit  NOT NULL,
+    [TwoFactorEnabled] bit  NOT NULL,
+    [LockoutEndDateUtc] datetime  NULL,
+    [LockoutEnabled] bit  NOT NULL,
+    [AccessFailedCount] int  NOT NULL,
+    [UserName] nvarchar(256)  NOT NULL,
+    [FirstName] nvarchar(30)  NULL,
+    [LastName] nvarchar(30)  NULL,
+    [RegistrationDate] datetime  NULL,
+    [AlternateMobileNumber] nvarchar(15)  NULL
+);
+GO
+
+-- Creating table 'Categories'
+CREATE TABLE [dbo].[Categories] (
+    [Id] smallint IDENTITY(1,1) NOT NULL,
+    [CategoryName] nvarchar(50)  NOT NULL,
+    [CategoryDescription] nvarchar(max)  NULL,
+    [RouteKey] nvarchar(30)  NOT NULL,
+    [CategoryImage] nvarchar(150)  NULL,
+    [CategoryBanner] nvarchar(150)  NULL
+);
+GO
+
+-- Creating table 'ProductGroups'
+CREATE TABLE [dbo].[ProductGroups] (
+    [Id] smallint IDENTITY(1,1) NOT NULL,
+    [SubCategoryId] smallint  NOT NULL,
+    [ProductGroupName] nvarchar(50)  NOT NULL,
+    [ProductGroupDescription] nvarchar(max)  NULL,
+    [ImageUrl] nvarchar(150)  NULL,
+    [RouteKey] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'Products'
+CREATE TABLE [dbo].[Products] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [SubCategoryId] smallint  NOT NULL,
+    [BrandId] smallint  NOT NULL,
+    [ProductName] nvarchar(50)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL,
+    [Enabled] bit  NOT NULL,
+    [ImageUrl] nvarchar(150)  NULL,
+    [ProductCode] varchar(50)  NULL,
+    [ProductGroupId] smallint  NULL
+);
+GO
+
+-- Creating table 'SubCategories'
+CREATE TABLE [dbo].[SubCategories] (
+    [Id] smallint IDENTITY(1,1) NOT NULL,
+    [CategoryId] smallint  NOT NULL,
+    [SubCategoryName] nvarchar(50)  NOT NULL,
+    [SubCategoryDescription] nvarchar(max)  NULL,
+    [RouteKey] nvarchar(30)  NOT NULL,
+    [SubCategoryImage] nvarchar(150)  NULL
+);
+GO
+
+-- Creating table 'ProductVariants'
+CREATE TABLE [dbo].[ProductVariants] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [ProductId] bigint  NOT NULL,
+    [Mrp] float  NOT NULL,
+    [MeasureId] smallint  NOT NULL,
+    [Volume] smallint  NOT NULL,
+    [StocksAvailable] bigint  NOT NULL,
+    [Gst] smallint  NOT NULL,
+    [Cost] float  NOT NULL,
+    [DiscountPercentage] float  NOT NULL,
+    [Enabled] bit  NOT NULL,
+    [MaxPurchase] int  NOT NULL,
+    [HSNCode] varchar(20)  NULL
+);
+GO
+
+-- Creating table 'QuantityMeasures'
+CREATE TABLE [dbo].[QuantityMeasures] (
+    [Id] smallint IDENTITY(1,1) NOT NULL,
+    [QuantityMeasureName] nvarchar(20)  NOT NULL,
+    [Acronym] nvarchar(5)  NOT NULL,
+    [Enabled] bit  NOT NULL
+);
+GO
+
+-- Creating table 'Addresses'
+CREATE TABLE [dbo].[Addresses] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [AddressOfUserId] nvarchar(128)  NOT NULL,
+    [FullName] nvarchar(128)  NOT NULL,
+    [PhoneNumber] nvarchar(15)  NULL,
+    [AreaCode] nvarchar(20)  NULL,
+    [AddressLine1] nvarchar(300)  NULL,
+    [AddressLine2] nvarchar(300)  NULL,
+    [LandMark] nvarchar(150)  NULL,
+    [Country] nvarchar(100)  NOT NULL,
+    [GPS] nvarchar(40)  NULL,
+    [IsDefault] bit  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(128)  NOT NULL,
@@ -376,12 +418,6 @@ GO
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
-
--- Creating primary key on [Id] in table 'Addresses'
-ALTER TABLE [dbo].[Addresses]
-ADD CONSTRAINT [PK_Addresses]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
 
 -- Creating primary key on [Id] in table 'AdSenseAds'
 ALTER TABLE [dbo].[AdSenseAds]
@@ -407,12 +443,6 @@ ADD CONSTRAINT [PK_AspNetUserLogins]
     PRIMARY KEY CLUSTERED ([LoginProvider], [ProviderKey], [UserId] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AspNetUsers'
-ALTER TABLE [dbo].[AspNetUsers]
-ADD CONSTRAINT [PK_AspNetUsers]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'Brands'
 ALTER TABLE [dbo].[Brands]
 ADD CONSTRAINT [PK_Brands]
@@ -428,18 +458,6 @@ GO
 -- Creating primary key on [Id] in table 'Carts'
 ALTER TABLE [dbo].[Carts]
 ADD CONSTRAINT [PK_Carts]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Categories'
-ALTER TABLE [dbo].[Categories]
-ADD CONSTRAINT [PK_Categories]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'CategoriesImages'
-ALTER TABLE [dbo].[CategoriesImages]
-ADD CONSTRAINT [PK_CategoriesImages]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -467,6 +485,36 @@ ADD CONSTRAINT [PK_ProductImages]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'Transactions'
+ALTER TABLE [dbo].[Transactions]
+ADD CONSTRAINT [PK_Transactions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'WishLists'
+ALTER TABLE [dbo].[WishLists]
+ADD CONSTRAINT [PK_WishLists]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AspNetUsers'
+ALTER TABLE [dbo].[AspNetUsers]
+ADD CONSTRAINT [PK_AspNetUsers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Categories'
+ALTER TABLE [dbo].[Categories]
+ADD CONSTRAINT [PK_Categories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ProductGroups'
+ALTER TABLE [dbo].[ProductGroups]
+ADD CONSTRAINT [PK_ProductGroups]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'Products'
 ALTER TABLE [dbo].[Products]
 ADD CONSTRAINT [PK_Products]
@@ -479,15 +527,21 @@ ADD CONSTRAINT [PK_SubCategories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Transactions'
-ALTER TABLE [dbo].[Transactions]
-ADD CONSTRAINT [PK_Transactions]
+-- Creating primary key on [Id] in table 'ProductVariants'
+ALTER TABLE [dbo].[ProductVariants]
+ADD CONSTRAINT [PK_ProductVariants]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'WishLists'
-ALTER TABLE [dbo].[WishLists]
-ADD CONSTRAINT [PK_WishLists]
+-- Creating primary key on [Id] in table 'QuantityMeasures'
+ALTER TABLE [dbo].[QuantityMeasures]
+ADD CONSTRAINT [PK_QuantityMeasures]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Addresses'
+ALTER TABLE [dbo].[Addresses]
+ADD CONSTRAINT [PK_Addresses]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -501,34 +555,34 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [AddressOfUserId] in table 'Addresses'
-ALTER TABLE [dbo].[Addresses]
-ADD CONSTRAINT [FK_Addresses_AspNetUsers]
-    FOREIGN KEY ([AddressOfUserId])
-    REFERENCES [dbo].[AspNetUsers]
+-- Creating foreign key on [OrderId] in table 'OrderDetails'
+ALTER TABLE [dbo].[OrderDetails]
+ADD CONSTRAINT [FK_OrderDetails_Orders]
+    FOREIGN KEY ([OrderId])
+    REFERENCES [dbo].[Orders]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_Addresses_AspNetUsers'
-CREATE INDEX [IX_FK_Addresses_AspNetUsers]
-ON [dbo].[Addresses]
-    ([AddressOfUserId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_OrderDetails_Orders'
+CREATE INDEX [IX_FK_OrderDetails_Orders]
+ON [dbo].[OrderDetails]
+    ([OrderId]);
 GO
 
--- Creating foreign key on [OrderToAddressId] in table 'Orders'
-ALTER TABLE [dbo].[Orders]
-ADD CONSTRAINT [FK_Orders_Addresses]
-    FOREIGN KEY ([OrderToAddressId])
-    REFERENCES [dbo].[Addresses]
+-- Creating foreign key on [OrderId] in table 'Transactions'
+ALTER TABLE [dbo].[Transactions]
+ADD CONSTRAINT [FK_Transactions_orders]
+    FOREIGN KEY ([OrderId])
+    REFERENCES [dbo].[Orders]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_Orders_Addresses'
-CREATE INDEX [IX_FK_Orders_Addresses]
-ON [dbo].[Orders]
-    ([OrderToAddressId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_Transactions_orders'
+CREATE INDEX [IX_FK_Transactions_orders]
+ON [dbo].[Transactions]
+    ([OrderId]);
 GO
 
 -- Creating foreign key on [UpdatedByUserId] in table 'AdSenseAds'
@@ -636,6 +690,30 @@ ON [dbo].[WishLists]
     ([WishedByUserId]);
 GO
 
+-- Creating foreign key on [AspNetRoles_Id] in table 'AspNetUserRoles'
+ALTER TABLE [dbo].[AspNetUserRoles]
+ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRole]
+    FOREIGN KEY ([AspNetRoles_Id])
+    REFERENCES [dbo].[AspNetRoles]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [AspNetUsers_Id] in table 'AspNetUserRoles'
+ALTER TABLE [dbo].[AspNetUserRoles]
+ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUser]
+    FOREIGN KEY ([AspNetUsers_Id])
+    REFERENCES [dbo].[AspNetUsers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserRoles_AspNetUser'
+CREATE INDEX [IX_FK_AspNetUserRoles_AspNetUser]
+ON [dbo].[AspNetUserRoles]
+    ([AspNetUsers_Id]);
+GO
+
 -- Creating foreign key on [BrandId] in table 'Products'
 ALTER TABLE [dbo].[Products]
 ADD CONSTRAINT [FK_Product_Brands]
@@ -666,49 +744,19 @@ ON [dbo].[Carts]
     ([ProductId]);
 GO
 
--- Creating foreign key on [CategoryId] in table 'CategoriesImages'
-ALTER TABLE [dbo].[CategoriesImages]
-ADD CONSTRAINT [FK_CategoriesImages_Category]
+-- Creating foreign key on [CategoryId] in table 'SubCategories'
+ALTER TABLE [dbo].[SubCategories]
+ADD CONSTRAINT [fk_SubCategory_Category]
     FOREIGN KEY ([CategoryId])
     REFERENCES [dbo].[Categories]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_CategoriesImages_Category'
-CREATE INDEX [IX_FK_CategoriesImages_Category]
-ON [dbo].[CategoriesImages]
-    ([CategoryId]);
-GO
-
--- Creating foreign key on [CategoryId] in table 'SubCategories'
-ALTER TABLE [dbo].[SubCategories]
-ADD CONSTRAINT [fk_MainCategory]
-    FOREIGN KEY ([CategoryId])
-    REFERENCES [dbo].[Categories]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'fk_MainCategory'
-CREATE INDEX [IX_fk_MainCategory]
+-- Creating non-clustered index for FOREIGN KEY 'fk_SubCategory_Category'
+CREATE INDEX [IX_fk_SubCategory_Category]
 ON [dbo].[SubCategories]
     ([CategoryId]);
-GO
-
--- Creating foreign key on [OrderId] in table 'OrderDetails'
-ALTER TABLE [dbo].[OrderDetails]
-ADD CONSTRAINT [FK_OrderDetails_Orders]
-    FOREIGN KEY ([OrderId])
-    REFERENCES [dbo].[Orders]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_OrderDetails_Orders'
-CREATE INDEX [IX_FK_OrderDetails_Orders]
-ON [dbo].[OrderDetails]
-    ([OrderId]);
 GO
 
 -- Creating foreign key on [ProductId] in table 'OrderDetails'
@@ -726,19 +774,34 @@ ON [dbo].[OrderDetails]
     ([ProductId]);
 GO
 
--- Creating foreign key on [OrderId] in table 'Transactions'
-ALTER TABLE [dbo].[Transactions]
-ADD CONSTRAINT [FK_Transactions_orders]
-    FOREIGN KEY ([OrderId])
-    REFERENCES [dbo].[Orders]
+-- Creating foreign key on [ProductGroupId] in table 'Products'
+ALTER TABLE [dbo].[Products]
+ADD CONSTRAINT [FK_Product_ProductGroups]
+    FOREIGN KEY ([ProductGroupId])
+    REFERENCES [dbo].[ProductGroups]
         ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_Transactions_orders'
-CREATE INDEX [IX_FK_Transactions_orders]
-ON [dbo].[Transactions]
-    ([OrderId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_Product_ProductGroups'
+CREATE INDEX [IX_FK_Product_ProductGroups]
+ON [dbo].[Products]
+    ([ProductGroupId]);
+GO
+
+-- Creating foreign key on [SubCategoryId] in table 'ProductGroups'
+ALTER TABLE [dbo].[ProductGroups]
+ADD CONSTRAINT [fk_ProductGroup_SubCategories]
+    FOREIGN KEY ([SubCategoryId])
+    REFERENCES [dbo].[SubCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'fk_ProductGroup_SubCategories'
+CREATE INDEX [IX_fk_ProductGroup_SubCategories]
+ON [dbo].[ProductGroups]
+    ([SubCategoryId]);
 GO
 
 -- Creating foreign key on [ProductId] in table 'ProductImages'
@@ -758,15 +821,15 @@ GO
 
 -- Creating foreign key on [SubCategoryId] in table 'Products'
 ALTER TABLE [dbo].[Products]
-ADD CONSTRAINT [fk_product_subcategoryId]
+ADD CONSTRAINT [FK_Product_SubCategory]
     FOREIGN KEY ([SubCategoryId])
     REFERENCES [dbo].[SubCategories]
         ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'fk_product_subcategoryId'
-CREATE INDEX [IX_fk_product_subcategoryId]
+-- Creating non-clustered index for FOREIGN KEY 'FK_Product_SubCategory'
+CREATE INDEX [IX_FK_Product_SubCategory]
 ON [dbo].[Products]
     ([SubCategoryId]);
 GO
@@ -786,28 +849,64 @@ ON [dbo].[WishLists]
     ([ProductId]);
 GO
 
--- Creating foreign key on [AspNetRoles_Id] in table 'AspNetUserRoles'
-ALTER TABLE [dbo].[AspNetUserRoles]
-ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRoles]
-    FOREIGN KEY ([AspNetRoles_Id])
-    REFERENCES [dbo].[AspNetRoles]
+-- Creating foreign key on [ProductId] in table 'ProductVariants'
+ALTER TABLE [dbo].[ProductVariants]
+ADD CONSTRAINT [fk_productVariants_productId]
+    FOREIGN KEY ([ProductId])
+    REFERENCES [dbo].[Products]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [AspNetUsers_Id] in table 'AspNetUserRoles'
-ALTER TABLE [dbo].[AspNetUserRoles]
-ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUsers]
-    FOREIGN KEY ([AspNetUsers_Id])
+-- Creating non-clustered index for FOREIGN KEY 'fk_productVariants_productId'
+CREATE INDEX [IX_fk_productVariants_productId]
+ON [dbo].[ProductVariants]
+    ([ProductId]);
+GO
+
+-- Creating foreign key on [MeasureId] in table 'ProductVariants'
+ALTER TABLE [dbo].[ProductVariants]
+ADD CONSTRAINT [fk_productVariants_quantityMeasureId]
+    FOREIGN KEY ([MeasureId])
+    REFERENCES [dbo].[QuantityMeasures]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'fk_productVariants_quantityMeasureId'
+CREATE INDEX [IX_fk_productVariants_quantityMeasureId]
+ON [dbo].[ProductVariants]
+    ([MeasureId]);
+GO
+
+-- Creating foreign key on [AddressOfUserId] in table 'Addresses'
+ALTER TABLE [dbo].[Addresses]
+ADD CONSTRAINT [FK_Addresses_AspNetUsers]
+    FOREIGN KEY ([AddressOfUserId])
     REFERENCES [dbo].[AspNetUsers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AspNetUserRoles_AspNetUsers'
-CREATE INDEX [IX_FK_AspNetUserRoles_AspNetUsers]
-ON [dbo].[AspNetUserRoles]
-    ([AspNetUsers_Id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_Addresses_AspNetUsers'
+CREATE INDEX [IX_FK_Addresses_AspNetUsers]
+ON [dbo].[Addresses]
+    ([AddressOfUserId]);
+GO
+
+-- Creating foreign key on [OrderToAddressId] in table 'Orders'
+ALTER TABLE [dbo].[Orders]
+ADD CONSTRAINT [FK_Orders_Addresses]
+    FOREIGN KEY ([OrderToAddressId])
+    REFERENCES [dbo].[Addresses]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Orders_Addresses'
+CREATE INDEX [IX_FK_Orders_Addresses]
+ON [dbo].[Orders]
+    ([OrderToAddressId]);
 GO
 
 -- --------------------------------------------------

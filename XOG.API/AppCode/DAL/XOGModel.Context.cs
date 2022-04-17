@@ -37,14 +37,19 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<ProductGroup> ProductGroups { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductVariant> ProductVariants { get; set; }
         public virtual DbSet<QuantityMeasure> QuantityMeasures { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
-        public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<WishList> WishLists { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<ReturnOrderDetail> ReturnOrderDetails { get; set; }
+        public virtual DbSet<ReturnOrder> ReturnOrders { get; set; }
+        public virtual DbSet<UserWallet> UserWallets { get; set; }
+        public virtual DbSet<UsersWalletVW> UsersWalletVWs { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<OrderVW> OrderVWs { get; set; }
     }
 }

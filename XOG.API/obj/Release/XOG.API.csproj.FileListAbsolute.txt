@@ -129,7 +129,6 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Razor.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.WebPages.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.WebPages.Deployment.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.WebPages.Razor.xml
-D:\Projects\XOGProject\XOG.API\XOG.API\bin\Newtonsoft.Json.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Antlr3.Runtime.pdb
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Formatting.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.xml
@@ -145,7 +144,10 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.MicrosoftAcco
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.OAuth.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.API.csproj.App.config
-D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.API.csprojAssemblyReference.cache
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.API.csproj.CopyComplete
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.pdb
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Razorpay.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.API.csproj.AssemblyReference.cache
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Release\XOG.API.csproj.CoreCompileInputs.cache
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.dll

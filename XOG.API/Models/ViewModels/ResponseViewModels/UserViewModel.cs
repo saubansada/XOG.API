@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using XOG.AppCode.Models;
 
-namespace XOG.Models.ViewModels.ResponseViewModels
+namespace XOG.Models.ViewModels
 {
     public class UserViewModel : BaseModel
     {
@@ -44,7 +44,7 @@ namespace XOG.Models.ViewModels.ResponseViewModels
 
         public List<UserRoleVM> Roles { get; set; }
 
-        public UserAddressVM DefaultAddress { get; set; }
+        public AddressViewModel DefaultAddress { get; set; }
     }
 
     public class UserRoleVM
@@ -52,19 +52,5 @@ namespace XOG.Models.ViewModels.ResponseViewModels
         public string Id { get; set; }
 
         public string Name { get; set; }
-    }
-
-    public class UserAddressVM
-    {
-        public long Id { get; set; }
-        public string FullName { get; set; }
-        public string PhoneNumber { get; set; }
-        public string AreaCode { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string LandMark { get; set; }
-        public string Country { get; set; }
-        public string GPS { get; set; }
-        public bool IsDefault { get; set; }
-    }
+    } 
 }

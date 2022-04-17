@@ -51,6 +51,17 @@
         Unspecified,
     }
 
+    public enum TransactionType
+    {
+        Debit = 0, 
+        Credit = 1
+    }
+    public enum TransactionFor
+    {
+        System = 0,
+        Wallet = 1
+    }
+
     public enum HashServiceProvider : int
     {
         SHA1,
@@ -247,13 +258,20 @@
     public enum OrderStatus
     {
         All = 0,
-        Tentative = 1,
-        Placed = 2,
-        Notified = 3,
-        Processing = 4,
-        Rejected = 5,
-        Dispatched = 6,
-        Dilevered = 7
+        Placed = 1,
+        Confirmed = 2,
+        Packed = 3,
+        Dispatched = 4,
+        Delivered = 5,
+        Cancelled = 6,
+        Rejected = 7,
+        Pending = 8
+    }
+
+    public enum PaymentType
+    {
+        CashOnDelivery = 1,
+        OnlinePayment = 2,
     }
 
     public enum OTPType

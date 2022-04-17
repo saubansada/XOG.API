@@ -14,6 +14,10 @@
 
         public string SubCategoryKey { get; set; }
 
+        public string ProductGroupKey { get; set; }
+
+        public int? ProductGroupId { get; set; }
+
         public int? BrandId { get; set; }
 
         public bool Enabled { get; set; } = true;

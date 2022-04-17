@@ -8,6 +8,8 @@ namespace XOG.Models.ViewModels
     {
         public long Id { get; set; }
 
+        public long ReturnId { get; set; }
+
         public string UserId { get; set; }
 
         public int TimePeriod { get; set; }
@@ -18,11 +20,19 @@ namespace XOG.Models.ViewModels
 
         public DateTime OrderDate { get; set; }
 
-        public OrderStatus OrderState { get; set; } = OrderStatus.Placed;
+        public OrderStatus OrderState { get; set; } = OrderStatus.Pending;
 
         public DateTime? DispatchedDate { get; set; }
 
         public DateTime? DeliveryDate { get; set; }
+
+        public PaymentType PaymentMode { get; set; }
+         
+        public string PaymentId { get; set; }
+
+        public string PaymentOrderId { get; set; }
+
+        public string PaymentSignature { get; set; }
 
         public List<OrderDetailRequestVM> Purchases { get; set; }
     }
@@ -32,5 +42,10 @@ namespace XOG.Models.ViewModels
         public long ProductVariantId { get; set; }
 
         public int Quantity { get; set; }
+    }
+
+    public class OrderInitiateRequestVM
+    {
+        public List<CartViewModel> CartList { get; set; }
     }
 }

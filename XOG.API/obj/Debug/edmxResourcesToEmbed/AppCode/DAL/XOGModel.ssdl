@@ -16,6 +16,8 @@
     <Property Name="GPS" Type="nvarchar" MaxLength="40" />
     <Property Name="IsDefault" Type="bit" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.AdSenseAds' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="AdSenseAds">
     <Key>
       <PropertyRef Name="Id" />
@@ -31,6 +33,8 @@
     <Property Name="UpdatedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.AspNetRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="AspNetRoles">
     <Key>
       <PropertyRef Name="Id" />
@@ -38,6 +42,8 @@
     <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.AspNetUserClaims' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="AspNetUserClaims">
     <Key>
       <PropertyRef Name="Id" />
@@ -47,6 +53,8 @@
     <Property Name="ClaimType" Type="nvarchar(max)" />
     <Property Name="ClaimValue" Type="nvarchar(max)" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.AspNetUserLogins' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="AspNetUserLogins">
     <Key>
       <PropertyRef Name="LoginProvider" />
@@ -57,6 +65,8 @@
     <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.AspNetUserRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="RoleId" />
@@ -87,6 +97,8 @@
     <Property Name="RegistrationDate" Type="datetime" />
     <Property Name="AlternateMobileNumber" Type="nvarchar" MaxLength="15" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.Brands' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Brands">
     <Key>
       <PropertyRef Name="Id" />
@@ -97,6 +109,8 @@
     <Property Name="BrandDescription" Type="nvarchar(max)" />
     <Property Name="BrandImage" Type="nvarchar" MaxLength="150" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.C__MigrationHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="C__MigrationHistory">
     <Key>
       <PropertyRef Name="MigrationId" />
@@ -107,6 +121,8 @@
     <Property Name="Model" Type="varbinary(max)" Nullable="false" />
     <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.Carts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Carts">
     <Key>
       <PropertyRef Name="Id" />
@@ -116,6 +132,8 @@
     <Property Name="ProductVariantId" Type="bigint" />
     <Property Name="Quantity" Type="smallint" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.Categories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Categories">
     <Key>
       <PropertyRef Name="Id" />
@@ -127,6 +145,8 @@
     <Property Name="CategoryImage" Type="nvarchar" MaxLength="150" />
     <Property Name="CategoryBanner" Type="nvarchar" MaxLength="150" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.EmailTemplates' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="EmailTemplates">
     <Key>
       <PropertyRef Name="Id" />
@@ -164,6 +184,8 @@
     <Property Name="TotalAmount" Type="float" Nullable="false" />
     <Property Name="OrderToAddressId" Type="bigint" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.ProductGroups' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="ProductGroups">
     <Key>
       <PropertyRef Name="Id" />
@@ -175,13 +197,15 @@
     <Property Name="ImageUrl" Type="nvarchar" MaxLength="150" />
     <Property Name="RouteKey" Type="nvarchar" MaxLength="30" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.ProductImages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="ProductImages">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductId" Type="bigint" Nullable="false" />
-    <Property Name="ImageUrl" Type="varchar(max)" Nullable="false" />
+    <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
@@ -194,7 +218,7 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Enabled" Type="bit" Nullable="false" />
     <Property Name="ImageUrl" Type="nvarchar" MaxLength="150" />
-    <Property Name="ProductCode" Type="varchar" MaxLength="50" />
+    <Property Name="ProductCode" Type="nvarchar" MaxLength="50" />
     <Property Name="ProductGroupId" Type="smallint" />
   </EntityType>
   <EntityType Name="ProductVariants">
@@ -223,6 +247,28 @@
     <Property Name="Acronym" Type="nvarchar" MaxLength="5" Nullable="false" />
     <Property Name="Enabled" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="ReturnOrderDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReturnOrderId" Type="bigint" Nullable="false" />
+    <Property Name="OrderDetailsId" Type="bigint" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="IsCancelled" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReturnOrders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="bigint" />
+    <Property Name="IsReturn" Type="bit" />
+    <Property Name="ReturnOrderDate" Type="datetime" Nullable="false" />
+    <Property Name="ReturnOrderState" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.SubCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="SubCategories">
     <Key>
       <PropertyRef Name="Id" />
@@ -240,11 +286,25 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BilledByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="OrderId" Type="bigint" Nullable="false" />
+    <Property Name="OrderId" Type="bigint" />
     <Property Name="TotalAmount" Type="float" Nullable="false" />
     <Property Name="PaymentDateTime" Type="datetime" Nullable="false" />
-    <Property Name="Canceled" Type="bit" Nullable="false" />
+    <Property Name="TransactionFor" Type="int" />
+    <Property Name="TransactionType" Type="int" />
+    <Property Name="WalletId" Type="bigint" />
+    <Property Name="ReturnId" Type="bigint" />
   </EntityType>
+  <EntityType Name="UserWallet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WalletOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.WishLists' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="WishLists">
     <Key>
       <PropertyRef Name="Id" />
@@ -253,6 +313,87 @@
     <Property Name="WishedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="ProductId" Type="bigint" />
     <Property Name="Quantity" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.modern.xevello.OrderVW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="OrderVW">
+    <Key>
+      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="PhoneNumber" />
+      <PropertyRef Name="OrderDate" />
+      <PropertyRef Name="OrderState" />
+      <PropertyRef Name="ProductName" />
+      <PropertyRef Name="ProductId" />
+      <PropertyRef Name="ProductVariantId" />
+      <PropertyRef Name="QuantityMeasureName" />
+      <PropertyRef Name="Acronym" />
+      <PropertyRef Name="QuantityMeasureId" />
+      <PropertyRef Name="OrderToAddressId" />
+      <PropertyRef Name="ImageUrl" />
+      <PropertyRef Name="ImageId" />
+      <PropertyRef Name="Price" />
+      <PropertyRef Name="DiscPrice" />
+      <PropertyRef Name="Discount" />
+      <PropertyRef Name="OrderedQuantity" />
+      <PropertyRef Name="Gst" />
+      <PropertyRef Name="OrderedTotal" />
+    </Key>
+    <Property Name="ViewInfoId" Type="bigint" />
+    <Property Name="OrderId" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="ReturnDetailId" Type="bigint" />
+    <Property Name="ReturnId" Type="bigint" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="30" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="30" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
+    <Property Name="OrderState" Type="tinyint" Nullable="false" />
+    <Property Name="DeliveredDate" Type="datetime" />
+    <Property Name="DispatchedDate" Type="datetime" />
+    <Property Name="IsReturn" Type="int" />
+    <Property Name="AddressLine1" Type="nvarchar" MaxLength="300" />
+    <Property Name="AddressLine2" Type="nvarchar" MaxLength="300" />
+    <Property Name="AreaCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="128" />
+    <Property Name="GPS" Type="nvarchar" MaxLength="40" />
+    <Property Name="OrderedPhoneNumber" Type="nvarchar" MaxLength="15" />
+    <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProductId" Type="bigint" Nullable="false" />
+    <Property Name="ProductVariantId" Type="bigint" Nullable="false" />
+    <Property Name="QuantityMeasureName" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Acronym" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="QuantityMeasureId" Type="smallint" Nullable="false" />
+    <Property Name="OrderToAddressId" Type="bigint" Nullable="false" />
+    <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ImageId" Type="bigint" Nullable="false" />
+    <Property Name="Price" Type="float" Nullable="false" />
+    <Property Name="DiscPrice" Type="float" Nullable="false" />
+    <Property Name="Discount" Type="float" Nullable="false" />
+    <Property Name="OrderedQuantity" Type="int" Nullable="false" />
+    <Property Name="ReturnOrderStatus" Type="int" />
+    <Property Name="TotalQuantity" Type="int" />
+    <Property Name="ReturnedQuantity" Type="int" />
+    <Property Name="TotalReturnedQuantity" Type="int" />
+    <Property Name="Gst" Type="smallint" Nullable="false" />
+    <Property Name="OrderedTotal" Type="float" Nullable="false" />
+    <Property Name="ReturnTotal" Type="float" />
+    <Property Name="ReturnTotalSum" Type="float" />
+    <Property Name="Total" Type="float" />
+    <Property Name="ReturnOrderDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.modern.xevello.UsersWalletVW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="UsersWalletVW">
+    <Key>
+      <PropertyRef Name="WalletOfUserId" />
+    </Key>
+    <Property Name="WalletOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="TotalCredited" Type="int" />
+    <Property Name="TotalDebited" Type="int" />
+    <Property Name="Amount" Type="float" />
   </EntityType>
   <Association Name="FK_Addresses_AspNetUsers">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -263,56 +404,6 @@
       </Principal>
       <Dependent Role="Addresses">
         <PropertyRef Name="AddressOfUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AdSenseAds_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-    <End Role="AdSenseAds" Type="Self.AdSenseAds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AdSenseAds">
-        <PropertyRef Name="UpdatedByUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AspNetUserRoles_AspNetRole">
-    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
-    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetRoles">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserRoles">
-        <PropertyRef Name="RoleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_AspNetUserRoles_AspNetUser">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserRoles">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Carts_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Carts">
-        <PropertyRef Name="AddedByUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -330,34 +421,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserClaims">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserLogins">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_OrderDetails_Orders">
     <End Role="Orders" Type="Self.Orders" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -369,20 +432,6 @@
       </Principal>
       <Dependent Role="OrderDetails">
         <PropertyRef Name="OrderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OrderDetails_ProductVariants">
-    <End Role="ProductVariants" Type="Self.ProductVariants" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductVariants">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="OrderDetails">
-        <PropertyRef Name="ProductVariantId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -407,70 +456,6 @@
       </Principal>
       <Dependent Role="Orders">
         <PropertyRef Name="OrderedByUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Product_Brands">
-    <End Role="Brands" Type="Self.Brands" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Products" Type="Self.Products" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Brands">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Products">
-        <PropertyRef Name="BrandId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Product_ProductGroups">
-    <End Role="ProductGroups" Type="Self.ProductGroups" Multiplicity="0..1" />
-    <End Role="Products" Type="Self.Products" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductGroups">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Products">
-        <PropertyRef Name="ProductGroupId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Product_SubCategory">
-    <End Role="SubCategories" Type="Self.SubCategories" Multiplicity="1" />
-    <End Role="Products" Type="Self.Products" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SubCategories">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Products">
-        <PropertyRef Name="SubCategoryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_ProductGroup_SubCategories">
-    <End Role="SubCategories" Type="Self.SubCategories" Multiplicity="1" />
-    <End Role="ProductGroups" Type="Self.ProductGroups" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SubCategories">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductGroups">
-        <PropertyRef Name="SubCategoryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProductImages_Products">
-    <End Role="Products" Type="Self.Products" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductImages">
-        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -502,15 +487,43 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_SubCategory_Category">
-    <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
-    <End Role="SubCategories" Type="Self.SubCategories" Multiplicity="*" />
+  <Association Name="FK_ReturnOrderDetails_Orders">
+    <End Role="ReturnOrders" Type="Self.ReturnOrders" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ReturnOrderDetails" Type="Self.ReturnOrderDetails" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Categories">
+      <Principal Role="ReturnOrders">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="SubCategories">
-        <PropertyRef Name="CategoryId" />
+      <Dependent Role="ReturnOrderDetails">
+        <PropertyRef Name="ReturnOrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReturnOrderDetails_ProductVariants">
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="1" />
+    <End Role="ReturnOrderDetails" Type="Self.ReturnOrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderDetails">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReturnOrderDetails">
+        <PropertyRef Name="OrderDetailsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReturnOrders_Orders">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ReturnOrders" Type="Self.ReturnOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReturnOrders">
+        <PropertyRef Name="OrderId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -529,7 +542,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Transactions_orders">
-    <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
@@ -542,95 +555,239 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_WishList_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="WishLists" Type="Self.WishLists" Multiplicity="*" />
+  <Association Name="PK_RETURNS_TRANSACTIONS">
+    <End Role="ReturnOrders" Type="Self.ReturnOrders" Multiplicity="0..1" />
+    <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReturnOrders">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="ReturnId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PK_USER_WALLET">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="UserWallet" Type="Self.UserWallet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="AspNetUsers">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="WishLists">
-        <PropertyRef Name="WishedByUserId" />
+      <Dependent Role="UserWallet">
+        <PropertyRef Name="WalletOfUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_WishList_Products">
-    <End Role="Products" Type="Self.Products" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="WishLists" Type="Self.WishLists" Multiplicity="*" />
+  <Association Name="PK_WALLET_TRANSACTIONS">
+    <End Role="UserWallet" Type="Self.UserWallet" Multiplicity="0..1" />
+    <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Products">
+      <Principal Role="UserWallet">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="WishLists">
-        <PropertyRef Name="ProductId" />
+      <Dependent Role="Transactions">
+        <PropertyRef Name="WalletId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="XOGModelStoreContainer">
     <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AdSenseAds" EntityType="Self.AdSenseAds" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Carts" EntityType="Self.Carts" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ProductGroups" EntityType="Self.ProductGroups" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductVariants" EntityType="Self.ProductVariants" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuantityMeasures" EntityType="Self.QuantityMeasures" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReturnOrderDetails" EntityType="Self.ReturnOrderDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReturnOrders" EntityType="Self.ReturnOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="WishLists" EntityType="Self.WishLists" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserWallet" EntityType="Self.UserWallet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AdSenseAds" EntityType="Self.AdSenseAds" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AdSenseAds].[Id] AS [Id], 
+    [AdSenseAds].[Page] AS [Page], 
+    [AdSenseAds].[Position] AS [Position], 
+    [AdSenseAds].[SortOrder] AS [SortOrder], 
+    [AdSenseAds].[ValidTill] AS [ValidTill], 
+    [AdSenseAds].[AdLink] AS [AdLink], 
+    [AdSenseAds].[ImageUrl] AS [ImageUrl], 
+    [AdSenseAds].[ViewCount] AS [ViewCount], 
+    [AdSenseAds].[UpdatedByUserId] AS [UpdatedByUserId], 
+    [AdSenseAds].[LastUpdatedDate] AS [LastUpdatedDate]
+    FROM [dbo].[AdSenseAds] AS [AdSenseAds]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AspNetRoles].[Id] AS [Id], 
+    [AspNetRoles].[Name] AS [Name]
+    FROM [dbo].[AspNetRoles] AS [AspNetRoles]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AspNetUserClaims].[Id] AS [Id], 
+    [AspNetUserClaims].[UserId] AS [UserId], 
+    [AspNetUserClaims].[ClaimType] AS [ClaimType], 
+    [AspNetUserClaims].[ClaimValue] AS [ClaimValue]
+    FROM [dbo].[AspNetUserClaims] AS [AspNetUserClaims]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AspNetUserLogins].[LoginProvider] AS [LoginProvider], 
+    [AspNetUserLogins].[ProviderKey] AS [ProviderKey], 
+    [AspNetUserLogins].[UserId] AS [UserId]
+    FROM [dbo].[AspNetUserLogins] AS [AspNetUserLogins]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AspNetUserRoles].[RoleId] AS [RoleId], 
+    [AspNetUserRoles].[UserId] AS [UserId]
+    FROM [dbo].[AspNetUserRoles] AS [AspNetUserRoles]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Brands" EntityType="Self.Brands" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Brands].[Id] AS [Id], 
+    [Brands].[BrandName] AS [BrandName], 
+    [Brands].[BrandUrl] AS [BrandUrl], 
+    [Brands].[BrandDescription] AS [BrandDescription], 
+    [Brands].[BrandImage] AS [BrandImage]
+    FROM [dbo].[Brands] AS [Brands]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [C__MigrationHistory].[MigrationId] AS [MigrationId], 
+    [C__MigrationHistory].[ContextKey] AS [ContextKey], 
+    [C__MigrationHistory].[Model] AS [Model], 
+    [C__MigrationHistory].[ProductVersion] AS [ProductVersion]
+    FROM [dbo].[C__MigrationHistory] AS [C__MigrationHistory]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Carts" EntityType="Self.Carts" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Carts].[Id] AS [Id], 
+    [Carts].[AddedByUserId] AS [AddedByUserId], 
+    [Carts].[ProductVariantId] AS [ProductVariantId], 
+    [Carts].[Quantity] AS [Quantity]
+    FROM [dbo].[Carts] AS [Carts]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Categories" EntityType="Self.Categories" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Categories].[Id] AS [Id], 
+    [Categories].[CategoryName] AS [CategoryName], 
+    [Categories].[CategoryDescription] AS [CategoryDescription], 
+    [Categories].[RouteKey] AS [RouteKey], 
+    [Categories].[CategoryImage] AS [CategoryImage], 
+    [Categories].[CategoryBanner] AS [CategoryBanner]
+    FROM [dbo].[Categories] AS [Categories]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [EmailTemplates].[Id] AS [Id], 
+    [EmailTemplates].[TemplateName] AS [TemplateName], 
+    [EmailTemplates].[HtmlMarkup] AS [HtmlMarkup], 
+    [EmailTemplates].[Description] AS [Description], 
+    [EmailTemplates].[TemplateCategory] AS [TemplateCategory]
+    FROM [dbo].[EmailTemplates] AS [EmailTemplates]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProductGroups" EntityType="Self.ProductGroups" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProductGroups].[Id] AS [Id], 
+    [ProductGroups].[SubCategoryId] AS [SubCategoryId], 
+    [ProductGroups].[ProductGroupName] AS [ProductGroupName], 
+    [ProductGroups].[ProductGroupDescription] AS [ProductGroupDescription], 
+    [ProductGroups].[ImageUrl] AS [ImageUrl], 
+    [ProductGroups].[RouteKey] AS [RouteKey]
+    FROM [dbo].[ProductGroups] AS [ProductGroups]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProductImages" EntityType="Self.ProductImages" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProductImages].[Id] AS [Id], 
+    [ProductImages].[ProductId] AS [ProductId], 
+    [ProductImages].[ImageUrl] AS [ImageUrl]
+    FROM [dbo].[ProductImages] AS [ProductImages]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SubCategories" EntityType="Self.SubCategories" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SubCategories].[Id] AS [Id], 
+    [SubCategories].[CategoryId] AS [CategoryId], 
+    [SubCategories].[SubCategoryName] AS [SubCategoryName], 
+    [SubCategories].[SubCategoryDescription] AS [SubCategoryDescription], 
+    [SubCategories].[RouteKey] AS [RouteKey], 
+    [SubCategories].[SubCategoryImage] AS [SubCategoryImage]
+    FROM [dbo].[SubCategories] AS [SubCategories]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="WishLists" EntityType="Self.WishLists" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [WishLists].[Id] AS [Id], 
+    [WishLists].[WishedByUserId] AS [WishedByUserId], 
+    [WishLists].[ProductId] AS [ProductId], 
+    [WishLists].[Quantity] AS [Quantity]
+    FROM [dbo].[WishLists] AS [WishLists]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="OrderVW" EntityType="Self.OrderVW" store:Type="Views" store:Schema="modern.xevello">
+      <DefiningQuery>SELECT 
+    [OrderVW].[ViewInfoId] AS [ViewInfoId], 
+    [OrderVW].[OrderId] AS [OrderId], 
+    [OrderVW].[Id] AS [Id], 
+    [OrderVW].[ReturnDetailId] AS [ReturnDetailId], 
+    [OrderVW].[ReturnId] AS [ReturnId], 
+    [OrderVW].[FirstName] AS [FirstName], 
+    [OrderVW].[LastName] AS [LastName], 
+    [OrderVW].[UserId] AS [UserId], 
+    [OrderVW].[PhoneNumber] AS [PhoneNumber], 
+    [OrderVW].[OrderDate] AS [OrderDate], 
+    [OrderVW].[OrderState] AS [OrderState], 
+    [OrderVW].[DeliveredDate] AS [DeliveredDate], 
+    [OrderVW].[DispatchedDate] AS [DispatchedDate], 
+    [OrderVW].[IsReturn] AS [IsReturn], 
+    [OrderVW].[AddressLine1] AS [AddressLine1], 
+    [OrderVW].[AddressLine2] AS [AddressLine2], 
+    [OrderVW].[AreaCode] AS [AreaCode], 
+    [OrderVW].[FullName] AS [FullName], 
+    [OrderVW].[GPS] AS [GPS], 
+    [OrderVW].[OrderedPhoneNumber] AS [OrderedPhoneNumber], 
+    [OrderVW].[ProductName] AS [ProductName], 
+    [OrderVW].[ProductId] AS [ProductId], 
+    [OrderVW].[ProductVariantId] AS [ProductVariantId], 
+    [OrderVW].[QuantityMeasureName] AS [QuantityMeasureName], 
+    [OrderVW].[Acronym] AS [Acronym], 
+    [OrderVW].[QuantityMeasureId] AS [QuantityMeasureId], 
+    [OrderVW].[OrderToAddressId] AS [OrderToAddressId], 
+    [OrderVW].[ImageUrl] AS [ImageUrl], 
+    [OrderVW].[ImageId] AS [ImageId], 
+    [OrderVW].[Price] AS [Price], 
+    [OrderVW].[DiscPrice] AS [DiscPrice], 
+    [OrderVW].[Discount] AS [Discount], 
+    [OrderVW].[OrderedQuantity] AS [OrderedQuantity], 
+    [OrderVW].[ReturnOrderStatus] AS [ReturnOrderStatus], 
+    [OrderVW].[TotalQuantity] AS [TotalQuantity], 
+    [OrderVW].[ReturnedQuantity] AS [ReturnedQuantity], 
+    [OrderVW].[TotalReturnedQuantity] AS [TotalReturnedQuantity], 
+    [OrderVW].[Gst] AS [Gst], 
+    [OrderVW].[OrderedTotal] AS [OrderedTotal], 
+    [OrderVW].[ReturnTotal] AS [ReturnTotal], 
+    [OrderVW].[ReturnTotalSum] AS [ReturnTotalSum], 
+    [OrderVW].[Total] AS [Total], 
+    [OrderVW].[ReturnOrderDate] AS [ReturnOrderDate]
+    FROM [modern.xevello].[OrderVW] AS [OrderVW]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="UsersWalletVW" EntityType="Self.UsersWalletVW" store:Type="Views" store:Schema="modern.xevello">
+      <DefiningQuery>SELECT 
+    [UsersWalletVW].[WalletOfUserId] AS [WalletOfUserId], 
+    [UsersWalletVW].[TotalCredited] AS [TotalCredited], 
+    [UsersWalletVW].[TotalDebited] AS [TotalDebited], 
+    [UsersWalletVW].[Amount] AS [Amount]
+    FROM [modern.xevello].[UsersWalletVW] AS [UsersWalletVW]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_Addresses_AspNetUsers" Association="Self.FK_Addresses_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="Addresses" EntitySet="Addresses" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AdSenseAds_AspNetUsers" Association="Self.FK_AdSenseAds_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="AdSenseAds" EntitySet="AdSenseAds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
-      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-    </AssociationSet>
-    <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Carts_AspNetUsers" Association="Self.FK_Carts_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="Carts" EntitySet="Carts" />
     </AssociationSet>
     <AssociationSet Name="FK_Carts_ProductVariants" Association="Self.FK_Carts_ProductVariants">
       <End Role="ProductVariants" EntitySet="ProductVariants" />
       <End Role="Carts" EntitySet="Carts" />
     </AssociationSet>
-    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-    </AssociationSet>
-    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-    </AssociationSet>
     <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
       <End Role="Orders" EntitySet="Orders" />
-      <End Role="OrderDetails" EntitySet="OrderDetails" />
-    </AssociationSet>
-    <AssociationSet Name="FK_OrderDetails_ProductVariants" Association="Self.FK_OrderDetails_ProductVariants">
-      <End Role="ProductVariants" EntitySet="ProductVariants" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
     </AssociationSet>
     <AssociationSet Name="FK_Orders_Addresses" Association="Self.FK_Orders_Addresses">
@@ -641,26 +798,6 @@
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK_Product_Brands" Association="Self.FK_Product_Brands">
-      <End Role="Brands" EntitySet="Brands" />
-      <End Role="Products" EntitySet="Products" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Product_ProductGroups" Association="Self.FK_Product_ProductGroups">
-      <End Role="ProductGroups" EntitySet="ProductGroups" />
-      <End Role="Products" EntitySet="Products" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Product_SubCategory" Association="Self.FK_Product_SubCategory">
-      <End Role="SubCategories" EntitySet="SubCategories" />
-      <End Role="Products" EntitySet="Products" />
-    </AssociationSet>
-    <AssociationSet Name="fk_ProductGroup_SubCategories" Association="Self.fk_ProductGroup_SubCategories">
-      <End Role="SubCategories" EntitySet="SubCategories" />
-      <End Role="ProductGroups" EntitySet="ProductGroups" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProductImages_Products" Association="Self.FK_ProductImages_Products">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="ProductImages" EntitySet="ProductImages" />
-    </AssociationSet>
     <AssociationSet Name="fk_productVariants_productId" Association="Self.fk_productVariants_productId">
       <End Role="Products" EntitySet="Products" />
       <End Role="ProductVariants" EntitySet="ProductVariants" />
@@ -669,9 +806,17 @@
       <End Role="QuantityMeasures" EntitySet="QuantityMeasures" />
       <End Role="ProductVariants" EntitySet="ProductVariants" />
     </AssociationSet>
-    <AssociationSet Name="fk_SubCategory_Category" Association="Self.fk_SubCategory_Category">
-      <End Role="Categories" EntitySet="Categories" />
-      <End Role="SubCategories" EntitySet="SubCategories" />
+    <AssociationSet Name="FK_ReturnOrderDetails_Orders" Association="Self.FK_ReturnOrderDetails_Orders">
+      <End Role="ReturnOrders" EntitySet="ReturnOrders" />
+      <End Role="ReturnOrderDetails" EntitySet="ReturnOrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReturnOrderDetails_ProductVariants" Association="Self.FK_ReturnOrderDetails_ProductVariants">
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+      <End Role="ReturnOrderDetails" EntitySet="ReturnOrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReturnOrders_Orders" Association="Self.FK_ReturnOrders_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="ReturnOrders" EntitySet="ReturnOrders" />
     </AssociationSet>
     <AssociationSet Name="FK_Transactions_AspNetUsers" Association="Self.FK_Transactions_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -681,13 +826,17 @@
       <End Role="Orders" EntitySet="Orders" />
       <End Role="Transactions" EntitySet="Transactions" />
     </AssociationSet>
-    <AssociationSet Name="FK_WishList_AspNetUsers" Association="Self.FK_WishList_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="WishLists" EntitySet="WishLists" />
+    <AssociationSet Name="PK_RETURNS_TRANSACTIONS" Association="Self.PK_RETURNS_TRANSACTIONS">
+      <End Role="ReturnOrders" EntitySet="ReturnOrders" />
+      <End Role="Transactions" EntitySet="Transactions" />
     </AssociationSet>
-    <AssociationSet Name="FK_WishList_Products" Association="Self.FK_WishList_Products">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="WishLists" EntitySet="WishLists" />
+    <AssociationSet Name="PK_USER_WALLET" Association="Self.PK_USER_WALLET">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="UserWallet" EntitySet="UserWallet" />
+    </AssociationSet>
+    <AssociationSet Name="PK_WALLET_TRANSACTIONS" Association="Self.PK_WALLET_TRANSACTIONS">
+      <End Role="UserWallet" EntitySet="UserWallet" />
+      <End Role="Transactions" EntitySet="Transactions" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

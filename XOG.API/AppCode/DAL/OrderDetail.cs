@@ -14,6 +14,12 @@ namespace XOG.AppCode.DAL
     
     public partial class OrderDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrderDetail()
+        {
+            this.ReturnOrderDetails = new HashSet<ReturnOrderDetail>();
+        }
+    
         public long Id { get; set; }
         public long OrderId { get; set; }
         public long ProductVariantId { get; set; }
@@ -23,7 +29,9 @@ namespace XOG.AppCode.DAL
         public short Gst { get; set; }
         public double Cost { get; set; }
     
-        public virtual Order Order { get; set; }
         public virtual ProductVariant ProductVariant { get; set; }
+        public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReturnOrderDetail> ReturnOrderDetails { get; set; }
     }
 }

@@ -58,6 +58,13 @@ namespace XOG.AppCode.BLL
                                                (i.Brand.BrandName.ToLower().StartsWith(filter.Search.ToLower()) ? 1 :
                                                i.SubCategory.SubCategoryName.ToLower().StartsWith(filter.Search.ToLower())
                     ? 2 : 3));
+
+                    query = query.Where(i => i.Enabled).Skip(filter.Skip).Take(filter.PageSize).OrderByDescending(i => i.Id);
+
+                    query = filter.ProductGroupId != null ? query.Where(i => i.ProductGroupId == filter.ProductGroupId) : query;
+
+                    query = filter.ProductGroupKey != null ? query.Where(i => i.ProductGroup.RouteKey == filter.ProductGroupKey) : query;
+
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Trending || filter.ProductQueryType == ProductQueryType.Suggestions)
                 {
@@ -67,7 +74,7 @@ namespace XOG.AppCode.BLL
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Featured)
                 {
-                    query = query.Where(i => i.Enabled).Take(filter.PageSize).OrderByDescending(i => i.Id);
+                    query = query.Where(i => i.Enabled).Skip(filter.Skip).Take(filter.PageSize).OrderByDescending(i => i.Id);
                 }
             }
             return query;
@@ -101,6 +108,10 @@ namespace XOG.AppCode.BLL
                                                                                            i.Product.SubCategory.SubCategoryName.Contains(filter.Search) ||
                                                                                            filter.Search.Contains(i.Product.SubCategory.SubCategoryName)
                                                                                         ) : query;
+
+                    query = filter.ProductGroupId != 0 ? query.Where(i => i.Product.ProductGroupId == filter.ProductGroupId) : query;
+
+                    query = filter.ProductGroupKey != null ? query.Where(i => i.Product.ProductGroup.RouteKey == filter.ProductGroupKey) : query;
 
                     query = !(string.IsNullOrWhiteSpace(filter.Ids)) ? query.Where(i => filter.Ids.StartsWith(i.Id + ",") ||
                                                                                       filter.Ids.Contains("," + i.Id + ",")

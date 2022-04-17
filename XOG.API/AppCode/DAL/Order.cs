@@ -18,6 +18,7 @@ namespace XOG.AppCode.DAL
         public Order()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.ReturnOrders = new HashSet<ReturnOrder>();
             this.Transactions = new HashSet<Transaction>();
         }
     
@@ -35,6 +36,8 @@ namespace XOG.AppCode.DAL
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReturnOrder> ReturnOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction> Transactions { get; set; }
     }

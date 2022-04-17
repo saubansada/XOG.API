@@ -109,8 +109,14 @@
     <Reference Include="MySql.Data.EntityFramework, Version=8.0.21.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.EntityFramework.8.0.21\lib\net452\MySql.Data.EntityFramework.dll</HintPath>
     </Reference>
+    <!-- <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference> -->
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.7.5\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Razorpay, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Razorpay.3.0.0\lib\net45\Razorpay.dll</HintPath>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
@@ -170,7 +176,9 @@
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
@@ -214,9 +222,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
@@ -288,6 +293,7 @@
     <Compile Include="AppCode\BLL\AreaBL.cs" />
     <Compile Include="AppCode\BLL\AddressesBL.cs" />
     <Compile Include="AppCode\BLL\BrandBL.cs" />
+    <Compile Include="AppCode\BLL\UserWalletBL.cs" />
     <Compile Include="AppCode\BLL\CartBL.cs" />
     <Compile Include="AppCode\BLL\UserBL.cs" />
     <Compile Include="AppCode\BLL\CategoryBL.cs" />
@@ -342,6 +348,9 @@
     <Compile Include="AppCode\DAL\OrderDetail.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\OrderVW.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\Product.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
@@ -357,10 +366,22 @@
     <Compile Include="AppCode\DAL\QuantityMeasure.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\ReturnOrder.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\ReturnOrderDetail.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\SubCategory.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\Transaction.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\UsersWalletVW.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\UserWallet.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\WishList.cs">
@@ -419,7 +440,9 @@
     <Compile Include="AppCode\Helpers\WebControlHelper.cs" />
     <Compile Include="AppCode\HtmlHelpers\HtmlRequestHelper.cs" />
     <Compile Include="AppCode\ILL\EmailPlaceHolder.cs" />
+    <Compile Include="AppCode\Mappers\CartMapper.cs" />
     <Compile Include="AppCode\Mappers\ProductVariantMapper.cs" />
+    <Compile Include="AppCode\Mappers\UserWalletMapper.cs" />
     <Compile Include="AppCode\Mappers\UserMapper.cs" />
     <Compile Include="AppCode\Mappers\QuantityMeasureMapper.cs" />
     <Compile Include="AppCode\Mappers\ProductGroupMapper.cs" />
@@ -439,6 +462,7 @@
     <Compile Include="AppCode\Models\FilterModels\ProductGroupFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\QuantityMeasureFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\SubCategoryFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\AddUserWallet.cs" />
     <Compile Include="AppCode\Models\FilterModels\UserFilter.cs" />
     <Compile Include="AppCode\Models\GridModel.cs" />
     <Compile Include="AppCode\Models\GridPage.cs" />
@@ -564,6 +588,8 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\OrderReturnsController.cs" />
+    <Compile Include="Controllers\UserWalletController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\QuantityMeasureController.cs" />
     <Compile Include="Controllers\ProductGroupController.cs" />
@@ -583,6 +609,9 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReturnObject.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\AddressRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\AddWalletRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\CartRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderReturnRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SettingsRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\QuantityMeasureRequestVM.cs" />
@@ -605,6 +634,7 @@
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\CategoryFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\OrderFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\ProductFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\UserWalletFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\AddressViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\BrandModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\CartModel.cs" />
@@ -615,11 +645,13 @@
     <Compile Include="Models\ViewModels\ResponseViewModels\ProductGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\SubCategoryModels.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\UserViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\UserWalletViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppCode\DAL\DBLinkQueries.sql" />
+    <Content Include="AppCode\DAL\WalletQueries.sql" />
     <Content Include="AppCode\DAL\XOGModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>XOGModel.edmx</DependentUpon>
@@ -640,6 +672,81 @@
     <Content Include="App_Data\Settings\RemoteServers.xml" />
     <Content Include="App_Data\Settings\ValidationSettings.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\admin\3rdpartylicenses.txt" />
+    <Content Include="Content\admin\assets\img\download.html" />
+    <Content Include="Content\admin\assets\img\favicon.ico" />
+    <Content Include="Content\admin\assets\img\icon.png" />
+    <Content Include="Content\admin\assets\img\login-1.jpg" />
+    <Content Include="Content\admin\assets\img\muhammad-taha-al-junaid-001-muslimcentral.com.mp3" />
+    <Content Include="Content\admin\assets\img\OBS-Studio-27.0.1-Full-Installer-x64.exe" />
+    <Content Include="Content\admin\assets\img\original.svg" />
+    <Content Include="Content\admin\assets\img\production ID_4696913.mp4" />
+    <Content Include="Content\admin\assets\img\products\aashirvad.jpg" />
+    <Content Include="Content\admin\assets\img\v-2.svg" />
+    <Content Include="Content\admin\assets\img\white.png" />
+    <Content Include="Content\admin\favicon.ico" />
+    <Content Include="Content\admin\index.html" />
+    <Content Include="Content\admin\main.10ad43454b1a977f79fd.js" />
+    <Content Include="Content\admin\polyfills.47b71eaaf61844678dc9.js" />
+    <Content Include="Content\admin\runtime.3ac6596c4674b1c07d66.js" />
+    <Content Include="Content\admin\scripts.2f7b6ca26fba4ba6698e.js" />
+    <Content Include="Content\admin\styles.c6fcecbabe052346a36f.css" />
+    <Content Include="Content\user\142-es2017.cc6f6dbd7562917d42ca.js" />
+    <Content Include="Content\user\142-es5.cc6f6dbd7562917d42ca.js" />
+    <Content Include="Content\user\3rdpartylicenses.txt" />
+    <Content Include="Content\user\552-es2017.f3d4b41a67faa965867b.js" />
+    <Content Include="Content\user\552-es5.f3d4b41a67faa965867b.js" />
+    <Content Include="Content\user\999-es2017.74151081be5bc9c2fb5c.js" />
+    <Content Include="Content\user\999-es5.74151081be5bc9c2fb5c.js" />
+    <Content Include="Content\user\assets\1.jpg" />
+    <Content Include="Content\user\assets\2.jpg" />
+    <Content Include="Content\user\assets\3.jpg" />
+    <Content Include="Content\user\assets\4.jpg" />
+    <Content Include="Content\user\assets\5.jpg" />
+    <Content Include="Content\user\assets\6.jpg" />
+    <Content Include="Content\user\assets\7.jpg" />
+    <Content Include="Content\user\assets\8.jpg" />
+    <Content Include="Content\user\assets\amul.jpeg" />
+    <Content Include="Content\user\assets\app-store.png" />
+    <Content Include="Content\user\assets\categories\beverages.jpg" />
+    <Content Include="Content\user\assets\categories\breakfast.jpg" />
+    <Content Include="Content\user\assets\categories\dining.jpg" />
+    <Content Include="Content\user\assets\categories\fruits.jpg" />
+    <Content Include="Content\user\assets\categories\grocery.jpg" />
+    <Content Include="Content\user\assets\categories\household.jpg" />
+    <Content Include="Content\user\assets\categories\personal-care.jpg" />
+    <Content Include="Content\user\assets\categories\snacks.jpg" />
+    <Content Include="Content\user\assets\fe682aa5-0b2c-44af-a385-89831577f7c8.jpg" />
+    <Content Include="Content\user\assets\grocery-category.png" />
+    <Content Include="Content\user\assets\grocery.png" />
+    <Content Include="Content\user\assets\logo-web.jpeg" />
+    <Content Include="Content\user\assets\mb-catg.png" />
+    <Content Include="Content\user\assets\play-store.png" />
+    <Content Include="Content\user\assets\products\atta-ashirvad.jpg" />
+    <Content Include="Content\user\assets\products\atta-ashirvad.png" />
+    <Content Include="Content\user\assets\products\daawat.jpg" />
+    <Content Include="Content\user\assets\products\dairy-milk.jpeg" />
+    <Content Include="Content\user\assets\products\diary-milk.jpg" />
+    <Content Include="Content\user\assets\products\fortune.jpg" />
+    <Content Include="Content\user\assets\products\madhur.jpg" />
+    <Content Include="Content\user\assets\products\nandini-ghee.jpg" />
+    <Content Include="Content\user\assets\products\onion.jpg" />
+    <Content Include="Content\user\assets\products\tata.jpg" />
+    <Content Include="Content\user\assets\products\tea.jpg" />
+    <Content Include="Content\user\assets\splash1.jpg" />
+    <Content Include="Content\user\assets\story.jpg" />
+    <Content Include="Content\user\assets\test.png" />
+    <Content Include="Content\user\assets\thumb-1920-656029.png" />
+    <Content Include="Content\user\favicon.ico" />
+    <Content Include="Content\user\index.html" />
+    <Content Include="Content\user\main-es2017.b236aa93ab766775a534.js" />
+    <Content Include="Content\user\main-es5.b236aa93ab766775a534.js" />
+    <Content Include="Content\user\polyfills-es2017.4007a6dd460daa111191.js" />
+    <Content Include="Content\user\polyfills-es5.0a1add61536b255b23a1.js" />
+    <Content Include="Content\user\runtime-es2017.3f7036cd2200a2df86dc.js" />
+    <Content Include="Content\user\runtime-es5.3f7036cd2200a2df86dc.js" />
+    <Content Include="Content\user\scripts.2f7b6ca26fba4ba6698e.js" />
+    <Content Include="Content\user\styles.c9e839ea6b4ad671ac53.css" />
     <Content Include="Views\Home\Admin.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -666,13 +773,6 @@
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="NLog.config" />
-    <EntityDeploy Include="AppCode\DAL\XOGModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>XOGModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="AppCode\DAL\XOGModel.edmx.diagram">
-      <DependentUpon>XOGModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\MyAdmin\Views\Brand\Add.cshtml" />
     <Content Include="Areas\MyAdmin\Views\Brand\BrandFormPartial.cshtml" />
     <Content Include="Areas\MyAdmin\Views\Brand\Edit.cshtml" />
@@ -705,6 +805,39 @@
     <Content Include="Areas\MyAdmin\Views\Users\Index.cshtml" />
     <Content Include="Areas\MyAdmin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\MyAdmin\web.config" />
+    <Content Include="Content\admin\material-icons-outlined.65d506833b51806f9339.woff" />
+    <Content Include="Content\admin\material-icons-outlined.e0bf153b7ebbf4d95b39.woff2" />
+    <Content Include="Content\admin\material-icons-round.226030f44c5ced4a163d.woff2" />
+    <Content Include="Content\admin\material-icons-round.9fc1d614fe7feac207a1.woff" />
+    <Content Include="Content\admin\material-icons-sharp.216234e3be37946ef522.woff" />
+    <Content Include="Content\admin\material-icons-sharp.b89f182a523ca4182c0e.woff2" />
+    <Content Include="Content\admin\material-icons-two-tone.269b8225a1e4fa32e46e.woff2" />
+    <Content Include="Content\admin\material-icons-two-tone.4c33c9e24cfd67a9d5b6.woff" />
+    <Content Include="Content\admin\material-icons.73d1c707f0f76e3a9930.woff" />
+    <Content Include="Content\admin\material-icons.938bd2e7157d28dca4bb.woff2" />
+    <Content Include="Content\user\assets\bestbuy.webp" />
+    <Content Include="Content\user\assets\costco.webp" />
+    <Content Include="Content\user\assets\products\cooking-oil.webp" />
+    <Content Include="Content\user\assets\products\madhur.webp" />
+    <Content Include="Content\user\assets\safeway.webp" />
+    <Content Include="Content\user\assets\thewine.webp" />
+    <Content Include="Content\user\material-icons-outlined.a55facf19bd472183ef5.woff" />
+    <Content Include="Content\user\material-icons-outlined.c32fc86b5d23fdcfcd4d.woff2" />
+    <Content Include="Content\user\material-icons-round.14fc6f6a609772c817b0.woff2" />
+    <Content Include="Content\user\material-icons-round.1d2975b71bddc932cb7e.woff" />
+    <Content Include="Content\user\material-icons-sharp.3a0d3ee832500dda50c5.woff2" />
+    <Content Include="Content\user\material-icons-sharp.a9826221a78430fb6178.woff" />
+    <Content Include="Content\user\material-icons-two-tone.4cd0b540933d1628c224.woff2" />
+    <Content Include="Content\user\material-icons-two-tone.862d6cd39626a9ddf097.woff" />
+    <Content Include="Content\user\material-icons.1dd1bb366e173805f48f.woff" />
+    <Content Include="Content\user\material-icons.90170fbdd3dad451d44d.woff2" />
+    <EntityDeploy Include="AppCode\DAL\XOGModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>XOGModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="AppCode\DAL\XOGModel.edmx.diagram">
+      <DependentUpon>XOGModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\modern.xevello.com - Web Deploy.pubxml" />
@@ -727,12 +860,11 @@
     <Content Include="Storage\sitemap.json" />
     <Content Include="Views\Layouts\FallBack.cshtml" />
     <Content Include="Views\Home\Init.cshtml" />
+    <Content Include="Views\Home\CurrentOtp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppCode\DAL\Queries\" />
     <Folder Include="AppCode\Mappers\Admin\" />
-    <Folder Include="Content\admin\" />
-    <Folder Include="Content\user\" />
     <Folder Include="Views\Product\" />
     <Folder Include="Views\Settings\" />
     <Folder Include="Views\User\" />

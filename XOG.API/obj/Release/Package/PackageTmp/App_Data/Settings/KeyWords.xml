@@ -60,6 +60,7 @@
   <key name="CCAvenueLanguageCode" value="" />
   <!--__________________________________________________SMS Server Configuration Section________________________________________________________________________________________-->
   <key name="SMSServiceName" value="TEXTLOCAL" />
+  <key name="TextLocalApiKey" value="NTk3MjM5NjI2YTUxNmMzNDc2Nzc2ODVhNjI0YjY0NjI=" />
   <!--TWILIO, ASPSMS, CUSTOM-->
   <key name="SMSAccountIdentification" value="" />
   <key name="SMSAccountPassword" value="" />
@@ -71,11 +72,11 @@
   <key name="SendGridServer" value="" />
   <key name="SendGridUsername" value="" />
   <key name="SendGridPassword" value="" />
-  <key name="MailServer" value="" />
-  <key name="MailLogOnId" value="" />
+  <key name="MailServer" value="smtp.gmail.com" />
+  <key name="MailLogOnId" value="sadasauban123@gmail.com" />
   <key name="MailLogOnPassword" value="" />
-  <key name="MailServerPort" value="25" />
-  <key name="EnableSsl" value="false" />
+  <key name="MailServerPort" value="587" />
+  <key name="EnableSsl" value="true" />
   <key name="DisableBcc" value="false" />
   <key name="DisableBypassListManagement" value="false" />
   <key name="DisableClickTracking" value="false" />
@@ -86,7 +87,7 @@
   <key name="DisableSpamCheck" value="false" />
   <key name="DisableTemplate" value="false" />
   <key name="DisableUnsubscribe" value="false" />
-  <key name="MailLabel" value="OFrame" />
+  <key name="MailLabel" value="XOG" />
   <!--__________________________________________________Locale Configuration Section________________________________________________________________________________________-->
   <key name="DefaultLocale" value="en-US" />
   <key name="IsSiteMultiLingual" value="True" />
@@ -148,6 +149,6 @@
   <key name="SiteName" value="XOG" />
   <key name="SiteAdminName" value="Sauban Sada" />
   <key name="WebsiteMainEmail" value="sadasauban123@gmail.com" />
-  <key name="WebsiteAdminEmail" value="meeransada@gmail.com" />
+  <key name="WebsiteAdminEmail" value="sadasauban123@gmail.com" />
   <key name="ErrorAdminEmail" value="sadasauban123@gmail.com" />
 </keys>

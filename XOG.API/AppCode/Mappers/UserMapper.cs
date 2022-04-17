@@ -7,7 +7,6 @@ using XOG.Helpers;
 using XOG.Models;
 using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
-using XOG.Models.ViewModels.ResponseViewModels;
 using XOG.Util;
 
 namespace XOG.AppCode.Mappers
@@ -53,11 +52,12 @@ namespace XOG.AppCode.Mappers
             else if (typeof(T) == typeof(OListItem) && obj.isNullOrWholeNumber())
             {
                 string id = (string)obj;
+                bool isBlank = string.IsNullOrWhiteSpace(id);
                 var res = query.Select(model => new OListItem
                 {
                     Text = model.UserName,
                     Value = model.Id.ToString(),
-                    Selected = !string.IsNullOrWhiteSpace(id) ? model.Id == id : false
+                    Selected = !isBlank && model.Id == id
                 });
                 return res.ToList();
             }
@@ -102,7 +102,7 @@ namespace XOG.AppCode.Mappers
                     RegistrationDate = model.RegistrationDate,
                     AlternateMobileNumber = model.AlternateMobileNumber,
                     DefaultAddress = model.Addresses.Count == 0 ? null : (model.Addresses.Count == 1 ? model.Addresses : model.Addresses.Where(i => i.IsDefault)).Select(m => 
-                    new UserAddressVM
+                    new AddressViewModel
                     {
                         Id = m.Id,
                         PhoneNumber = m.PhoneNumber,

@@ -16,11 +16,15 @@ namespace XOG.AppCode.Models.FilterModels
 
         public int ItemsCountEnd { get; set; } = Int32.MaxValue;
 
+        public bool IsReturnedOrder { get; set; }
+
         public OrderStatus OrderState { get; set; } = OrderStatus.All;
 
         public bool isNewOrder { get; set; } = false; 
 
         public string userIds { get; set; } = "";
+         
+        public bool IsAdminRequest { get; set; }
     }
      
 }
