@@ -17,6 +17,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
+
         private IQueryable<UserWallet> GetFilteredWhereQuery(IQueryable<UserWallet> query, UserWalletFilterRequestVM filter)
         {
             if (filter != null)
@@ -47,6 +48,56 @@ namespace XOG.AppCode.BLL
                 }
             }
             return GetFilteredWhereQuery(context.UserWallets, filter);
+        }
+
+        private IQueryable<UserWalletListVW> GetFilteredWhereQuery(IQueryable<UserWalletListVW> query, UserWalletFilterRequestVM filter)
+        {
+            if (filter != null)
+            {
+                //query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.ProductVariant.Product.ProductName.Contains(filter.Search) ||
+                //                                                                      filter.Search.Contains(i.ProductVariant.Product.ProductName))
+                //                                                   : query;
+
+                query = !(string.IsNullOrWhiteSpace(filter.UserId)) ? query.Where(i => i.UserId == filter.UserId)
+                                                                 : query;
+
+            }
+
+            return query;
+        }
+
+        private IQueryable<UserWalletListVW> GetDetailedListFilteredQuery(UserWalletFilterRequestVM filter, XOGEntities context = null)
+        {
+            if (context == null)
+            {
+                using (var _context = new XOGEntities())
+                {
+                    if (_context == null)
+                    {
+                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
+                    }
+                    return GetDetailedListFilteredQuery(filter, _context);
+                }
+            }
+            return GetFilteredWhereQuery(context.UserWalletListVWs, filter);
+        }
+
+        internal object GetDetailedList<T>(XOGEntities context = null, UserWalletFilterRequestVM filter = null, ListingType listType = ListingType.GridList, object model = null)
+        {
+            if (context == null)
+            {
+                using (var _context = new XOGEntities())
+                {
+                    if (_context == null)
+                    {
+                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
+                    }
+                    return GetDetailedList<T>(_context, filter, listType, model);
+                }
+            }
+            var query = GetDetailedListFilteredQuery(filter, context);
+
+            return query.MapToUserWalletModelList<T>(model, listType);
         }
 
         internal object GetList<T>(XOGEntities context = null, UserWalletFilterRequestVM filter = null, ListingType listType = ListingType.GridList, object model = null)

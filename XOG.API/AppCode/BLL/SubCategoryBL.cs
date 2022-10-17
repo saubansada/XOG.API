@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<SubCategory> GetFilteredWhereQuery(IQueryable<SubCategory> query, SubCategoryFilter filter)
+        private IQueryable<SubCategory> GetFilteredWhereQuery(IQueryable<SubCategory> query, ISubCategoryFilter filter)
         { 
             if(filter != null)
             { 
@@ -35,7 +35,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<SubCategory> GetFilteredQuery(SubCategoryFilter filter, XOGEntities context = null)
+        private IQueryable<SubCategory> GetFilteredQuery(ISubCategoryFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -51,7 +51,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.SubCategories, filter);
         }
 
-        internal object GetList<T>(SubCategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(ISubCategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -63,7 +63,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, SubCategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, ISubCategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -226,7 +226,7 @@ namespace XOG.AppCode.BLL
             }
         }
           
-        internal async Task<DBStatus> DeleteMultipleAsync(SubCategoryFilter subCategoryFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(ISubCategoryFilter subCategoryFilters, XOGEntities context = null)
         {
             try
             {

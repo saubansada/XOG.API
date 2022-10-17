@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<QuantityMeasure> GetFilteredWhereQuery(IQueryable<QuantityMeasure> query, QuantityMeasureFilter filter)
+        private IQueryable<QuantityMeasure> GetFilteredWhereQuery(IQueryable<QuantityMeasure> query, IQuantityMeasureFilter filter)
         {
             if (filter != null)
             {
@@ -33,7 +33,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<QuantityMeasure> GetFilteredQuery(QuantityMeasureFilter filter, XOGEntities context = null)
+        private IQueryable<QuantityMeasure> GetFilteredQuery(IQuantityMeasureFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -49,7 +49,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.QuantityMeasures, filter);
         }
 
-        internal object GetList<T>(QuantityMeasureFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IQuantityMeasureFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -61,7 +61,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, QuantityMeasureFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IQuantityMeasureFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -224,7 +224,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(QuantityMeasureFilter QuantityMeasureFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(IQuantityMeasureFilter QuantityMeasureFilters, XOGEntities context = null)
         {
             try
             {

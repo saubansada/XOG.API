@@ -30,13 +30,16 @@ namespace XOG.AppCode.DAL
         public Nullable<int> IsReturn { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
+        public string LandMark { get; set; }
         public string AreaCode { get; set; }
+        public string Country { get; set; }
         public string FullName { get; set; }
         public string GPS { get; set; }
         public string OrderedPhoneNumber { get; set; }
         public string ProductName { get; set; }
         public long ProductId { get; set; }
         public long ProductVariantId { get; set; }
+        public short Volume { get; set; }
         public string QuantityMeasureName { get; set; }
         public string Acronym { get; set; }
         public short QuantityMeasureId { get; set; }

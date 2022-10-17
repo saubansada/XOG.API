@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<Address> GetFilteredWhereQuery(IQueryable<Address> query, AddressFilter filter)
+        private IQueryable<Address> GetFilteredWhereQuery(IQueryable<Address> query, IAddressFilter filter)
         {
             if (filter != null)
             {
@@ -34,7 +34,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<Address> GetFilteredQuery(AddressFilter filter, XOGEntities context = null)
+        private IQueryable<Address> GetFilteredQuery(IAddressFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -50,7 +50,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Addresses, filter);
         }
 
-        internal object GetList<T>(AddressFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IAddressFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -62,7 +62,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, AddressFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IAddressFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -220,7 +220,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(AddressFilter AddressFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(IAddressFilter AddressFilters, XOGEntities context = null)
         {
             try
             {

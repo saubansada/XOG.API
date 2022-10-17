@@ -4,248 +4,167 @@
     <EntitySetMapping Name="Addresses">
       <EntityTypeMapping TypeName="XOGModel.Address">
         <MappingFragment StoreEntitySet="Addresses">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AddressOfUserId" ColumnName="AddressOfUserId" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
-          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-          <ScalarProperty Name="LandMark" ColumnName="LandMark" />
-          <ScalarProperty Name="Country" ColumnName="Country" />
-          <ScalarProperty Name="GPS" ColumnName="GPS" />
           <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+          <ScalarProperty Name="GPS" ColumnName="GPS" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="LandMark" ColumnName="LandMark" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="AddressOfUserId" ColumnName="AddressOfUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AdSenseAds">
       <EntityTypeMapping TypeName="XOGModel.AdSenseAd">
         <MappingFragment StoreEntitySet="AdSenseAds">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Page" ColumnName="Page" />
-          <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-          <ScalarProperty Name="ValidTill" ColumnName="ValidTill" />
-          <ScalarProperty Name="AdLink" ColumnName="AdLink" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-          <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
-          <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
           <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
+          <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="AdLink" ColumnName="AdLink" />
+          <ScalarProperty Name="ValidTill" ColumnName="ValidTill" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Page" ColumnName="Page" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AspNetRoles">
       <EntityTypeMapping TypeName="XOGModel.AspNetRole">
         <MappingFragment StoreEntitySet="AspNetRoles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AspNetUserClaims">
       <EntityTypeMapping TypeName="XOGModel.AspNetUserClaim">
         <MappingFragment StoreEntitySet="AspNetUserClaims">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
           <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AspNetUserLogins">
       <EntityTypeMapping TypeName="XOGModel.AspNetUserLogin">
         <MappingFragment StoreEntitySet="AspNetUserLogins">
-          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="XOGModel.AspNetUser">
         <MappingFragment StoreEntitySet="AspNetUsers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UserType" ColumnName="UserType" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
           <ScalarProperty Name="AlternateMobileNumber" ColumnName="AlternateMobileNumber" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Brands">
       <EntityTypeMapping TypeName="XOGModel.Brand">
         <MappingFragment StoreEntitySet="Brands">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
-          <ScalarProperty Name="BrandUrl" ColumnName="BrandUrl" />
-          <ScalarProperty Name="BrandDescription" ColumnName="BrandDescription" />
           <ScalarProperty Name="BrandImage" ColumnName="BrandImage" />
+          <ScalarProperty Name="BrandDescription" ColumnName="BrandDescription" />
+          <ScalarProperty Name="BrandUrl" ColumnName="BrandUrl" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="C__MigrationHistory">
       <EntityTypeMapping TypeName="XOGModel.C__MigrationHistory">
         <MappingFragment StoreEntitySet="C__MigrationHistory">
-          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
-          <ScalarProperty Name="Model" ColumnName="Model" />
           <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Carts">
       <EntityTypeMapping TypeName="XOGModel.Cart">
         <MappingFragment StoreEntitySet="Carts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AddedByUserId" ColumnName="AddedByUserId" />
-          <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
+          <ScalarProperty Name="AddedByUserId" ColumnName="AddedByUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="XOGModel.Category">
         <MappingFragment StoreEntitySet="Categories">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-          <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
-          <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
-          <ScalarProperty Name="CategoryImage" ColumnName="CategoryImage" />
           <ScalarProperty Name="CategoryBanner" ColumnName="CategoryBanner" />
+          <ScalarProperty Name="CategoryImage" ColumnName="CategoryImage" />
+          <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
+          <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeliveryTimings">
+      <EntityTypeMapping TypeName="XOGModel.DeliveryTiming">
+        <MappingFragment StoreEntitySet="DeliveryTimings">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ToMinutes" ColumnName="ToMinutes" />
+          <ScalarProperty Name="ToHours" ColumnName="ToHours" />
+          <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
+          <ScalarProperty Name="FromHours" ColumnName="FromHours" />
+          <ScalarProperty Name="DayId" ColumnName="DayId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="EmailTemplates">
       <EntityTypeMapping TypeName="XOGModel.EmailTemplate">
         <MappingFragment StoreEntitySet="EmailTemplates">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
-          <ScalarProperty Name="HtmlMarkup" ColumnName="HtmlMarkup" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="TemplateCategory" ColumnName="TemplateCategory" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="HtmlMarkup" ColumnName="HtmlMarkup" />
+          <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="OrderDetails">
       <EntityTypeMapping TypeName="XOGModel.OrderDetail">
         <MappingFragment StoreEntitySet="OrderDetails">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Gst" ColumnName="Gst" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
-          <ScalarProperty Name="Gst" ColumnName="Gst" />
-          <ScalarProperty Name="Cost" ColumnName="Cost" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductGroups">
-      <EntityTypeMapping TypeName="XOGModel.ProductGroup">
-        <MappingFragment StoreEntitySet="ProductGroups">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
-          <ScalarProperty Name="ProductGroupName" ColumnName="ProductGroupName" />
-          <ScalarProperty Name="ProductGroupDescription" ColumnName="ProductGroupDescription" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-          <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductImages">
-      <EntityTypeMapping TypeName="XOGModel.ProductImage">
-        <MappingFragment StoreEntitySet="ProductImages">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="XOGModel.Product">
-        <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
-          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
-          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-          <ScalarProperty Name="ProductGroupId" ColumnName="ProductGroupId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductVariants">
-      <EntityTypeMapping TypeName="XOGModel.ProductVariant">
-        <MappingFragment StoreEntitySet="ProductVariants">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Mrp" ColumnName="Mrp" />
-          <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
-          <ScalarProperty Name="Volume" ColumnName="Volume" />
-          <ScalarProperty Name="StocksAvailable" ColumnName="StocksAvailable" />
-          <ScalarProperty Name="Gst" ColumnName="Gst" />
-          <ScalarProperty Name="Cost" ColumnName="Cost" />
-          <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
-          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-          <ScalarProperty Name="MaxPurchase" ColumnName="MaxPurchase" />
-          <ScalarProperty Name="HSNCode" ColumnName="HSNCode" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="QuantityMeasures">
-      <EntityTypeMapping TypeName="XOGModel.QuantityMeasure">
-        <MappingFragment StoreEntitySet="QuantityMeasures">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="QuantityMeasureName" ColumnName="QuantityMeasureName" />
-          <ScalarProperty Name="Acronym" ColumnName="Acronym" />
-          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SubCategories">
-      <EntityTypeMapping TypeName="XOGModel.SubCategory">
-        <MappingFragment StoreEntitySet="SubCategories">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-          <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
-          <ScalarProperty Name="SubCategoryDescription" ColumnName="SubCategoryDescription" />
-          <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
-          <ScalarProperty Name="SubCategoryImage" ColumnName="SubCategoryImage" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="WishLists">
-      <EntityTypeMapping TypeName="XOGModel.WishList">
-        <MappingFragment StoreEntitySet="WishLists">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="WishedByUserId" ColumnName="WishedByUserId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-      <EndProperty Name="AspNetRoles">
-        <ScalarProperty Name="Id" ColumnName="RoleId" />
-      </EndProperty>
-      <EndProperty Name="AspNetUsers">
-        <ScalarProperty Name="Id" ColumnName="UserId" />
-      </EndProperty>
-    </AssociationSetMapping>
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="XOGModel.Order">
         <MappingFragment StoreEntitySet="Orders">
@@ -257,6 +176,70 @@
           <ScalarProperty Name="OrderState" ColumnName="OrderState" />
           <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
           <ScalarProperty Name="OrderedByUserId" ColumnName="OrderedByUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductGroups">
+      <EntityTypeMapping TypeName="XOGModel.ProductGroup">
+        <MappingFragment StoreEntitySet="ProductGroups">
+          <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="ProductGroupDescription" ColumnName="ProductGroupDescription" />
+          <ScalarProperty Name="ProductGroupName" ColumnName="ProductGroupName" />
+          <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImages">
+      <EntityTypeMapping TypeName="XOGModel.ProductImage">
+        <MappingFragment StoreEntitySet="ProductImages">
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="XOGModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ProductGroupId" ColumnName="ProductGroupId" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductVariants">
+      <EntityTypeMapping TypeName="XOGModel.ProductVariant">
+        <MappingFragment StoreEntitySet="ProductVariants">
+          <ScalarProperty Name="HSNCode" ColumnName="HSNCode" />
+          <ScalarProperty Name="MaxPurchase" ColumnName="MaxPurchase" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Gst" ColumnName="Gst" />
+          <ScalarProperty Name="StocksAvailable" ColumnName="StocksAvailable" />
+          <ScalarProperty Name="Volume" ColumnName="Volume" />
+          <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
+          <ScalarProperty Name="Mrp" ColumnName="Mrp" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuantityMeasures">
+      <EntityTypeMapping TypeName="XOGModel.QuantityMeasure">
+        <MappingFragment StoreEntitySet="QuantityMeasures">
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Acronym" ColumnName="Acronym" />
+          <ScalarProperty Name="QuantityMeasureName" ColumnName="QuantityMeasureName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -283,6 +266,33 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SubCategories">
+      <EntityTypeMapping TypeName="XOGModel.SubCategory">
+        <MappingFragment StoreEntitySet="SubCategories">
+          <ScalarProperty Name="SubCategoryImage" ColumnName="SubCategoryImage" />
+          <ScalarProperty Name="RouteKey" ColumnName="RouteKey" />
+          <ScalarProperty Name="SubCategoryDescription" ColumnName="SubCategoryDescription" />
+          <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="XOGModel.Transaction">
+        <MappingFragment StoreEntitySet="Transactions">
+          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
+          <ScalarProperty Name="WalletId" ColumnName="WalletId" />
+          <ScalarProperty Name="TransactionFor" ColumnName="TransactionFor" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="BilledByUserId" ColumnName="BilledByUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="UserWallets">
       <EntityTypeMapping TypeName="XOGModel.UserWallet">
         <MappingFragment StoreEntitySet="UserWallet">
@@ -293,27 +303,12 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="UsersWalletVWs">
-      <EntityTypeMapping TypeName="XOGModel.UsersWalletVW">
-        <MappingFragment StoreEntitySet="UsersWalletVW">
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="TotalDebited" ColumnName="TotalDebited" />
-          <ScalarProperty Name="TotalCredited" ColumnName="TotalCredited" />
-          <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Transactions">
-      <EntityTypeMapping TypeName="XOGModel.Transaction">
-        <MappingFragment StoreEntitySet="Transactions">
-          <ScalarProperty Name="ReturnId" ColumnName="ReturnId" />
-          <ScalarProperty Name="WalletId" ColumnName="WalletId" />
-          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
-          <ScalarProperty Name="TransactionFor" ColumnName="TransactionFor" />
-          <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
-          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="BilledByUserId" ColumnName="BilledByUserId" />
+    <EntitySetMapping Name="WishLists">
+      <EntityTypeMapping TypeName="XOGModel.WishList">
+        <MappingFragment StoreEntitySet="WishLists">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="WishedByUserId" ColumnName="WishedByUserId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -341,13 +336,16 @@
           <ScalarProperty Name="QuantityMeasureId" ColumnName="QuantityMeasureId" />
           <ScalarProperty Name="Acronym" ColumnName="Acronym" />
           <ScalarProperty Name="QuantityMeasureName" ColumnName="QuantityMeasureName" />
+          <ScalarProperty Name="Volume" ColumnName="Volume" />
           <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="ProductName" ColumnName="ProductName" />
           <ScalarProperty Name="OrderedPhoneNumber" ColumnName="OrderedPhoneNumber" />
           <ScalarProperty Name="GPS" ColumnName="GPS" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
           <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+          <ScalarProperty Name="LandMark" ColumnName="LandMark" />
           <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
           <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
           <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
@@ -364,6 +362,61 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="ViewInfoId" ColumnName="ViewInfoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersWalletVWs">
+      <EntityTypeMapping TypeName="XOGModel.UsersWalletVW">
+        <MappingFragment StoreEntitySet="UsersWalletVW">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="TotalDebited" ColumnName="TotalDebited" />
+          <ScalarProperty Name="TotalCredited" ColumnName="TotalCredited" />
+          <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserWalletListVWs">
+      <EntityTypeMapping TypeName="XOGModel.UserWalletListVW">
+        <MappingFragment StoreEntitySet="UserWalletListVW">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="OrderAction" ColumnName="OrderAction" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+      <EndProperty Name="AspNetRole">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="WeekDayStatuses">
+      <EntityTypeMapping TypeName="XOGModel.WeekDayStatus">
+        <MappingFragment StoreEntitySet="WeekDayStatuses">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DayName" ColumnName="DayName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WeekDayTimings">
+      <EntityTypeMapping TypeName="XOGModel.WeekDayTiming">
+        <MappingFragment StoreEntitySet="WeekDayTimings">
+          <ScalarProperty Name="ToMinutes" ColumnName="ToMinutes" />
+          <ScalarProperty Name="ToHours" ColumnName="ToHours" />
+          <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
+          <ScalarProperty Name="FromHours" ColumnName="FromHours" />
+          <ScalarProperty Name="IsTimingActive" ColumnName="IsTimingActive" />
+          <ScalarProperty Name="IsWeekDayActive" ColumnName="IsWeekDayActive" />
+          <ScalarProperty Name="DayName" ColumnName="DayName" />
+          <ScalarProperty Name="WeekDayId" ColumnName="WeekDayId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

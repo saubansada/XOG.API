@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using XOG.Abstracts;
 using XOG.AppCode.BLL;
 using XOG.AppCode.Mappers;
 using XOG.Factories;
@@ -14,11 +15,12 @@ using XOG.Filters;
 using XOG.Models;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
+using XOG.Models.ViewModels.ResponseViewModels;
 
 namespace XOG.Controllers
 {
     [RoutePrefix("api/wallet")]
-    public class UserWalletController : ApiController
+    public class UserWalletController : CrudApiController<UserWalletFilterRequestVM, AddWalletRequestVM>
     {
         public UserWalletController() { }
 
@@ -44,11 +46,11 @@ namespace XOG.Controllers
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] UserWalletFilterRequestVM filter)
+        public override IHttpActionResult List([FromUri] UserWalletFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
-            res.Data = new UserWalletBL().GetList<UserWalletFilterRequestVM>(filter: filter);
+            res.Data = new UserWalletBL().GetDetailedList<UserWalletViewModel>(filter: filter);
 
             res.IsSuccess = true;
 
@@ -57,7 +59,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] UserWalletFilterRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] UserWalletFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -70,7 +72,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult Get(int id)
+        public override IHttpActionResult Get(int id)
         {
             var res = new ReturnObject<UserWalletFilterRequestVM>();
 
@@ -85,7 +87,7 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(AddWalletRequestVM request)
+        public override async Task<IHttpActionResult> AddAsync(AddWalletRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -111,7 +113,7 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(AddWalletRequestVM request)
+        public override async Task<IHttpActionResult> EditAsync(AddWalletRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -137,7 +139,7 @@ namespace XOG.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public async Task<IHttpActionResult> DeleteAsync(int id)
+        public override async Task<IHttpActionResult> DeleteAsync(int id)
         {
             var res = new ReturnObject<DBStatus>();
 

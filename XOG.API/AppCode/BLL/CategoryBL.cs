@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<Category> GetFilteredWhereQuery(IQueryable<Category> query, CategoryFilter filter)
+        private IQueryable<Category> GetFilteredWhereQuery(IQueryable<Category> query, ICategoryFilter filter)
         {
             if (filter != null)
             {
@@ -31,7 +31,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<Category> GetFilteredQuery(CategoryFilter filter, XOGEntities context = null)
+        private IQueryable<Category> GetFilteredQuery(ICategoryFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -47,7 +47,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Categories, filter);
         }
 
-        internal object GetList<T>(CategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(ICategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -59,7 +59,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, CategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, ICategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -222,7 +222,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(CategoryFilter categoryFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(ICategoryFilter categoryFilters, XOGEntities context = null)
         {
             try
             {

@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using XOG.Abstracts;
 using XOG.AppCode.BLL;
 using XOG.AppCode.Mappers;
+using XOG.AppCode.Models.FilterModels;
 using XOG.Filters;
 using XOG.Models;
 using XOG.Models.ViewModels;
@@ -11,16 +13,16 @@ using XOG.Models.ViewModels.RequestViewModels.Filters;
 namespace XOG.Controllers
 {
     [RoutePrefix("api/productgroup")]
-    public class ProductGroupController : ApiController
+    public class ProductGroupController : CrudApiController<ProductFilterRequestVM, ProductGroupRequestVM>
     {
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] ProductGroupFilterRequestVM filter)
+        public override IHttpActionResult List([FromUri] ProductFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
-            res.Data = new ProductGroupBL().GetList<ProductGroupViewModel>(filter);
+            res.Data = new ProductGroupBL().GetList<ProductGroupViewModel>((IProductGroupFilter)filter);
 
             res.IsSuccess = true;
 
@@ -29,7 +31,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] ProductGroupFilterRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] ProductFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -42,7 +44,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult Get(int id)
+        public override IHttpActionResult Get(int id)
         {
             var res = new ReturnObject<ProductGroupViewModel>();
 
@@ -55,7 +57,7 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(ProductGroupRequestVM request)
+        public override async Task<IHttpActionResult> AddAsync(ProductGroupRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -81,7 +83,7 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(ProductGroupRequestVM request)
+        public override async Task<IHttpActionResult> EditAsync(ProductGroupRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -107,7 +109,7 @@ namespace XOG.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public async Task<IHttpActionResult> DeleteAsync(int id)
+        public override async Task<IHttpActionResult> DeleteAsync(int id)
         {
             var res = new ReturnObject<DBStatus>();
 

@@ -7,16 +7,17 @@ using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOG.AppCode.Mappers;
+using XOG.Abstracts;
 
 namespace XOG.Controllers
 {
     [RoutePrefix("api/user")]
-    public class UserController : ApiController
+    public class UserController : CrudApiController<UserFiltersRequestVM, UserRequestVM>
     {
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] UserFiltersRequestVM filter)
+        public override IHttpActionResult List([FromUri] UserFiltersRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -29,7 +30,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] UserFiltersRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] UserFiltersRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -57,7 +58,7 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(UserRequestVM request)
+        public override async Task<IHttpActionResult> AddAsync(UserRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -83,7 +84,7 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(UserRequestVM request)
+        public override async Task<IHttpActionResult> EditAsync(UserRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -106,7 +107,7 @@ namespace XOG.Controllers
 
             return Ok(res);
         }
-
+         
         [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteAsync(string id)
@@ -131,6 +132,16 @@ namespace XOG.Controllers
             }
 
             return Ok(res);
+        }
+
+        public override IHttpActionResult Get(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Task<IHttpActionResult> DeleteAsync(int id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

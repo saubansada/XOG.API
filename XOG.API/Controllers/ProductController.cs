@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using XOG.Abstracts;
 using XOG.AppCode.BLL;
 using XOG.AppCode.Filters;
 using XOG.AppCode.Helpers;
@@ -22,11 +23,11 @@ using XOG.Util;
 namespace XOG.Controllers
 {
     [RoutePrefix("api/product")]
-    public class ProductController : ApiController
+    public class ProductController : CrudApiController<ProductFilterRequestVM, ProductRequestVM>
     {
         [HttpGet]
         [Route("get-list")]
-        public IHttpActionResult List([FromUri] ProductFilterRequestVM filter)
+        public override IHttpActionResult List([FromUri] ProductFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -58,7 +59,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] ProductFilterRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] ProductFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -71,7 +72,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult Get(int id)
+        public override IHttpActionResult Get(int id)
         {
             var res = new ReturnObject<ProductViewModel>();
 
@@ -85,7 +86,7 @@ namespace XOG.Controllers
         [HttpPost]
         [Route("add")]
         [TwoFactorAhorize]
-        public async Task<IHttpActionResult> AddAsync(ProductRequestVM request)
+        public override async Task<IHttpActionResult> AddAsync(ProductRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -112,7 +113,7 @@ namespace XOG.Controllers
         [HttpPut]
         [Route("edit")]
         [TwoFactorAhorize]
-        public async Task<IHttpActionResult> EditAsync(ProductRequestVM request)
+        public override async Task<IHttpActionResult> EditAsync(ProductRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
             try
@@ -145,7 +146,7 @@ namespace XOG.Controllers
         [HttpDelete]
         [Route("delete/{id}")]
         [TwoFactorAhorize]
-        public async Task<IHttpActionResult> DeleteAsync(int id)
+        public override async Task<IHttpActionResult> DeleteAsync(int id)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -216,7 +217,7 @@ namespace XOG.Controllers
         [HttpDelete]
         [TwoFactorAhorize]
         public IHttpActionResult DeleteImages(string imageUrl)
-        {
+             {
             var res = new ReturnObject<bool>();
             try
             {

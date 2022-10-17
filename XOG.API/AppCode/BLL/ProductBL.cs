@@ -17,7 +17,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private static IQueryable<Product> GetFilteredWhereQuery(IQueryable<Product> query, ProductFilter filter)
+        private static IQueryable<Product> GetFilteredWhereQuery(IQueryable<Product> query, IProductFilter filter)
         {
             if (filter != null)
             {
@@ -80,7 +80,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private static IQueryable<ProductVariant> GetVariantFilteredWhereQuery(IQueryable<ProductVariant> query, ProductFilter filter)
+        private static IQueryable<ProductVariant> GetVariantFilteredWhereQuery(IQueryable<ProductVariant> query, IProductFilter filter)
         {
             if (filter != null)
             {
@@ -135,7 +135,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private static IQueryable<Product> GetFilteredQuery(ProductFilter filter, XOGEntities context = null)
+        private static IQueryable<Product> GetFilteredQuery(IProductFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -151,7 +151,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Products, filter);
         }
 
-        private static IQueryable<ProductVariant> GetVariantsFilteredQuery(ProductFilter filter, XOGEntities context = null)
+        private static IQueryable<ProductVariant> GetVariantsFilteredQuery(IProductFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -168,7 +168,7 @@ namespace XOG.AppCode.BLL
         }
 
 
-        internal object GetList<T>(ProductFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IProductFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -180,7 +180,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, ProductFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IProductFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             //Name Array is For Search Suggestion in Home Page Search 
             if (filter != null && filter.ProductQueryType == ProductQueryType.Suggestions)
@@ -488,7 +488,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(ProductFilter productFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(IProductFilter productFilters, XOGEntities context = null)
         {
             try
             {

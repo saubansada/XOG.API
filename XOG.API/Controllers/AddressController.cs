@@ -3,8 +3,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using XOG.Abstracts;
 using XOG.AppCode.BLL;
 using XOG.AppCode.Mappers;
+using XOG.AppCode.Models.FilterModels;
 using XOG.Factories;
 using XOG.Filters;
 using XOG.Models;
@@ -15,7 +17,7 @@ using XOG.Models.ViewModels.RequestViewModels.Filters;
 namespace XOG.Controllers
 {
     [RoutePrefix("api/address")]
-    public class AddressController : ApiController
+    public class AddressController : CrudApiController<AddressFilterRequestVM, AddressRequestVM>
     {
         public AddressController() { }
          
@@ -41,11 +43,11 @@ namespace XOG.Controllers
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] AddressFilterRequestVM filter)
+        public override IHttpActionResult List([FromUri] AddressFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
-            res.Data = new AddressBL().GetList<AddressViewModel>(filter);
+            res.Data = new AddressBL().GetList<AddressViewModel>((IAddressFilter)filter);
 
             res.IsSuccess = true;
 
@@ -54,7 +56,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] AddressFilterRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] AddressFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -63,6 +65,11 @@ namespace XOG.Controllers
             res.IsSuccess = true;
 
             return Ok(res);
+        }
+
+        public override IHttpActionResult Get(int id)
+        {
+            return Ok(GetAsync(id));
         }
 
         [HttpGet]
@@ -94,7 +101,7 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(AddressRequestVM request)
+        public override async Task<IHttpActionResult> AddAsync(AddressRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -124,7 +131,7 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(AddressRequestVM request)
+        public override async Task<IHttpActionResult> EditAsync(AddressRequestVM request)
         {
             var userName = HttpContext.Current.User.Identity.Name;
 
@@ -154,7 +161,7 @@ namespace XOG.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public async Task<IHttpActionResult> DeleteAsync(int id)
+        public override async Task<IHttpActionResult> DeleteAsync(int id)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -177,5 +184,6 @@ namespace XOG.Controllers
 
             return Ok(res);
         }
+
     }
 }

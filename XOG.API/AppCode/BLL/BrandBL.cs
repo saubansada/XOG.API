@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<Brand> GetFilteredWhereQuery(IQueryable<Brand> query, BrandFilter filter)
+        private IQueryable<Brand> GetFilteredWhereQuery(IQueryable<Brand> query, IBrandFilter filter)
         {
             if (filter != null)
             {
@@ -32,7 +32,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<Brand> GetFilteredQuery(BrandFilter filter, XOGEntities context = null)
+        private IQueryable<Brand> GetFilteredQuery(IBrandFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -48,7 +48,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Brands, filter);
         }
 
-        internal object GetList<T>(BrandFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IBrandFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -60,7 +60,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, BrandFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IBrandFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -223,7 +223,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(BrandFilter BrandFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(IBrandFilter BrandFilters, XOGEntities context = null)
         {
             try
             {

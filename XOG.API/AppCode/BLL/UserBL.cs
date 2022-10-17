@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<AspNetUser> GetFilteredWhereQuery(IQueryable<AspNetUser> query, UserFilter filter)
+        private IQueryable<AspNetUser> GetFilteredWhereQuery(IQueryable<AspNetUser> query, IUserFilter filter)
         {
             if (filter != null)
             {
@@ -31,7 +31,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<AspNetUser> GetFilteredQuery(UserFilter filter, XOGEntities context = null)
+        private IQueryable<AspNetUser> GetFilteredQuery(IUserFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -47,7 +47,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.AspNetUsers, filter);
         }
 
-        internal object GetList<T>(UserFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IUserFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -59,7 +59,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, UserFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IUserFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -219,7 +219,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(UserFilter userFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(IUserFilter userFilters, XOGEntities context = null)
         {
             try
             {

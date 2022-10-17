@@ -7,16 +7,17 @@ using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOG.AppCode.Mappers;
+using XOG.Abstracts;
 
 namespace XOG.Controllers
 {
     [RoutePrefix("api/category")]
-    public class CategoryController : ApiController
+    public class CategoryController : CrudApiController<CategoryFilterRequestVM, CategoryRequestVM>
     {
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public IHttpActionResult List([FromUri] CategoryFilterRequestVM filter)
+        public override IHttpActionResult List([FromUri] CategoryFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
@@ -29,7 +30,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public IHttpActionResult GetSelectListAsync([FromUri] CategoryFilterRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] CategoryFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -42,7 +43,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public IHttpActionResult Get(int id)
+        public override IHttpActionResult Get(int id)
         {
             var res = new ReturnObject<CategoryViewModel>();
 
@@ -57,7 +58,7 @@ namespace XOG.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> AddAsync(CategoryRequestVM request)
+        public override async Task<IHttpActionResult> AddAsync(CategoryRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -83,7 +84,7 @@ namespace XOG.Controllers
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IHttpActionResult> EditAsync(CategoryRequestVM request)
+        public override async Task<IHttpActionResult> EditAsync(CategoryRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
 
@@ -109,7 +110,7 @@ namespace XOG.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public async Task<IHttpActionResult> DeleteAsync(int id)
+        public override async Task<IHttpActionResult> DeleteAsync(int id)
         {
             var res = new ReturnObject<DBStatus>();
 

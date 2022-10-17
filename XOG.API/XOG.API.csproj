@@ -287,7 +287,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCode\Abstracts\AppController.cs" />
+    <Compile Include="AppCode\Abstracts\CrudApiController.cs" />
     <Compile Include="AppCode\Abstracts\AppViewPage.cs" />
     <Compile Include="AppCode\Abstracts\AuthController.cs" />
     <Compile Include="AppCode\BLL\AreaBL.cs" />
@@ -339,6 +339,9 @@
     <Compile Include="AppCode\DAL\C__MigrationHistory.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\DeliveryTiming.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\EmailTemplate.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
@@ -384,6 +387,15 @@
     <Compile Include="AppCode\DAL\UserWallet.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\UserWalletListVW.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\WeekDayStatus.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\WeekDayTiming.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\WishList.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
@@ -402,6 +414,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>XOGModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\BLL\DeliveryTimingBL.cs" />
     <Compile Include="AppCode\Factories\AppDbContext.cs" />
     <Compile Include="AppCode\Factories\ApplicationRoleManager.cs" />
     <Compile Include="AppCode\Factories\ApplicationSignInManager.cs" />
@@ -441,6 +454,7 @@
     <Compile Include="AppCode\HtmlHelpers\HtmlRequestHelper.cs" />
     <Compile Include="AppCode\ILL\EmailPlaceHolder.cs" />
     <Compile Include="AppCode\Mappers\CartMapper.cs" />
+    <Compile Include="AppCode\Mappers\DeliveryTimingsMapper.cs" />
     <Compile Include="AppCode\Mappers\ProductVariantMapper.cs" />
     <Compile Include="AppCode\Mappers\UserWalletMapper.cs" />
     <Compile Include="AppCode\Mappers\UserMapper.cs" />
@@ -452,18 +466,19 @@
     <Compile Include="AppCode\Models\FileUploadMessageSettings.cs" />
     <Compile Include="AppCode\Models\FileUploadResult.cs" />
     <Compile Include="AppCode\Models\FileUploadSettings.cs" />
-    <Compile Include="AppCode\Models\FilterModels\AddressFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\BrandFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\CartFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\CategoryFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\BaseFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\OrderFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\ProductFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\ProductGroupFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\QuantityMeasureFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\SubCategoryFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\AddUserWallet.cs" />
-    <Compile Include="AppCode\Models\FilterModels\UserFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IAddressFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IBrandFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\ICartFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\ICategoryFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IBaseFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IOrderFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IProductFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IProductGroupFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IDeliveryTimingsFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IQuantityMeasureFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\ISubCategoryFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IAddUserWallet.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IUserFilter.cs" />
     <Compile Include="AppCode\Models\GridModel.cs" />
     <Compile Include="AppCode\Models\GridPage.cs" />
     <Compile Include="AppCode\Models\GridPager.cs" />
@@ -588,6 +603,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\DeliveryTimingsController.cs" />
     <Compile Include="Controllers\OrderReturnsController.cs" />
     <Compile Include="Controllers\UserWalletController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -611,6 +627,7 @@
     <Compile Include="Models\ViewModels\RequestViewModels\Data\AddressRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\AddWalletRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CartRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\DeliveryTimingsRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderReturnRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SettingsRequestVM.cs" />
@@ -626,6 +643,7 @@
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BaseFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\AddressFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BrandFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\DeliveryTimingsFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\QuantityMeasureFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\ProductGroupFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\UserFilterRequestVM.cs" />
@@ -640,6 +658,7 @@
     <Compile Include="Models\ViewModels\ResponseViewModels\CartModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\CategoryModels.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\OrderViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\DeliveryTimingsModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\QuantityMeasureViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\ProductGroupViewModel.cs" />

@@ -19,8 +19,8 @@ namespace XOG.AppCode.DAL
         public Nullable<long> OrderId { get; set; }
         public double TotalAmount { get; set; }
         public System.DateTime PaymentDateTime { get; set; }
-        public Nullable<int> TransactionFor { get; set; }
         public Nullable<int> TransactionType { get; set; }
+        public Nullable<int> TransactionFor { get; set; }
         public Nullable<long> WalletId { get; set; }
         public Nullable<long> ReturnId { get; set; }
     

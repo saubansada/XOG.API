@@ -20,7 +20,7 @@ namespace XOG.AppCode.BLL
         {
             return new XOGEntities();
         }
-        private IQueryable<OrderVW> GetFilteredWhereQuery(IQueryable<OrderVW> query, OrderFilter filter)
+        private IQueryable<OrderVW> GetFilteredWhereQuery(IQueryable<OrderVW> query, IOrderFilter filter)
         {
             if (filter != null)
             {
@@ -60,7 +60,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<OrderVW> GetFilteredQuery<T>(OrderFilter filter, XOGEntities context = null)
+        private IQueryable<OrderVW> GetFilteredQuery<T>(IOrderFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -76,7 +76,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.OrderVWs, filter);
         }
 
-        internal object GetList<T>(OrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IOrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -88,7 +88,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, OrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IOrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery<T>(filter, context);
 

@@ -79,6 +79,8 @@ namespace XOG.Models.ViewModels
 
         public double Total { get; set; }
 
+        public double Volume { get; set; }
+
         public double OrderedTotal { get; set; }
 
         public double? ReturnTotal { get; set; }

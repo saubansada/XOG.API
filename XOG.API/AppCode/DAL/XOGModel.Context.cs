@@ -35,21 +35,25 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<DeliveryTiming> DeliveryTimings { get; set; }
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<ProductGroup> ProductGroups { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductVariant> ProductVariants { get; set; }
         public virtual DbSet<QuantityMeasure> QuantityMeasures { get; set; }
-        public virtual DbSet<SubCategory> SubCategories { get; set; }
-        public virtual DbSet<WishList> WishLists { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<ReturnOrderDetail> ReturnOrderDetails { get; set; }
         public virtual DbSet<ReturnOrder> ReturnOrders { get; set; }
-        public virtual DbSet<UserWallet> UserWallets { get; set; }
-        public virtual DbSet<UsersWalletVW> UsersWalletVWs { get; set; }
+        public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<UserWallet> UserWallets { get; set; }
+        public virtual DbSet<WishList> WishLists { get; set; }
         public virtual DbSet<OrderVW> OrderVWs { get; set; }
+        public virtual DbSet<UsersWalletVW> UsersWalletVWs { get; set; }
+        public virtual DbSet<UserWalletListVW> UserWalletListVWs { get; set; }
+        public virtual DbSet<WeekDayStatus> WeekDayStatuses { get; set; }
+        public virtual DbSet<WeekDayTiming> WeekDayTimings { get; set; }
     }
 }

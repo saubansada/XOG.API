@@ -76,6 +76,10 @@ namespace XOG
             public static readonly string ERROR_ADDING_CART = string.Format(ERROR, ADDING, CART);
             public static readonly string ERROR_UPDATING_CART = string.Format(ERROR, UPDATING, CART);
             public static readonly string ERROR_DELETING_CART = string.Format(ERROR, DELETING, CART);
+
+            public static readonly string ERROR_ADDING_DELIVERY_TIMINGS = string.Format(ERROR, ADDING, CART);
+            public static readonly string ERROR_UPDATING_DELIVERY_TIMINGS = string.Format(ERROR, UPDATING, CART);
+            public static readonly string ERROR_DELETING_DELIVERY_TIMINGS = string.Format(ERROR, DELETING, CART);
         }
     }
 }

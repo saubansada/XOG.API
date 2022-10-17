@@ -1,5 +1,6 @@
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.App.config
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CoreCompileInputs.cache
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.AssemblyReference.cache
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.dll.config
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.pdb
@@ -78,6 +79,7 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Extensions.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Formatting.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Primitives.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Helpers.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.Owin.dll
@@ -149,5 +151,3 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.CodeDom.Providers.DotNetCom
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CopyComplete
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.pdb
-D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.dll
-D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.AssemblyReference.cache

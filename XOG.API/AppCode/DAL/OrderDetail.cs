@@ -29,8 +29,8 @@ namespace XOG.AppCode.DAL
         public short Gst { get; set; }
         public double Cost { get; set; }
     
-        public virtual ProductVariant ProductVariant { get; set; }
         public virtual Order Order { get; set; }
+        public virtual ProductVariant ProductVariant { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReturnOrderDetail> ReturnOrderDetails { get; set; }
     }

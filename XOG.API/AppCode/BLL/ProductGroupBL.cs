@@ -16,7 +16,7 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<ProductGroup> GetFilteredWhereQuery(IQueryable<ProductGroup> query, ProductGroupFilter filter)
+        private IQueryable<ProductGroup> GetFilteredWhereQuery(IQueryable<ProductGroup> query, IProductGroupFilter filter)
         { 
             if(filter != null)
             { 
@@ -35,7 +35,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<ProductGroup> GetFilteredQuery(ProductGroupFilter filter, XOGEntities context = null)
+        private IQueryable<ProductGroup> GetFilteredQuery(IProductGroupFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -51,7 +51,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.ProductGroups, filter);
         }
 
-        internal object GetList<T>(ProductGroupFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IProductGroupFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -63,7 +63,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal object GetList<T>(XOGEntities context, ProductGroupFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, IProductGroupFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -226,7 +226,7 @@ namespace XOG.AppCode.BLL
             }
         }
           
-        internal async Task<DBStatus> DeleteMultipleAsync(ProductGroupFilter ProductGroupFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(IProductGroupFilter ProductGroupFilters, XOGEntities context = null)
         {
             try
             {

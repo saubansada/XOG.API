@@ -45,8 +45,13 @@ namespace XOG.AppCode.Mappers
                         TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
                         Address = new AddressViewModel()
                         {
+                            FullName = model.FirstOrDefault().FirstName + " " + model.FirstOrDefault().LastName,
                             AddressLine1 = model.FirstOrDefault().AddressLine1,
                             AddressLine2 = model.FirstOrDefault().AddressLine2,
+                            PhoneNumber = model.FirstOrDefault().OrderedPhoneNumber,
+                            Country = model.FirstOrDefault().Country,
+                            LandMark = model.FirstOrDefault().LandMark,
+                            AreaCode = model.FirstOrDefault().AreaCode,
                             Id = model.FirstOrDefault().OrderToAddressId,
                         },
                         IsDelivery = model.FirstOrDefault().OrderToAddressId != 0,
@@ -67,8 +72,10 @@ namespace XOG.AppCode.Mappers
                             ReturnTotalSum = i.ReturnTotalSum ?? 0,
                             ReturnTotal = i.ReturnTotal ?? 0,
                             Total = i.Total ?? 0,
+                            Volume = i.Volume,
                             ReturnOrderDate = i.ReturnOrderDate ?? DateTime.Now,
                             OrderedTotal = i.OrderedTotal,
+
                             UnitType = new QuantityMeasure()
                             {
                                 Acronym = i.Acronym,
@@ -141,8 +148,13 @@ namespace XOG.AppCode.Mappers
                         TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
                         Address = new AddressViewModel()
                         {
+                            FullName = model.FirstOrDefault().FirstName + " " + model.FirstOrDefault().LastName,
                             AddressLine1 = model.FirstOrDefault().AddressLine1,
                             AddressLine2 = model.FirstOrDefault().AddressLine2,
+                            PhoneNumber = model.FirstOrDefault().OrderedPhoneNumber,
+                            Country = model.FirstOrDefault().Country,
+                            LandMark = model.FirstOrDefault().LandMark,
+                            AreaCode = model.FirstOrDefault().AreaCode,
                             Id = model.FirstOrDefault().OrderToAddressId,
                         },
                         IsDelivery = model.FirstOrDefault().OrderToAddressId != 0,
@@ -163,6 +175,7 @@ namespace XOG.AppCode.Mappers
                             ReturnTotalSum = i.ReturnTotalSum ?? 0,
                             ReturnTotal = i.ReturnTotal ?? 0,
                             Total = i.Total ?? 0,
+                            Volume = i.Volume,
                             ReturnOrderDate = i.ReturnOrderDate ?? DateTime.Now,
                             OrderedTotal = i.OrderedTotal,
                             UnitType = new QuantityMeasure()
@@ -227,8 +240,13 @@ namespace XOG.AppCode.Mappers
                         TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
                         Address = new AddressViewModel()
                         {
+                            FullName = model.FirstOrDefault().FirstName + " " + model.FirstOrDefault().LastName,
                             AddressLine1 = model.FirstOrDefault().AddressLine1,
                             AddressLine2 = model.FirstOrDefault().AddressLine2,
+                            PhoneNumber = model.FirstOrDefault().OrderedPhoneNumber,
+                            Country = model.FirstOrDefault().Country,
+                            LandMark = model.FirstOrDefault().LandMark,
+                            AreaCode = model.FirstOrDefault().AreaCode,
                             Id = model.FirstOrDefault().OrderToAddressId,
                         },
                         IsDelivery = model.FirstOrDefault().OrderToAddressId != 0,
@@ -251,6 +269,7 @@ namespace XOG.AppCode.Mappers
                             ReturnOrderDate = i.ReturnOrderDate ?? DateTime.Now,
                             ReturnTotal = i.ReturnTotal ?? 0,
                             Total = i.Total ?? 0,
+                            Volume = i.Volume,
                             OrderedTotal = i.OrderedTotal,
                             UnitType = new QuantityMeasure()
                             {
@@ -347,7 +366,7 @@ namespace XOG.AppCode.Mappers
 
                 order.OrderToAddressId = customerInfo.DefaultAddress != null ? customerInfo.DefaultAddress.Id : 1;
 
-                ProductFilter productFilter = new ProductFilter() { Ids = ids, ProductQueryType = ProductQueryType.Variants };
+                IProductFilter productFilter = new ProductFilterRequestVM() { Ids = ids, ProductQueryType = ProductQueryType.Variants };
 
                 productVariantsList = ((List<object>)new ProductBL().GetList<ProductVariantViewModel>(context, productFilter, ListingType.List)).Select(i => (ProductVariantViewModel)i).ToList();
 
@@ -363,7 +382,7 @@ namespace XOG.AppCode.Mappers
 
                 customerInfo = new UserBL().GetUserByNameOrId<UserViewModel>(context, _model.UserId);
 
-                ProductFilter productFilter = new ProductFilter() { Ids = ids, ProductQueryType = ProductQueryType.Variants };
+                IProductFilter productFilter = new ProductFilterRequestVM() { Ids = ids, ProductQueryType = ProductQueryType.Variants };
 
                 productVariantsList = ((List<object>)new ProductBL().GetList<ProductVariantViewModel>(context, productFilter, ListingType.List)).Select(i => (ProductVariantViewModel)i).ToList();
 
