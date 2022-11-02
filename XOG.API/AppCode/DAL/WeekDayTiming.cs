@@ -14,10 +14,15 @@ namespace XOG.AppCode.DAL
     
     public partial class WeekDayTiming
     {
+        public long Id { get; set; }
         public byte WeekDayId { get; set; }
         public string DayName { get; set; }
         public bool IsWeekDayActive { get; set; }
         public Nullable<bool> IsTimingActive { get; set; }
+        public Nullable<short> HourStart { get; set; }
+        public Nullable<short> HourEnd { get; set; }
+        public Nullable<short> MinuteStart { get; set; }
+        public Nullable<short> MinutesEnd { get; set; }
         public Nullable<short> FromHours { get; set; }
         public Nullable<short> FromMinutes { get; set; }
         public Nullable<short> ToHours { get; set; }

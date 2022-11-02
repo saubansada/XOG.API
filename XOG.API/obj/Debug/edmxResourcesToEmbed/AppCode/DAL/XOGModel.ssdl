@@ -293,7 +293,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
@@ -415,14 +415,17 @@ warning 6002: The table/view 'xog_db.dbo.UserWalletListVW' does not have a prima
 warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="WeekDayTimings">
     <Key>
-      <PropertyRef Name="WeekDayId" />
-      <PropertyRef Name="DayName" />
-      <PropertyRef Name="IsWeekDayActive" />
+      <PropertyRef Name="Id" />
     </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="WeekDayId" Type="tinyint" Nullable="false" />
     <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="IsWeekDayActive" Type="bit" Nullable="false" />
     <Property Name="IsTimingActive" Type="bit" />
+    <Property Name="HourStart" Type="smallint" />
+    <Property Name="HourEnd" Type="smallint" />
+    <Property Name="MinuteStart" Type="smallint" />
+    <Property Name="MinutesEnd" Type="smallint" />
     <Property Name="FromHours" Type="smallint" />
     <Property Name="FromMinutes" Type="smallint" />
     <Property Name="ToHours" Type="smallint" />
@@ -932,10 +935,15 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     </EntitySet>
     <EntitySet Name="WeekDayTimings" EntityType="Self.WeekDayTimings" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
+    [WeekDayTimings].[Id] AS [Id], 
     [WeekDayTimings].[WeekDayId] AS [WeekDayId], 
     [WeekDayTimings].[DayName] AS [DayName], 
     [WeekDayTimings].[IsWeekDayActive] AS [IsWeekDayActive], 
     [WeekDayTimings].[IsTimingActive] AS [IsTimingActive], 
+    [WeekDayTimings].[HourStart] AS [HourStart], 
+    [WeekDayTimings].[HourEnd] AS [HourEnd], 
+    [WeekDayTimings].[MinuteStart] AS [MinuteStart], 
+    [WeekDayTimings].[MinutesEnd] AS [MinutesEnd], 
     [WeekDayTimings].[FromHours] AS [FromHours], 
     [WeekDayTimings].[FromMinutes] AS [FromMinutes], 
     [WeekDayTimings].[ToHours] AS [ToHours], 

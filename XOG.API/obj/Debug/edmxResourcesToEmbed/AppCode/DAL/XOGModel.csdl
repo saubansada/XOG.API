@@ -995,14 +995,17 @@
   </Association>
   <EntityType Name="WeekDayTiming">
     <Key>
-      <PropertyRef Name="WeekDayId" />
-      <PropertyRef Name="DayName" />
-      <PropertyRef Name="IsWeekDayActive" />
+      <PropertyRef Name="Id" />
     </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
     <Property Name="WeekDayId" Type="Byte" Nullable="false" />
     <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
     <Property Name="IsTimingActive" Type="Boolean" />
+    <Property Name="HourStart" Type="Int16" />
+    <Property Name="HourEnd" Type="Int16" />
+    <Property Name="MinuteStart" Type="Int16" />
+    <Property Name="MinutesEnd" Type="Int16" />
     <Property Name="FromHours" Type="Int16" />
     <Property Name="FromMinutes" Type="Int16" />
     <Property Name="ToHours" Type="Int16" />

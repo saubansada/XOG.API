@@ -107,7 +107,7 @@ namespace XOG.AppCode.BLL
                 return await PlaceOrder(_context, model);
             }
         }
-
+         
         internal async Task<Dictionary<string, object>> PlaceOrder(XOGEntities context, Order model)
         {
             var res = new Dictionary<string, object>();

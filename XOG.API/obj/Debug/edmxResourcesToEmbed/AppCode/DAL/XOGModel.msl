@@ -413,10 +413,15 @@
           <ScalarProperty Name="ToHours" ColumnName="ToHours" />
           <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
           <ScalarProperty Name="FromHours" ColumnName="FromHours" />
+          <ScalarProperty Name="MinutesEnd" ColumnName="MinutesEnd" />
+          <ScalarProperty Name="MinuteStart" ColumnName="MinuteStart" />
+          <ScalarProperty Name="HourEnd" ColumnName="HourEnd" />
+          <ScalarProperty Name="HourStart" ColumnName="HourStart" />
           <ScalarProperty Name="IsTimingActive" ColumnName="IsTimingActive" />
           <ScalarProperty Name="IsWeekDayActive" ColumnName="IsWeekDayActive" />
           <ScalarProperty Name="DayName" ColumnName="DayName" />
           <ScalarProperty Name="WeekDayId" ColumnName="WeekDayId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

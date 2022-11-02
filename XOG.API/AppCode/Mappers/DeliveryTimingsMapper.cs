@@ -21,7 +21,7 @@ namespace XOG.AppCode.Mappers
                 return null;
             }
 
-            var _query = (IQueryable<object>)query;
+            var _query = (IQueryable<object>)query.OrderBy(i => i.HourStart);
 
             if (typeof(T) == typeof(WeekDayTimingViewModel))
             {

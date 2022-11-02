@@ -298,7 +298,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -420,14 +420,17 @@ warning 6002: The table/view 'xog_db.dbo.UserWalletListVW' does not have a prima
 warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="WeekDayTimings">
           <Key>
-            <PropertyRef Name="WeekDayId" />
-            <PropertyRef Name="DayName" />
-            <PropertyRef Name="IsWeekDayActive" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="WeekDayId" Type="tinyint" Nullable="false" />
           <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsWeekDayActive" Type="bit" Nullable="false" />
           <Property Name="IsTimingActive" Type="bit" />
+          <Property Name="HourStart" Type="smallint" />
+          <Property Name="HourEnd" Type="smallint" />
+          <Property Name="MinuteStart" Type="smallint" />
+          <Property Name="MinutesEnd" Type="smallint" />
           <Property Name="FromHours" Type="smallint" />
           <Property Name="FromMinutes" Type="smallint" />
           <Property Name="ToHours" Type="smallint" />
@@ -937,10 +940,15 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           </EntitySet>
           <EntitySet Name="WeekDayTimings" EntityType="Self.WeekDayTimings" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [WeekDayTimings].[Id] AS [Id], 
     [WeekDayTimings].[WeekDayId] AS [WeekDayId], 
     [WeekDayTimings].[DayName] AS [DayName], 
     [WeekDayTimings].[IsWeekDayActive] AS [IsWeekDayActive], 
     [WeekDayTimings].[IsTimingActive] AS [IsTimingActive], 
+    [WeekDayTimings].[HourStart] AS [HourStart], 
+    [WeekDayTimings].[HourEnd] AS [HourEnd], 
+    [WeekDayTimings].[MinuteStart] AS [MinuteStart], 
+    [WeekDayTimings].[MinutesEnd] AS [MinutesEnd], 
     [WeekDayTimings].[FromHours] AS [FromHours], 
     [WeekDayTimings].[FromMinutes] AS [FromMinutes], 
     [WeekDayTimings].[ToHours] AS [ToHours], 
@@ -2071,14 +2079,17 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
         </Association>
         <EntityType Name="WeekDayTiming">
           <Key>
-            <PropertyRef Name="WeekDayId" />
-            <PropertyRef Name="DayName" />
-            <PropertyRef Name="IsWeekDayActive" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="WeekDayId" Type="Byte" Nullable="false" />
           <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
           <Property Name="IsTimingActive" Type="Boolean" />
+          <Property Name="HourStart" Type="Int16" />
+          <Property Name="HourEnd" Type="Int16" />
+          <Property Name="MinuteStart" Type="Int16" />
+          <Property Name="MinutesEnd" Type="Int16" />
           <Property Name="FromHours" Type="Int16" />
           <Property Name="FromMinutes" Type="Int16" />
           <Property Name="ToHours" Type="Int16" />
@@ -2502,10 +2513,15 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
                 <ScalarProperty Name="ToHours" ColumnName="ToHours" />
                 <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
                 <ScalarProperty Name="FromHours" ColumnName="FromHours" />
+                <ScalarProperty Name="MinutesEnd" ColumnName="MinutesEnd" />
+                <ScalarProperty Name="MinuteStart" ColumnName="MinuteStart" />
+                <ScalarProperty Name="HourEnd" ColumnName="HourEnd" />
+                <ScalarProperty Name="HourStart" ColumnName="HourStart" />
                 <ScalarProperty Name="IsTimingActive" ColumnName="IsTimingActive" />
                 <ScalarProperty Name="IsWeekDayActive" ColumnName="IsWeekDayActive" />
                 <ScalarProperty Name="DayName" ColumnName="DayName" />
                 <ScalarProperty Name="WeekDayId" ColumnName="WeekDayId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
