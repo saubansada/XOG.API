@@ -14,7 +14,7 @@ namespace XOG.AppCode.DAL
     
     public partial class OrderVW
     {
-        public Nullable<long> ViewInfoId { get; set; }
+        public long ViewInfoId { get; set; }
         public long OrderId { get; set; }
         public long Id { get; set; }
         public Nullable<long> ReturnDetailId { get; set; }

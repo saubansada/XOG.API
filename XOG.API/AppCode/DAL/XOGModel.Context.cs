@@ -48,12 +48,12 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<ReturnOrder> ReturnOrders { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
-        public virtual DbSet<UserWallet> UserWallets { get; set; }
         public virtual DbSet<WishList> WishLists { get; set; }
         public virtual DbSet<OrderVW> OrderVWs { get; set; }
-        public virtual DbSet<UsersWalletVW> UsersWalletVWs { get; set; }
-        public virtual DbSet<UserWalletListVW> UserWalletListVWs { get; set; }
         public virtual DbSet<WeekDayStatus> WeekDayStatuses { get; set; }
         public virtual DbSet<WeekDayTiming> WeekDayTimings { get; set; }
+        public virtual DbSet<UsersWalletVW> UsersWalletVWs { get; set; }
+        public virtual DbSet<UserWalletListVW> UserWalletListVWs { get; set; }
+        public virtual DbSet<UserWallet> UserWallets { get; set; }
     }
 }

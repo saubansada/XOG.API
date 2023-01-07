@@ -15,11 +15,11 @@ namespace XOG.Abstracts
 {
     public abstract class CrudApiController<T1, T2> : ApiController 
     { 
-        public abstract IHttpActionResult List([FromUri] T1 filter);
+        public abstract Task<IHttpActionResult> List([FromUri] T1 filter);
 
         public abstract IHttpActionResult GetSelectListAsync([FromUri] T1 filter);
 
-        public abstract IHttpActionResult Get(int id);
+        public abstract Task<IHttpActionResult> GetAsync(int id);
 
         public abstract Task<IHttpActionResult> AddAsync(T2 request);
 

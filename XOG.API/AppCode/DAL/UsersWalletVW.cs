@@ -15,8 +15,8 @@ namespace XOG.AppCode.DAL
     public partial class UsersWalletVW
     {
         public string WalletOfUserId { get; set; }
-        public Nullable<int> TotalCredited { get; set; }
-        public Nullable<int> TotalDebited { get; set; }
+        public Nullable<double> TotalCredited { get; set; }
+        public Nullable<double> TotalDebited { get; set; }
         public Nullable<double> Amount { get; set; }
     }
 }

@@ -30,6 +30,8 @@ namespace XOG.Models.ViewModels
          
         public string PaymentId { get; set; }
 
+        public bool UseWallet { get; set; }
+
         public string PaymentOrderId { get; set; }
 
         public string PaymentSignature { get; set; }
@@ -46,6 +48,7 @@ namespace XOG.Models.ViewModels
 
     public class OrderInitiateRequestVM
     {
+        public Boolean UseWallet { get; set; }
         public List<CartViewModel> CartList { get; set; }
     }
 }

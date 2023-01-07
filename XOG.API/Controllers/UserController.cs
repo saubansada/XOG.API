@@ -17,7 +17,7 @@ namespace XOG.Controllers
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public override IHttpActionResult List([FromUri] UserFiltersRequestVM filter)
+        public async override Task<IHttpActionResult> List([FromUri] UserFiltersRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -25,7 +25,7 @@ namespace XOG.Controllers
 
             res.IsSuccess = true;
 
-            return Ok(res);
+            return Ok(await Task.FromResult(res));
         }
 
         [HttpGet]
@@ -134,8 +134,9 @@ namespace XOG.Controllers
             return Ok(res);
         }
 
-        public override IHttpActionResult Get(int id)
+        public async override Task<IHttpActionResult> GetAsync(int id)
         {
+            await Task.FromResult(0);
             throw new System.NotImplementedException();
         }
 

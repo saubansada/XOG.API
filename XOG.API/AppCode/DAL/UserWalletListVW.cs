@@ -18,8 +18,8 @@ namespace XOG.AppCode.DAL
         public string UserId { get; set; }
         public string TransactionType { get; set; }
         public string OrderAction { get; set; }
-        public long TransactionId { get; set; }
-        public byte[] TimeStamp { get; set; }
+        public Nullable<long> TransactionId { get; set; }
+        public System.DateTime TimeStamp { get; set; }
         public Nullable<long> ActionId { get; set; }
         public Nullable<double> Amount { get; set; }
     }

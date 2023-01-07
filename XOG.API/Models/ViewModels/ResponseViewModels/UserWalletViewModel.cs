@@ -14,8 +14,16 @@ namespace XOG.Models.ViewModels.ResponseViewModels
         public TransactionType TransactionType { get; set; }
         public string OrderAction { get; set; }
         public long TransactionId { get; set; }
-        public byte[] TimeStamp { get; set; }
+        public DateTime TimeStamp { get; set; }
         public Nullable<long> ActionId { get; set; }
         public Nullable<double> Amount { get; set; }
+    }
+
+    public class UserWalletInfo: BaseModel
+    {
+        public string WalletOfUserId { get; set; }
+        public double TotalCredited { get; set; }
+        public double TotalDebited { get; set; }
+        public double BalanceAmount { get; set; }
     }
 }

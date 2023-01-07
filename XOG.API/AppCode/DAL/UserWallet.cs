@@ -23,7 +23,7 @@ namespace XOG.AppCode.DAL
         public long Id { get; set; }
         public string WalletOfUserId { get; set; }
         public Nullable<double> Amount { get; set; }
-        public byte[] TimeStamp { get; set; }
+        public System.DateTime TimeStamp { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -18,7 +18,7 @@ namespace XOG.Controllers
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public override IHttpActionResult List([FromUri] ProductFilterRequestVM filter)
+        public async override Task<IHttpActionResult> List([FromUri] ProductFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
@@ -26,7 +26,7 @@ namespace XOG.Controllers
 
             res.IsSuccess = true;
 
-            return Ok(res);
+            return Ok(await Task.FromResult(res));
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public override IHttpActionResult Get(int id)
+        public async override Task<IHttpActionResult> GetAsync(int id)
         {
             var res = new ReturnObject<ProductGroupViewModel>();
 
@@ -52,7 +52,7 @@ namespace XOG.Controllers
 
             res.IsSuccess = true;
 
-            return Ok(res);
+            return Ok(await Task.FromResult(res));
         }
 
         [HttpPost]

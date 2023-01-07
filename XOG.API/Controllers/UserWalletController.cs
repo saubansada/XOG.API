@@ -46,15 +46,33 @@ namespace XOG.Controllers
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public override IHttpActionResult List([FromUri] UserWalletFilterRequestVM filter)
+        public async override Task<IHttpActionResult> List([FromUri] UserWalletFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
+
+            var userName = HttpContext.Current.User.Identity.Name;
+
+            if (userName == null)
+            {
+                return Unauthorized();
+            }
+
+            filter = new UserWalletFilterRequestVM();
+
+            filter.UserId = (await UserManager.FindByNameAsync(userName)).Id;
+
+            var isAdmin = await UserManager.IsInRoleAsync(filter.UserId, "Admin");
+
+            if (isAdmin)
+            {
+                filter.UserId = "";
+            }
 
             res.Data = new UserWalletBL().GetDetailedList<UserWalletViewModel>(filter: filter);
 
             res.IsSuccess = true;
-
-            return Ok(res);
+             
+            return Ok(await Task.FromResult(res));
         }
 
         [HttpGet]
@@ -71,18 +89,27 @@ namespace XOG.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
-        public override IHttpActionResult Get(int id)
+        [Route("get")]
+        public override async Task<IHttpActionResult> GetAsync(int id)
         {
-            var res = new ReturnObject<UserWalletFilterRequestVM>();
+            var res = new ReturnObject<UserWalletInfo>();
 
-            res.Data = (UserWalletFilterRequestVM)new UserWalletBL().GetUserWalletByNameOrId<UserWalletFilterRequestVM>(null, id);
+            var userName = HttpContext.Current.User.Identity.Name;
+
+            if (userName == null)
+            {
+                return Unauthorized();
+            }
+
+            var userId = (await UserManager.FindByNameAsync(userName)).Id;
+
+            res.Data = (UserWalletInfo)new UserWalletBL().GetUserWalletByUserNameOrId<UserWalletInfo>(null, userId);
 
             res.IsSuccess = true;
 
             res.Result = ApiResult.Success;
 
-            return Ok(res);
+            return Ok(await Task.FromResult(res));
         }
 
         [HttpPost]
@@ -92,8 +119,17 @@ namespace XOG.Controllers
             var res = new ReturnObject<DBStatus>();
 
             var entity = request.MapToUserWalletEntity();
+             
+            var userName = HttpContext.Current.User.Identity.Name;
 
-            res.Data = await new UserWalletBL().AddAsync(entity);
+            if (userName == null)
+            {
+                return Unauthorized();
+            } 
+
+            var userId = (await UserManager.FindByNameAsync(userName)).Id;
+
+            res.Data = await new UserWalletBL().AddAsync(entity, userId);
 
             res.IsSuccess = res.Data == DBStatus.Success;
 

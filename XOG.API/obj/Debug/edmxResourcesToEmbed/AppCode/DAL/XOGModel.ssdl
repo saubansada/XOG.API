@@ -287,7 +287,7 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="WalletOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="Amount" Type="float" />
-    <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
   </EntityType>
   <EntityType Name="WeekDayStatuses">
     <Key>
@@ -332,8 +332,9 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
       <PropertyRef Name="OrderedQuantity" />
       <PropertyRef Name="Gst" />
       <PropertyRef Name="OrderedTotal" />
+      <PropertyRef Name="ViewInfoId" />
     </Key>
-    <Property Name="ViewInfoId" Type="bigint" />
+    <Property Name="ViewInfoId" Type="bigint" Nullable="false" />
     <Property Name="OrderId" Type="bigint" Nullable="false" />
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="ReturnDetailId" Type="bigint" />
@@ -387,8 +388,8 @@ warning 6002: The table/view 'xog_db.dbo.UsersWalletVW' does not have a primary 
       <PropertyRef Name="WalletOfUserId" />
     </Key>
     <Property Name="WalletOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="TotalCredited" Type="int" />
-    <Property Name="TotalDebited" Type="int" />
+    <Property Name="TotalCredited" Type="float" />
+    <Property Name="TotalDebited" Type="float" />
     <Property Name="Amount" Type="float" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -399,15 +400,14 @@ warning 6002: The table/view 'xog_db.dbo.UserWalletListVW' does not have a prima
       <PropertyRef Name="UserId" />
       <PropertyRef Name="TransactionType" />
       <PropertyRef Name="OrderAction" />
-      <PropertyRef Name="TransactionId" />
       <PropertyRef Name="TimeStamp" />
     </Key>
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="TransactionType" Type="varchar" MaxLength="6" Nullable="false" />
     <Property Name="OrderAction" Type="varchar" MaxLength="9" Nullable="false" />
-    <Property Name="TransactionId" Type="bigint" Nullable="false" />
-    <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="TransactionId" Type="bigint" />
+    <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
     <Property Name="ActionId" Type="bigint" />
     <Property Name="Amount" Type="float" />
   </EntityType>
@@ -771,6 +771,20 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Transactions_UserWallets">
+    <End Role="UserWallet" Type="Self.UserWallet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserWallet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="WalletId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_WishList_AspNetUsers">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -820,18 +834,6 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Principal>
       <Dependent Role="UserWallet">
         <PropertyRef Name="WalletOfUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PK_WALLET_TRANSACTIONS">
-    <End Role="UserWallet" Type="Self.UserWallet" Multiplicity="0..1" />
-    <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserWallet">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Transactions">
-        <PropertyRef Name="WalletId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1054,6 +1056,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       <End Role="Orders" EntitySet="Orders" />
       <End Role="Transactions" EntitySet="Transactions" />
     </AssociationSet>
+    <AssociationSet Name="FK_Transactions_UserWallets" Association="Self.FK_Transactions_UserWallets">
+      <End Role="UserWallet" EntitySet="UserWallet" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
     <AssociationSet Name="FK_WishList_AspNetUsers" Association="Self.FK_WishList_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="WishLists" EntitySet="WishLists" />
@@ -1069,10 +1075,6 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <AssociationSet Name="PK_USER_WALLET" Association="Self.PK_USER_WALLET">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="UserWallet" EntitySet="UserWallet" />
-    </AssociationSet>
-    <AssociationSet Name="PK_WALLET_TRANSACTIONS" Association="Self.PK_WALLET_TRANSACTIONS">
-      <End Role="UserWallet" EntitySet="UserWallet" />
-      <End Role="Transactions" EntitySet="Transactions" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

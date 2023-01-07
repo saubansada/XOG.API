@@ -17,6 +17,7 @@ using System.Net;
 using System;
 using XOG.AppCode.Models.FilterModels;
 using System.Linq;
+using XOG.Models.ViewModels.ResponseViewModels;
 
 namespace XOG.Controllers
 {
@@ -53,7 +54,7 @@ namespace XOG.Controllers
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
         public async Task<IHttpActionResult> List([FromUri] OrderFilterRequestVM filter)
         {
-            ReturnObject<List<OrderViewModel>> result = new ReturnObject<List<OrderViewModel>>();
+            ReturnObject<object> result = new ReturnObject<object>();
 
             OrderFilterRequestVM orderFilter = filter ?? new OrderFilterRequestVM();
 
@@ -71,9 +72,14 @@ namespace XOG.Controllers
             orderFilter.IsAdminRequest = (await UserManager.IsInRoleAsync(userId, "Admin")) || (await UserManager.IsInRoleAsync(userId, "Staff"))
                     || (await UserManager.IsInRoleAsync(userId, "Developer")); ;
 
-            var order = (List<OrderViewModel>)new OrderBL().GetList<OrderViewModel>(orderFilter);
-
-            result.Data = order;
+            if (orderFilter.IsReturnedOrder)
+            {
+                result.Data = new OrderBL().GetList<ReturnOrderViewModel>(orderFilter);
+            }
+            else
+            {
+                result.Data = new OrderBL().GetList<OrderViewModel>(orderFilter);
+            }
 
             result.IsSuccess = result.Data != null;
 
@@ -137,8 +143,12 @@ namespace XOG.Controllers
 
                 double amount = 0;
 
+                var wbl = new UserWalletBL();
+
                 using (var context = ordersBL.GetXOGContext())
                 {
+                    var walletInfo = (UserWalletInfo)wbl.GetUserWalletByUserNameOrId<UserWalletInfo>(context, userId);
+
                     CartBL bl = new CartBL();
 
                     await bl.DeleteMultipleAsync(new CartFilterRequestVM
@@ -161,6 +171,19 @@ namespace XOG.Controllers
                     };
 
                     amount = vm.MapToOrderEntity(context).TotalAmount;
+
+                    if (walletInfo != null && request.UseWallet && walletInfo.BalanceAmount > 0)
+                    {
+                        if (amount <= walletInfo.BalanceAmount)
+                        {
+                            return BadRequest("Request Action is incorrect");
+                        }
+                        else
+                        {
+                            amount = amount - walletInfo.BalanceAmount;
+                        }
+                    }
+
                 }
 
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -214,19 +237,24 @@ namespace XOG.Controllers
                 return Unauthorized();
             }
 
-            if (request.PaymentMode == PaymentType.OnlinePayment)
-            {
-                VerifyPayment(request.PaymentId, request.PaymentOrderId, request.PaymentSignature);
-            }
-
             var userId = (await UserManager.FindByNameAsync(userName)).Id;
 
             using (var context = ordersBL.GetXOGContext())
             {
+                var wbl = new UserWalletBL();
+
+                AppCode.DAL.UserWallet walletObj = null;
+
+                bool isFullWallet = false;
+
+                UserWalletInfo walletInfo = null;
+
                 Payment payment = null;
 
                 if (request.PaymentMode == PaymentType.OnlinePayment)
                 {
+                    walletInfo = (UserWalletInfo)wbl.GetUserWalletByUserNameOrId<UserWalletInfo>(context, userId);
+
                     CartBL cartBL = new CartBL();
 
                     CartFilterRequestVM filter = new CartFilterRequestVM() { UserId = userId };
@@ -238,19 +266,45 @@ namespace XOG.Controllers
                         ProductVariantId = i.ProductVariantId,
                         Quantity = i.Quantity
                     }).ToList();
+                }
+
+                var entity = request.MapToOrderEntity(context);
+
+                var totalAmount = entity.TotalAmount;
+
+                if (walletInfo != null && walletInfo.BalanceAmount > 0)
+                {
+                    if (request.UseWallet && totalAmount <= walletInfo.BalanceAmount)
+                    {
+                        isFullWallet = true;
+                    }
+                    else if (request.UseWallet && totalAmount > walletInfo.BalanceAmount)
+                    {
+                        totalAmount = totalAmount - walletInfo.BalanceAmount;
+                    }
+
+                    walletObj = new AppCode.DAL.UserWallet()
+                    {
+                        Amount = -1 * walletInfo.BalanceAmount,
+                        TimeStamp = DateTime.UtcNow,
+                        WalletOfUserId = userId
+                    };
+                }
+
+                if (request.PaymentMode == PaymentType.OnlinePayment && !isFullWallet)
+                {
+                    VerifyPayment(request.PaymentId, request.PaymentOrderId, request.PaymentSignature);
 
                     payment = client.Payment.Fetch(request.PaymentId);
                 }
 
                 request.UserId = userId;
 
-                var entity = request.MapToOrderEntity(context);
+                var wholeAmount = Int32.Parse(Math.Floor(totalAmount) + "" + Math.Round((totalAmount - (Math.Floor(totalAmount))) * 100));
 
-                var wholeAmount = Int32.Parse(Math.Floor(entity.TotalAmount) + "" + Math.Round((entity.TotalAmount - (Math.Floor(entity.TotalAmount))) * 100));
-
-                if (request.PaymentMode == PaymentType.CashOnDelivery || (payment != null && payment["amount"] == wholeAmount))
+                if (request.PaymentMode == PaymentType.CashOnDelivery || isFullWallet || (payment != null && payment["amount"] == wholeAmount))
                 {
-                    res.Data = await ordersBL.PlaceOrder(context, entity);
+                    res.Data = await ordersBL.PlaceOrder(context, entity, walletObj);
 
                     res.IsSuccess = (DBStatus)res.Data["DBStatus"] == DBStatus.Success;
 
@@ -298,13 +352,13 @@ namespace XOG.Controllers
         public async Task<IHttpActionResult> UpdateOrderStatus([FromBody] OrderRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
-              
+
             var result = await new OrderBL().UpdateOrderStatus(request.Id, request.OrderState);
 
             res.IsSuccess = (DBStatus)result["DBStatus"] == DBStatus.Success;
 
             res.Message = res.IsSuccess ? (string)result["Message"] : (string)result["DetailedError"];
-             
+
             res.Result = ApiResult.Success;
 
             if (!res.IsSuccess)
@@ -357,7 +411,7 @@ namespace XOG.Controllers
         public async Task<IHttpActionResult> UpdateOrderReturnStatus([FromBody] OrderRequestVM request)
         {
             var res = new ReturnObject<DBStatus>();
-             
+
             var result = await new OrderBL().UpdateOrderReturnStatus(request.ReturnId, request.OrderState);
 
             res.IsSuccess = (DBStatus)result["DBStatus"] == DBStatus.Success;

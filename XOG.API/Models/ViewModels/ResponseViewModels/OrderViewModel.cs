@@ -41,6 +41,12 @@ namespace XOG.Models.ViewModels
         public AddressViewModel Address { get; set; }
     }
 
+    public class ReturnOrderViewModel: OrderViewModel
+    {
+        public long OrderId { get; set; }
+        public float ReturnTotal { get; set; }
+    }
+
     public class OrderDetailViewModel
     {
         public long OrderId { get; set; }

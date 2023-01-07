@@ -53,8 +53,9 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public override IHttpActionResult Get(int id)
+        public async override Task<IHttpActionResult> GetAsync(int id)
         {
+            await Task.FromResult(0);
             throw new System.NotImplementedException();
         }
 
@@ -73,7 +74,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-list")]
-        public override IHttpActionResult List([FromUri] DeliveryTimingsFilterRequestVM filter)
+        public async override Task<IHttpActionResult> List([FromUri] DeliveryTimingsFilterRequestVM filter)
         {
 
             var res = new ReturnObject<object>();
@@ -82,7 +83,7 @@ namespace XOG.Controllers
 
             res.IsSuccess = true;
 
-            return Ok(res);
+            return Ok(await Task.FromResult(res));
         }
     }
 

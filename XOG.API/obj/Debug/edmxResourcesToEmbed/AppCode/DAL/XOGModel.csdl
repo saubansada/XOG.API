@@ -24,11 +24,8 @@
     <EntitySet Name="ReturnOrders" EntityType="XOGModel.ReturnOrder" />
     <EntitySet Name="SubCategories" EntityType="XOGModel.SubCategory" />
     <EntitySet Name="Transactions" EntityType="XOGModel.Transaction" />
-    <EntitySet Name="UserWallets" EntityType="XOGModel.UserWallet" />
     <EntitySet Name="WishLists" EntityType="XOGModel.WishList" />
     <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
-    <EntitySet Name="UsersWalletVWs" EntityType="XOGModel.UsersWalletVW" />
-    <EntitySet Name="UserWalletListVWs" EntityType="XOGModel.UserWalletListVW" />
     <AssociationSet Name="FK_Addresses_AspNetUsers" Association="XOGModel.FK_Addresses_AspNetUsers">
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="Address" EntitySet="Addresses" />
@@ -64,10 +61,6 @@
     <AssociationSet Name="FK_WishList_AspNetUsers" Association="XOGModel.FK_WishList_AspNetUsers">
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="WishList" EntitySet="WishLists" />
-    </AssociationSet>
-    <AssociationSet Name="PK_USER_WALLET" Association="XOGModel.PK_USER_WALLET">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="UserWallet" EntitySet="UserWallets" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Brands" Association="XOGModel.FK_Product_Brands">
       <End Role="Brand" EntitySet="Brands" />
@@ -137,10 +130,6 @@
       <End Role="ReturnOrder" EntitySet="ReturnOrders" />
       <End Role="Transaction" EntitySet="Transactions" />
     </AssociationSet>
-    <AssociationSet Name="PK_WALLET_TRANSACTIONS" Association="XOGModel.PK_WALLET_TRANSACTIONS">
-      <End Role="UserWallet" EntitySet="UserWallets" />
-      <End Role="Transaction" EntitySet="Transactions" />
-    </AssociationSet>
     <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
       <End Role="AspNetRole" EntitySet="AspNetRoles" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -151,6 +140,17 @@
       <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
     </AssociationSet>
     <EntitySet Name="WeekDayTimings" EntityType="XOGModel.WeekDayTiming" />
+    <EntitySet Name="UsersWalletVWs" EntityType="XOGModel.UsersWalletVW" />
+    <EntitySet Name="UserWalletListVWs" EntityType="XOGModel.UserWalletListVW" />
+    <EntitySet Name="UserWallets" EntityType="XOGModel.UserWallet" />
+    <AssociationSet Name="PK_USER_WALLET" Association="XOGModel.PK_USER_WALLET">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserWallet" EntitySet="UserWallets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transactions_UserWallets" Association="XOGModel.FK_Transactions_UserWallets">
+      <End Role="UserWallet" EntitySet="UserWallets" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Address">
     <Key>
@@ -244,8 +244,8 @@
     <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="AspNetUser" ToRole="Order" />
     <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="AspNetUser" ToRole="Transaction" />
     <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="AspNetUser" ToRole="WishList" />
-    <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
     <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+    <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
   </EntityType>
   <EntityType Name="Brand">
     <Key>
@@ -477,18 +477,7 @@
     <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="Transaction" ToRole="AspNetUser" />
     <NavigationProperty Name="Order" Relationship="XOGModel.FK_Transactions_orders" FromRole="Transaction" ToRole="Order" />
     <NavigationProperty Name="ReturnOrder" Relationship="XOGModel.PK_RETURNS_TRANSACTIONS" FromRole="Transaction" ToRole="ReturnOrder" />
-    <NavigationProperty Name="UserWallet" Relationship="XOGModel.PK_WALLET_TRANSACTIONS" FromRole="Transaction" ToRole="UserWallet" />
-  </EntityType>
-  <EntityType Name="UserWallet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="Amount" Type="Double" />
-    <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.PK_USER_WALLET" FromRole="UserWallet" ToRole="AspNetUser" />
-    <NavigationProperty Name="Transactions" Relationship="XOGModel.PK_WALLET_TRANSACTIONS" FromRole="UserWallet" ToRole="Transaction" />
+    <NavigationProperty Name="UserWallet" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="Transaction" ToRole="UserWallet" />
   </EntityType>
   <EntityType Name="WishList">
     <Key>
@@ -525,8 +514,9 @@
       <PropertyRef Name="OrderedQuantity" />
       <PropertyRef Name="Gst" />
       <PropertyRef Name="OrderedTotal" />
+      <PropertyRef Name="ViewInfoId" />
     </Key>
-    <Property Name="ViewInfoId" Type="Int64" />
+    <Property Name="ViewInfoId" Type="Int64" Nullable="false" />
     <Property Name="OrderId" Type="Int64" Nullable="false" />
     <Property Name="Id" Type="Int64" Nullable="false" />
     <Property Name="ReturnDetailId" Type="Int64" />
@@ -572,33 +562,6 @@
     <Property Name="ReturnTotalSum" Type="Double" />
     <Property Name="Total" Type="Double" />
     <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
-  </EntityType>
-  <EntityType Name="UsersWalletVW">
-    <Key>
-      <PropertyRef Name="WalletOfUserId" />
-    </Key>
-    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="TotalCredited" Type="Int32" />
-    <Property Name="TotalDebited" Type="Int32" />
-    <Property Name="Amount" Type="Double" />
-  </EntityType>
-  <EntityType Name="UserWalletListVW">
-    <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="UserId" />
-      <PropertyRef Name="TransactionType" />
-      <PropertyRef Name="OrderAction" />
-      <PropertyRef Name="TransactionId" />
-      <PropertyRef Name="TimeStamp" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" />
-    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-    <Property Name="OrderAction" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
-    <Property Name="TransactionId" Type="Int64" Nullable="false" />
-    <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-    <Property Name="ActionId" Type="Int64" />
-    <Property Name="Amount" Type="Double" />
   </EntityType>
   <Association Name="FK_Addresses_AspNetUsers">
     <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -715,18 +678,6 @@
       </Principal>
       <Dependent Role="WishList">
         <PropertyRef Name="WishedByUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PK_USER_WALLET">
-    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-    <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserWallet">
-        <PropertyRef Name="WalletOfUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -956,18 +907,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="PK_WALLET_TRANSACTIONS">
-    <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="0..1" />
-    <End Type="XOGModel.Transaction" Role="Transaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserWallet">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Transaction">
-        <PropertyRef Name="WalletId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="AspNetUserRoles">
     <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
     <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
@@ -1011,4 +950,67 @@
     <Property Name="ToHours" Type="Int16" />
     <Property Name="ToMinutes" Type="Int16" />
   </EntityType>
+  <EntityType Name="UsersWalletVW">
+    <Key>
+      <PropertyRef Name="WalletOfUserId" />
+    </Key>
+    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="TotalCredited" Type="Double" />
+    <Property Name="TotalDebited" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+  </EntityType>
+  <EntityType Name="UserWalletListVW">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="TransactionType" />
+      <PropertyRef Name="OrderAction" />
+      <PropertyRef Name="TimeStamp" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="OrderAction" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="TransactionId" Type="Int64" />
+    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="ActionId" Type="Int64" />
+    <Property Name="Amount" Type="Double" />
+  </EntityType>
+  <EntityType Name="UserWallet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.PK_USER_WALLET" FromRole="UserWallet" ToRole="AspNetUser" />
+    <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="UserWallet" ToRole="Transaction" />
+  </EntityType>
+  <Association Name="PK_USER_WALLET">
+    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserWallet">
+        <PropertyRef Name="WalletOfUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transactions_UserWallets">
+    <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="XOGModel.Transaction" Role="Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserWallet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="WalletId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

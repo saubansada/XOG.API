@@ -28,11 +28,8 @@
         <EntityTypeShape EntityType="XOGModel.ReturnOrder" Width="1.5" PointX="9.75" PointY="19.5" />
         <EntityTypeShape EntityType="XOGModel.SubCategory" Width="1.5" PointX="1.5" PointY="4.25" />
         <EntityTypeShape EntityType="XOGModel.Transaction" Width="1.5" PointX="12" PointY="13.875" />
-        <EntityTypeShape EntityType="XOGModel.UserWallet" Width="1.5" PointX="5.25" PointY="8.625" />
         <EntityTypeShape EntityType="XOGModel.WishList" Width="1.5" PointX="5.25" PointY="15.375" />
         <EntityTypeShape EntityType="XOGModel.OrderVW" Width="1.5" PointX="12.75" PointY="2.5" />
-        <EntityTypeShape EntityType="XOGModel.UsersWalletVW" Width="1.5" PointX="9.75" PointY="10.5" />
-        <EntityTypeShape EntityType="XOGModel.UserWalletListVW" Width="1.5" PointX="14.75" PointY="2.5" />
         <AssociationConnector Association="XOGModel.FK_Addresses_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_Orders_Addresses" />
         <AssociationConnector Association="XOGModel.FK_AdSenseAds_AspNetUsers" />
@@ -42,7 +39,6 @@
         <AssociationConnector Association="XOGModel.FK_Orders_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_Transactions_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_WishList_AspNetUsers" />
-        <AssociationConnector Association="XOGModel.PK_USER_WALLET" />
         <AssociationConnector Association="XOGModel.FK_Product_Brands" />
         <AssociationConnector Association="XOGModel.FK_Carts_ProductVariants" />
         <AssociationConnector Association="XOGModel.fk_SubCategory_Category" />
@@ -60,11 +56,15 @@
         <AssociationConnector Association="XOGModel.fk_productVariants_quantityMeasureId" />
         <AssociationConnector Association="XOGModel.FK_ReturnOrderDetails_Orders" />
         <AssociationConnector Association="XOGModel.PK_RETURNS_TRANSACTIONS" />
-        <AssociationConnector Association="XOGModel.PK_WALLET_TRANSACTIONS" />
         <AssociationConnector Association="XOGModel.AspNetUserRoles" />
         <EntityTypeShape EntityType="XOGModel.WeekDayStatus" Width="1.5" PointX="7.75" PointY="7" />
         <AssociationConnector Association="XOGModel.FK_DeliveryTimings_WeekDayStatus" />
         <EntityTypeShape EntityType="XOGModel.WeekDayTiming" Width="1.5" PointX="14.375" PointY="13.75" />
+        <EntityTypeShape EntityType="XOGModel.UsersWalletVW" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="XOGModel.UserWalletListVW" Width="1.5" PointX="15.375" PointY="3.75" />
+        <EntityTypeShape EntityType="XOGModel.UserWallet" Width="1.5" PointX="5.25" PointY="8.375" />
+        <AssociationConnector Association="XOGModel.PK_USER_WALLET" />
+        <AssociationConnector Association="XOGModel.FK_Transactions_UserWallets" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

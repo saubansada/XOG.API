@@ -28,12 +28,13 @@ namespace XOG.AppCode.Mappers
 
             var list = query.ToList();
 
-            if (typeof(T) == typeof(OrderViewModel))
+            if (typeof(T) == typeof(ReturnOrderViewModel))
             {
                 var orders = list.ToList().GroupBy(i => i.ReturnId)
-                    .Select(model => new OrderViewModel()
+                    .Select(model => new ReturnOrderViewModel()
                     {
                         Id = model.FirstOrDefault().Id,
+                        OrderId = model.FirstOrDefault().OrderId,
                         ReturnId = model.FirstOrDefault().ReturnId ?? -1,
                         OrderReturnState = (OrderStatus)model.FirstOrDefault().ReturnOrderStatus,
                         PhoneNumber = model.FirstOrDefault().PhoneNumber,
@@ -43,6 +44,7 @@ namespace XOG.AppCode.Mappers
                         DispatchedDate = model.FirstOrDefault().DispatchedDate,
                         SumAmount = (float)model.Sum(i => i.OrderedTotal),
                         TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
+                        ReturnTotal = (float)model.Where(i => i.ReturnId != -1).Sum(i => i.OrderedTotal),
                         Address = new AddressViewModel()
                         {
                             FullName = model.FirstOrDefault().FirstName + " " + model.FirstOrDefault().LastName,

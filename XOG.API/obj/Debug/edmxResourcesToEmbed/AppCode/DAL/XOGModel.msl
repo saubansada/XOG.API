@@ -293,16 +293,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="UserWallets">
-      <EntityTypeMapping TypeName="XOGModel.UserWallet">
-        <MappingFragment StoreEntitySet="UserWallet">
-          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="WishLists">
       <EntityTypeMapping TypeName="XOGModel.WishList">
         <MappingFragment StoreEntitySet="WishLists">
@@ -365,30 +355,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="UsersWalletVWs">
-      <EntityTypeMapping TypeName="XOGModel.UsersWalletVW">
-        <MappingFragment StoreEntitySet="UsersWalletVW">
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="TotalDebited" ColumnName="TotalDebited" />
-          <ScalarProperty Name="TotalCredited" ColumnName="TotalCredited" />
-          <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="UserWalletListVWs">
-      <EntityTypeMapping TypeName="XOGModel.UserWalletListVW">
-        <MappingFragment StoreEntitySet="UserWalletListVW">
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="ActionId" ColumnName="ActionId" />
-          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-          <ScalarProperty Name="OrderAction" ColumnName="OrderAction" />
-          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetUser">
         <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -421,6 +387,40 @@
           <ScalarProperty Name="IsWeekDayActive" ColumnName="IsWeekDayActive" />
           <ScalarProperty Name="DayName" ColumnName="DayName" />
           <ScalarProperty Name="WeekDayId" ColumnName="WeekDayId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersWalletVWs">
+      <EntityTypeMapping TypeName="XOGModel.UsersWalletVW">
+        <MappingFragment StoreEntitySet="UsersWalletVW">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="TotalDebited" ColumnName="TotalDebited" />
+          <ScalarProperty Name="TotalCredited" ColumnName="TotalCredited" />
+          <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserWalletListVWs">
+      <EntityTypeMapping TypeName="XOGModel.UserWalletListVW">
+        <MappingFragment StoreEntitySet="UserWalletListVW">
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="OrderAction" ColumnName="OrderAction" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserWallets">
+      <EntityTypeMapping TypeName="XOGModel.UserWallet">
+        <MappingFragment StoreEntitySet="UserWallet">
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

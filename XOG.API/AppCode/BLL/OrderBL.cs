@@ -96,7 +96,7 @@ namespace XOG.AppCode.BLL
                 query.MapToOrderModelList<T>(model, listType);
         }
 
-        internal async Task<Dictionary<string, object>> PlaceOrder(Order model)
+        internal async Task<Dictionary<string, object>> PlaceOrder(Order model, UserWallet walletInfo = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -104,11 +104,11 @@ namespace XOG.AppCode.BLL
                 {
                     throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
-                return await PlaceOrder(_context, model);
+                return await PlaceOrder(_context, model, walletInfo);
             }
         }
          
-        internal async Task<Dictionary<string, object>> PlaceOrder(XOGEntities context, Order model)
+        internal async Task<Dictionary<string, object>> PlaceOrder(XOGEntities context, Order model, UserWallet walletInfo = null)
         {
             var res = new Dictionary<string, object>();
 
@@ -119,6 +119,7 @@ namespace XOG.AppCode.BLL
                     PaymentDateTime = model.OrderDate,
                     BilledByUserId = model.OrderedByUserId,
                     TotalAmount = model.TotalAmount,
+                    UserWallet = walletInfo,
                     Order = model
                 };
 
@@ -283,9 +284,9 @@ namespace XOG.AppCode.BLL
 
                     userWallet.WalletOfUserId = order.Order.OrderedByUserId;
 
-                    userWallet.Amount = context.OrderVWs.Where(i => i.ReturnId == returnOrderId).Sum(i => i.ReturnTotal);
+                    userWallet.Amount = context.OrderVWs.Where(i => i.ReturnId == returnOrderId).Sum(i => i.ReturnTotalSum);
 
-                    userWallet.TimeStamp = BitConverter.GetBytes(DateTime.Now.Ticks);
+                    userWallet.TimeStamp = DateTime.Now;
 
                     context.UserWallets.Add(userWallet);
 

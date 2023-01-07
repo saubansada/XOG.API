@@ -43,7 +43,7 @@ namespace XOG.Controllers
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public override IHttpActionResult List([FromUri] AddressFilterRequestVM filter)
+        public async override Task<IHttpActionResult> List([FromUri] AddressFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
@@ -51,7 +51,7 @@ namespace XOG.Controllers
 
             res.IsSuccess = true;
 
-            return Ok(res);
+            return Ok(await Task.FromResult(res));
         }
 
         [HttpGet]
@@ -66,15 +66,10 @@ namespace XOG.Controllers
 
             return Ok(res);
         }
-
-        public override IHttpActionResult Get(int id)
-        {
-            return Ok(GetAsync(id));
-        }
-
+          
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<IHttpActionResult> GetAsync(int id)
+        public async override Task<IHttpActionResult> GetAsync(int id)
         {
             var res = new ReturnObject<AddressViewModel>();
 

@@ -27,7 +27,7 @@ namespace XOG.AppCode.Mappers
                 _query = query.Select(model => new UserWalletViewModel
                 {
                     Id = model.Id,
-                    Amount = model.Amount, 
+                    Amount = model.Amount,
                     TimeStamp = model.TimeStamp,
                     TransactionType = model.Amount > 0 ? TransactionType.Debit : TransactionType.Credit
                 });
@@ -78,7 +78,7 @@ namespace XOG.AppCode.Mappers
                     OrderAction = model.OrderAction,
                     TimeStamp = model.TimeStamp,
                     TransactionType = model.Amount > 0 ? TransactionType.Debit : TransactionType.Credit,
-                    TransactionId = model.TransactionId 
+                    TransactionId = model.TransactionId ?? -1
                 });
             }
             //else if (typeof(T) == typeof(OListItem) && obj.isNullOrWholeNumber())
@@ -128,6 +128,28 @@ namespace XOG.AppCode.Mappers
                 return (T)Convert.ChangeType(model, typeof(T));
             }
         }
+        public static T MapToUserWalletModel<T>(this UsersWalletVW model, object obj = null)
+        {
+            if (typeof(T) == typeof(UserWalletInfo))
+            {
+                UserWalletInfo returnObj = null;
+                if (model != null)
+                {
+                    returnObj = new UserWalletInfo()
+                    {
+                        WalletOfUserId = model.WalletOfUserId,
+                        TotalCredited = model.TotalCredited ?? 0,
+                        TotalDebited = model.TotalDebited ?? 0,
+                        BalanceAmount = model.Amount ?? 0
+                    };
+                }
+                return (T)Convert.ChangeType(returnObj, typeof(T));
+            }
+            else
+            {
+                return (T)Convert.ChangeType(model, typeof(T));
+            }
+        }
 
         public static T MapToUserWalletModel<T>(this UserWalletListVW model, object obj = null)
         {
@@ -141,7 +163,7 @@ namespace XOG.AppCode.Mappers
                     OrderAction = model.OrderAction,
                     TimeStamp = model.TimeStamp,
                     TransactionType = model.Amount > 0 ? TransactionType.Debit : TransactionType.Credit,
-                    TransactionId = model.TransactionId
+                    TransactionId = model.TransactionId ?? -1
                 };
                 return (T)Convert.ChangeType(returnObj, typeof(T));
             }

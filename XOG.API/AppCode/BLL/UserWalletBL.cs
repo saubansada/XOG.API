@@ -118,7 +118,7 @@ namespace XOG.AppCode.BLL
             return query.MapToUserWalletModelList<T>(model, listType);
         }
 
-        internal object GetUserWalletByNameOrId<T>(XOGEntities context = null, long id = -1, string title = "", bool isAdmin = false)
+        internal object GetUserWalletByUserNameOrId<T>(XOGEntities context = null, string userId = "", string title = "", bool isAdmin = false)
         {
             if (context == null)
             {
@@ -128,16 +128,16 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                     }
-                    return GetUserWalletByNameOrId<T>(_context, id, title, isAdmin);
+                    return GetUserWalletByUserNameOrId<T>(_context, userId, title, isAdmin);
                 }
             }
             var UserWallet = new UserWallet();
 
-            var query = context.UserWallets.Where(i => true);
+            var query = context.UsersWalletVWs.Where(i => true);
 
-            if (id != -1)
+            if (userId != "")
             {
-                query = context.UserWallets.Where(i => i.Id == id);
+                query = context.UsersWalletVWs.Where(i => i.WalletOfUserId == userId);
             }
 
             //if (!string.IsNullOrWhiteSpace(title))
@@ -179,7 +179,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal DBStatus Add(UserWallet model, XOGEntities context = null)
+        internal DBStatus Add(UserWallet model, string userId = null, XOGEntities context = null)
         {
             try
             {
@@ -191,7 +191,7 @@ namespace XOG.AppCode.BLL
                         {
                             throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                         }
-                        return Add(model, _context);
+                        return Add(model, userId, _context);
                     }
                 }
                 context.UserWallets.Add(model);
@@ -208,7 +208,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> AddAsync(UserWallet model, XOGEntities context = null)
+        internal async Task<DBStatus> AddAsync(UserWallet model, string userId = null, XOGEntities context = null)
         {
             try
             {
@@ -220,10 +220,24 @@ namespace XOG.AppCode.BLL
                         {
                             throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                         }
-                        return await AddAsync(model, _context);
+                        return await AddAsync(model, userId, _context);
                     }
                 }
-                context.UserWallets.Add(model);
+
+                var entity = new Transaction()
+                {
+                    BilledByUserId = userId,
+                    OrderId = null,
+                    PaymentDateTime = DateTime.Now,
+                    ReturnOrder = null,
+                    TotalAmount = model.Amount ?? 0,
+                    TransactionType = (model.Amount ?? 0) < 0 ? (int)TransactionType.Debit : (int)TransactionType.Credit,
+                    TransactionFor = (int)TransactionFor.System,
+                    UserWallet = model
+                };
+
+                context.Transactions.Add(entity);
+                  
 
                 await context.SaveChangesAsync();
 
