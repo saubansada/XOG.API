@@ -5,31 +5,35 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="840fd73fcab34c04ad13013ea3782ae1" Name="Diagram1" ZoomLevel="79">
-        <EntityTypeShape EntityType="XOGModel.Address" Width="1.5" PointX="5.25" PointY="22.75" />
-        <EntityTypeShape EntityType="XOGModel.AdSenseAd" Width="1.5" PointX="5.25" PointY="27" />
-        <EntityTypeShape EntityType="XOGModel.AspNetRole" Width="1.5" PointX="0.75" PointY="15.625" />
-        <EntityTypeShape EntityType="XOGModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="20" />
-        <EntityTypeShape EntityType="XOGModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="11.625" />
-        <EntityTypeShape EntityType="XOGModel.AspNetUser" Width="1.5" PointX="3" PointY="13.375" />
-        <EntityTypeShape EntityType="XOGModel.Brand" Width="1.5" PointX="1.5" PointY="0.75" />
-        <EntityTypeShape EntityType="XOGModel.C__MigrationHistory" Width="1.5" PointX="8.75" PointY="2.5" />
-        <EntityTypeShape EntityType="XOGModel.Cart" Width="1.5" PointX="8.25" PointY="15.375" />
-        <EntityTypeShape EntityType="XOGModel.Category" Width="1.5" PointX="1.5" PointY="20.5" />
-        <EntityTypeShape EntityType="XOGModel.DeliveryTiming" Width="1.5" PointX="10" PointY="6.625" />
-        <EntityTypeShape EntityType="XOGModel.EmailTemplate" Width="1.5" PointX="7.75" PointY="10.5" />
-        <EntityTypeShape EntityType="XOGModel.OrderDetail" Width="1.5" PointX="12.75" PointY="19.25" />
-        <EntityTypeShape EntityType="XOGModel.Order" Width="1.5" PointX="7.5" PointY="18.875" />
-        <EntityTypeShape EntityType="XOGModel.ProductGroup" Width="1.5" PointX="1.5" PointY="8.375" />
-        <EntityTypeShape EntityType="XOGModel.ProductImage" Width="1.5" PointX="6" PointY="31" />
-        <EntityTypeShape EntityType="XOGModel.Product" Width="1.5" PointX="3.75" PointY="3" />
-        <EntityTypeShape EntityType="XOGModel.ProductVariant" Width="1.5" PointX="6" PointY="1.375" />
-        <EntityTypeShape EntityType="XOGModel.QuantityMeasure" Width="1.5" PointX="3.75" PointY="31.5" />
-        <EntityTypeShape EntityType="XOGModel.ReturnOrderDetail" Width="1.5" PointX="15" PointY="19.625" />
-        <EntityTypeShape EntityType="XOGModel.ReturnOrder" Width="1.5" PointX="9.75" PointY="19.5" />
-        <EntityTypeShape EntityType="XOGModel.SubCategory" Width="1.5" PointX="1.5" PointY="4.25" />
-        <EntityTypeShape EntityType="XOGModel.Transaction" Width="1.5" PointX="12" PointY="13.875" />
-        <EntityTypeShape EntityType="XOGModel.WishList" Width="1.5" PointX="5.25" PointY="15.375" />
-        <EntityTypeShape EntityType="XOGModel.OrderVW" Width="1.5" PointX="12.75" PointY="2.5" />
+        <EntityTypeShape EntityType="XOGModel.Address" Width="1.5" PointX="5.25" PointY="25.375" />
+        <EntityTypeShape EntityType="XOGModel.AdSenseAd" Width="1.5" PointX="5.25" PointY="21.5" />
+        <EntityTypeShape EntityType="XOGModel.AspNetRole" Width="1.5" PointX="0.75" PointY="14.5" />
+        <EntityTypeShape EntityType="XOGModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="XOGModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="10.25" />
+        <EntityTypeShape EntityType="XOGModel.AspNetUser" Width="1.5" PointX="3" PointY="12.125" />
+        <EntityTypeShape EntityType="XOGModel.Brand" Width="1.5" PointX="1.5" PointY="31.25" />
+        <EntityTypeShape EntityType="XOGModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="1.25" />
+        <EntityTypeShape EntityType="XOGModel.Cart" Width="1.5" PointX="5.25" PointY="14.25" />
+        <EntityTypeShape EntityType="XOGModel.Category" Width="1.5" PointX="1.5" PointY="28" />
+        <EntityTypeShape EntityType="XOGModel.DeliveryTiming" Width="1.5" PointX="5.25" PointY="35.125" />
+        <EntityTypeShape EntityType="XOGModel.EmailTemplate" Width="1.5" PointX="5.75" PointY="4.25" />
+        <EntityTypeShape EntityType="XOGModel.OrderDetail" Width="1.5" PointX="9.75" PointY="19" />
+        <EntityTypeShape EntityType="XOGModel.Order" Width="1.5" PointX="7.5" PointY="18.5" />
+        <EntityTypeShape EntityType="XOGModel.ProductGroup" Width="1.5" PointX="1.5" PointY="19.875" />
+        <EntityTypeShape EntityType="XOGModel.ProductImage" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="XOGModel.Product" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="XOGModel.ProductVariant" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="XOGModel.QuantityMeasure" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="XOGModel.ReturnOrderDetail" Width="1.5" PointX="12" PointY="22.125" />
+        <EntityTypeShape EntityType="XOGModel.ReturnOrder" Width="1.5" PointX="9.75" PointY="23.125" />
+        <EntityTypeShape EntityType="XOGModel.SubCategory" Width="1.5" PointX="1.5" PointY="23.75" />
+        <EntityTypeShape EntityType="XOGModel.Transaction" Width="1.5" PointX="12" PointY="17.125" />
+        <EntityTypeShape EntityType="XOGModel.UserWallet" Width="1.5" PointX="5.25" PointY="18.625" />
+        <EntityTypeShape EntityType="XOGModel.WeekDayStatus" Width="1.5" PointX="3" PointY="35.625" />
+        <EntityTypeShape EntityType="XOGModel.WishList" Width="1.5" PointX="8.25" PointY="14.25" />
+        <EntityTypeShape EntityType="XOGModel.UsersWalletVW" Width="1.5" PointX="9.75" PointY="1.25" />
+        <EntityTypeShape EntityType="XOGModel.UserWalletListVW" Width="1.5" PointX="9.75" PointY="4.25" />
+        <EntityTypeShape EntityType="XOGModel.WeekDayTiming" Width="1.5" PointX="9.75" PointY="8.25" />
         <AssociationConnector Association="XOGModel.FK_Addresses_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_Orders_Addresses" />
         <AssociationConnector Association="XOGModel.FK_AdSenseAds_AspNetUsers" />
@@ -39,9 +43,12 @@
         <AssociationConnector Association="XOGModel.FK_Orders_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_Transactions_AspNetUsers" />
         <AssociationConnector Association="XOGModel.FK_WishList_AspNetUsers" />
+        <AssociationConnector Association="XOGModel.PK_USER_WALLET" />
         <AssociationConnector Association="XOGModel.FK_Product_Brands" />
         <AssociationConnector Association="XOGModel.FK_Carts_ProductVariants" />
         <AssociationConnector Association="XOGModel.fk_SubCategory_Category" />
+        <AssociationConnector Association="XOGModel.FK_DeliveryTimings_WeekDayStatus" />
+        <AssociationConnector Association="XOGModel.FK_Orders_DeliveryTimings" />
         <AssociationConnector Association="XOGModel.FK_OrderDetails_Orders" />
         <AssociationConnector Association="XOGModel.FK_OrderDetails_ProductVariants" />
         <AssociationConnector Association="XOGModel.FK_ReturnOrderDetails_ProductVariants" />
@@ -56,15 +63,9 @@
         <AssociationConnector Association="XOGModel.fk_productVariants_quantityMeasureId" />
         <AssociationConnector Association="XOGModel.FK_ReturnOrderDetails_Orders" />
         <AssociationConnector Association="XOGModel.PK_RETURNS_TRANSACTIONS" />
-        <AssociationConnector Association="XOGModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="XOGModel.WeekDayStatus" Width="1.5" PointX="7.75" PointY="7" />
-        <AssociationConnector Association="XOGModel.FK_DeliveryTimings_WeekDayStatus" />
-        <EntityTypeShape EntityType="XOGModel.WeekDayTiming" Width="1.5" PointX="14.375" PointY="13.75" />
-        <EntityTypeShape EntityType="XOGModel.UsersWalletVW" Width="1.5" PointX="15.375" PointY="0.75" />
-        <EntityTypeShape EntityType="XOGModel.UserWalletListVW" Width="1.5" PointX="15.375" PointY="3.75" />
-        <EntityTypeShape EntityType="XOGModel.UserWallet" Width="1.5" PointX="5.25" PointY="8.375" />
-        <AssociationConnector Association="XOGModel.PK_USER_WALLET" />
         <AssociationConnector Association="XOGModel.FK_Transactions_UserWallets" />
+        <AssociationConnector Association="XOGModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="XOGModel.OrderVW" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

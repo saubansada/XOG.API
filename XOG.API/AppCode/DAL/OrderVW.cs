@@ -14,7 +14,7 @@ namespace XOG.AppCode.DAL
     
     public partial class OrderVW
     {
-        public long ViewInfoId { get; set; }
+        public Nullable<long> ViewInfoId { get; set; }
         public long OrderId { get; set; }
         public long Id { get; set; }
         public Nullable<long> ReturnDetailId { get; set; }
@@ -54,6 +54,9 @@ namespace XOG.AppCode.DAL
         public Nullable<int> TotalQuantity { get; set; }
         public Nullable<int> ReturnedQuantity { get; set; }
         public Nullable<int> TotalReturnedQuantity { get; set; }
+        public short TimePeriod { get; set; }
+        public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public string TimePeriodText { get; set; }
         public short Gst { get; set; }
         public double OrderedTotal { get; set; }
         public Nullable<double> ReturnTotal { get; set; }

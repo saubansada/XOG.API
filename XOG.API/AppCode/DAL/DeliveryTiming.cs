@@ -14,6 +14,12 @@ namespace XOG.AppCode.DAL
     
     public partial class DeliveryTiming
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DeliveryTiming()
+        {
+            this.Orders = new HashSet<Order>();
+        }
+    
         public short Id { get; set; }
         public byte DayId { get; set; }
         public short FromHours { get; set; }
@@ -23,5 +29,7 @@ namespace XOG.AppCode.DAL
         public bool IsActive { get; set; }
     
         public virtual WeekDayStatus WeekDayStatus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

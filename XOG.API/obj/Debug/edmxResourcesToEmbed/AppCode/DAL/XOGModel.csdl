@@ -24,8 +24,12 @@
     <EntitySet Name="ReturnOrders" EntityType="XOGModel.ReturnOrder" />
     <EntitySet Name="SubCategories" EntityType="XOGModel.SubCategory" />
     <EntitySet Name="Transactions" EntityType="XOGModel.Transaction" />
+    <EntitySet Name="UserWallets" EntityType="XOGModel.UserWallet" />
+    <EntitySet Name="WeekDayStatuses" EntityType="XOGModel.WeekDayStatus" />
     <EntitySet Name="WishLists" EntityType="XOGModel.WishList" />
-    <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
+    <EntitySet Name="UsersWalletVWs" EntityType="XOGModel.UsersWalletVW" />
+    <EntitySet Name="UserWalletListVWs" EntityType="XOGModel.UserWalletListVW" />
+    <EntitySet Name="WeekDayTimings" EntityType="XOGModel.WeekDayTiming" />
     <AssociationSet Name="FK_Addresses_AspNetUsers" Association="XOGModel.FK_Addresses_AspNetUsers">
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="Address" EntitySet="Addresses" />
@@ -62,6 +66,10 @@
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="WishList" EntitySet="WishLists" />
     </AssociationSet>
+    <AssociationSet Name="PK_USER_WALLET" Association="XOGModel.PK_USER_WALLET">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserWallet" EntitySet="UserWallets" />
+    </AssociationSet>
     <AssociationSet Name="FK_Product_Brands" Association="XOGModel.FK_Product_Brands">
       <End Role="Brand" EntitySet="Brands" />
       <End Role="Product" EntitySet="Products" />
@@ -73,6 +81,14 @@
     <AssociationSet Name="fk_SubCategory_Category" Association="XOGModel.fk_SubCategory_Category">
       <End Role="Category" EntitySet="Categories" />
       <End Role="SubCategory" EntitySet="SubCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeliveryTimings_WeekDayStatus" Association="XOGModel.FK_DeliveryTimings_WeekDayStatus">
+      <End Role="WeekDayStatus" EntitySet="WeekDayStatuses" />
+      <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_DeliveryTimings" Association="XOGModel.FK_Orders_DeliveryTimings">
+      <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
+      <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
     <AssociationSet Name="FK_OrderDetails_Orders" Association="XOGModel.FK_OrderDetails_Orders">
       <End Role="Order" EntitySet="Orders" />
@@ -130,27 +146,15 @@
       <End Role="ReturnOrder" EntitySet="ReturnOrders" />
       <End Role="Transaction" EntitySet="Transactions" />
     </AssociationSet>
-    <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
-      <End Role="AspNetRole" EntitySet="AspNetRoles" />
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-    </AssociationSet>
-    <EntitySet Name="WeekDayStatuses" EntityType="XOGModel.WeekDayStatus" />
-    <AssociationSet Name="FK_DeliveryTimings_WeekDayStatus" Association="XOGModel.FK_DeliveryTimings_WeekDayStatus">
-      <End Role="WeekDayStatus" EntitySet="WeekDayStatuses" />
-      <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
-    </AssociationSet>
-    <EntitySet Name="WeekDayTimings" EntityType="XOGModel.WeekDayTiming" />
-    <EntitySet Name="UsersWalletVWs" EntityType="XOGModel.UsersWalletVW" />
-    <EntitySet Name="UserWalletListVWs" EntityType="XOGModel.UserWalletListVW" />
-    <EntitySet Name="UserWallets" EntityType="XOGModel.UserWallet" />
-    <AssociationSet Name="PK_USER_WALLET" Association="XOGModel.PK_USER_WALLET">
-      <End Role="AspNetUser" EntitySet="AspNetUsers" />
-      <End Role="UserWallet" EntitySet="UserWallets" />
-    </AssociationSet>
     <AssociationSet Name="FK_Transactions_UserWallets" Association="XOGModel.FK_Transactions_UserWallets">
       <End Role="UserWallet" EntitySet="UserWallets" />
       <End Role="Transaction" EntitySet="Transactions" />
     </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
   </EntityContainer>
   <EntityType Name="Address">
     <Key>
@@ -244,8 +248,8 @@
     <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="AspNetUser" ToRole="Order" />
     <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="AspNetUser" ToRole="Transaction" />
     <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="AspNetUser" ToRole="WishList" />
-    <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
     <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
+    <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
   </EntityType>
   <EntityType Name="Brand">
     <Key>
@@ -303,6 +307,7 @@
     <Property Name="ToMinutes" Type="Int16" Nullable="false" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="WeekDayStatus" Relationship="XOGModel.FK_DeliveryTimings_WeekDayStatus" FromRole="DeliveryTiming" ToRole="WeekDayStatus" />
+    <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_DeliveryTimings" FromRole="DeliveryTiming" ToRole="Order" />
   </EntityType>
   <EntityType Name="EmailTemplate">
     <Key>
@@ -338,6 +343,7 @@
     <Property Name="OrderedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="OrderState" Type="Byte" Nullable="false" />
+    <Property Name="TimePeriod" Type="Int16" Nullable="false" />
     <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
     <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
     <Property Name="Returned" Type="Boolean" />
@@ -345,6 +351,7 @@
     <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
     <NavigationProperty Name="Address" Relationship="XOGModel.FK_Orders_Addresses" FromRole="Order" ToRole="Address" />
     <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="Order" ToRole="AspNetUser" />
+    <NavigationProperty Name="DeliveryTiming" Relationship="XOGModel.FK_Orders_DeliveryTimings" FromRole="Order" ToRole="DeliveryTiming" />
     <NavigationProperty Name="OrderDetails" Relationship="XOGModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
     <NavigationProperty Name="ReturnOrders" Relationship="XOGModel.FK_ReturnOrders_Orders" FromRole="Order" ToRole="ReturnOrder" />
     <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_orders" FromRole="Order" ToRole="Transaction" />
@@ -479,6 +486,26 @@
     <NavigationProperty Name="ReturnOrder" Relationship="XOGModel.PK_RETURNS_TRANSACTIONS" FromRole="Transaction" ToRole="ReturnOrder" />
     <NavigationProperty Name="UserWallet" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="Transaction" ToRole="UserWallet" />
   </EntityType>
+  <EntityType Name="UserWallet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.PK_USER_WALLET" FromRole="UserWallet" ToRole="AspNetUser" />
+    <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="UserWallet" ToRole="Transaction" />
+  </EntityType>
+  <EntityType Name="WeekDayStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" />
+    <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="DeliveryTimings" Relationship="XOGModel.FK_DeliveryTimings_WeekDayStatus" FromRole="WeekDayStatus" ToRole="DeliveryTiming" />
+  </EntityType>
   <EntityType Name="WishList">
     <Key>
       <PropertyRef Name="Id" />
@@ -490,78 +517,51 @@
     <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="WishList" ToRole="AspNetUser" />
     <NavigationProperty Name="Product" Relationship="XOGModel.FK_WishList_Products" FromRole="WishList" ToRole="Product" />
   </EntityType>
-  <EntityType Name="OrderVW">
+  <EntityType Name="UsersWalletVW">
     <Key>
-      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="WalletOfUserId" />
+    </Key>
+    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="TotalCredited" Type="Double" />
+    <Property Name="TotalDebited" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+  </EntityType>
+  <EntityType Name="UserWalletListVW">
+    <Key>
       <PropertyRef Name="Id" />
       <PropertyRef Name="UserId" />
-      <PropertyRef Name="PhoneNumber" />
-      <PropertyRef Name="OrderDate" />
-      <PropertyRef Name="OrderState" />
-      <PropertyRef Name="ProductName" />
-      <PropertyRef Name="ProductId" />
-      <PropertyRef Name="ProductVariantId" />
-      <PropertyRef Name="Volume" />
-      <PropertyRef Name="QuantityMeasureName" />
-      <PropertyRef Name="Acronym" />
-      <PropertyRef Name="QuantityMeasureId" />
-      <PropertyRef Name="OrderToAddressId" />
-      <PropertyRef Name="ImageUrl" />
-      <PropertyRef Name="ImageId" />
-      <PropertyRef Name="Price" />
-      <PropertyRef Name="DiscPrice" />
-      <PropertyRef Name="Discount" />
-      <PropertyRef Name="OrderedQuantity" />
-      <PropertyRef Name="Gst" />
-      <PropertyRef Name="OrderedTotal" />
-      <PropertyRef Name="ViewInfoId" />
+      <PropertyRef Name="TransactionType" />
+      <PropertyRef Name="OrderAction" />
+      <PropertyRef Name="TimeStamp" />
     </Key>
-    <Property Name="ViewInfoId" Type="Int64" Nullable="false" />
-    <Property Name="OrderId" Type="Int64" Nullable="false" />
     <Property Name="Id" Type="Int64" Nullable="false" />
-    <Property Name="ReturnDetailId" Type="Int64" />
-    <Property Name="ReturnId" Type="Int64" />
-    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="OrderState" Type="Byte" Nullable="false" />
-    <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
-    <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
-    <Property Name="IsReturn" Type="Int32" />
-    <Property Name="AddressLine1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-    <Property Name="AddressLine2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-    <Property Name="LandMark" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="AreaCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="FullName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="GPS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
-    <Property Name="OrderedPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ProductId" Type="Int64" Nullable="false" />
-    <Property Name="ProductVariantId" Type="Int64" Nullable="false" />
-    <Property Name="Volume" Type="Int16" Nullable="false" />
-    <Property Name="QuantityMeasureName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Acronym" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-    <Property Name="QuantityMeasureId" Type="Int16" Nullable="false" />
-    <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
-    <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="ImageId" Type="Int64" Nullable="false" />
-    <Property Name="Price" Type="Double" Nullable="false" />
-    <Property Name="DiscPrice" Type="Double" Nullable="false" />
-    <Property Name="Discount" Type="Double" Nullable="false" />
-    <Property Name="OrderedQuantity" Type="Int32" Nullable="false" />
-    <Property Name="ReturnOrderStatus" Type="Int32" />
-    <Property Name="TotalQuantity" Type="Int32" />
-    <Property Name="ReturnedQuantity" Type="Int32" />
-    <Property Name="TotalReturnedQuantity" Type="Int32" />
-    <Property Name="Gst" Type="Int16" Nullable="false" />
-    <Property Name="OrderedTotal" Type="Double" Nullable="false" />
-    <Property Name="ReturnTotal" Type="Double" />
-    <Property Name="ReturnTotalSum" Type="Double" />
-    <Property Name="Total" Type="Double" />
-    <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
+    <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="OrderAction" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="TransactionId" Type="Int64" />
+    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="ActionId" Type="Int64" />
+    <Property Name="Amount" Type="Double" />
+  </EntityType>
+  <EntityType Name="WeekDayTiming">
+    <Key>
+      <PropertyRef Name="WeekDayId" />
+      <PropertyRef Name="DayName" />
+      <PropertyRef Name="IsWeekDayActive" />
+    </Key>
+    <Property Name="Id" Type="Int64" />
+    <Property Name="WeekDayId" Type="Byte" Nullable="false" />
+    <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
+    <Property Name="IsTimingActive" Type="Boolean" />
+    <Property Name="HourStart" Type="Int16" />
+    <Property Name="HourEnd" Type="Int16" />
+    <Property Name="MinuteStart" Type="Int16" />
+    <Property Name="MinutesEnd" Type="Int16" />
+    <Property Name="FromHours" Type="Int16" />
+    <Property Name="FromMinutes" Type="Int16" />
+    <Property Name="ToHours" Type="Int16" />
+    <Property Name="ToMinutes" Type="Int16" />
   </EntityType>
   <Association Name="FK_Addresses_AspNetUsers">
     <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -681,6 +681,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PK_USER_WALLET">
+    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserWallet">
+        <PropertyRef Name="WalletOfUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Product_Brands">
     <End Type="XOGModel.Brand" Role="Brand" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -718,6 +730,30 @@
       </Principal>
       <Dependent Role="SubCategory">
         <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeliveryTimings_WeekDayStatus">
+    <End Type="XOGModel.WeekDayStatus" Role="WeekDayStatus" Multiplicity="1" />
+    <End Type="XOGModel.DeliveryTiming" Role="DeliveryTiming" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WeekDayStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeliveryTiming">
+        <PropertyRef Name="DayId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_DeliveryTimings">
+    <End Type="XOGModel.DeliveryTiming" Role="DeliveryTiming" Multiplicity="1" />
+    <End Type="XOGModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeliveryTiming">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="TimePeriod" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -907,98 +943,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="AspNetUserRoles">
-    <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-  </Association>
-  <EntityType Name="WeekDayStatus">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="IsActive" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="DeliveryTimings" Relationship="XOGModel.FK_DeliveryTimings_WeekDayStatus" FromRole="WeekDayStatus" ToRole="DeliveryTiming" />
-  </EntityType>
-  <Association Name="FK_DeliveryTimings_WeekDayStatus">
-    <End Type="XOGModel.WeekDayStatus" Role="WeekDayStatus" Multiplicity="1" />
-    <End Type="XOGModel.DeliveryTiming" Role="DeliveryTiming" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="WeekDayStatus">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DeliveryTiming">
-        <PropertyRef Name="DayId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="WeekDayTiming">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" />
-    <Property Name="WeekDayId" Type="Byte" Nullable="false" />
-    <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
-    <Property Name="IsTimingActive" Type="Boolean" />
-    <Property Name="HourStart" Type="Int16" />
-    <Property Name="HourEnd" Type="Int16" />
-    <Property Name="MinuteStart" Type="Int16" />
-    <Property Name="MinutesEnd" Type="Int16" />
-    <Property Name="FromHours" Type="Int16" />
-    <Property Name="FromMinutes" Type="Int16" />
-    <Property Name="ToHours" Type="Int16" />
-    <Property Name="ToMinutes" Type="Int16" />
-  </EntityType>
-  <EntityType Name="UsersWalletVW">
-    <Key>
-      <PropertyRef Name="WalletOfUserId" />
-    </Key>
-    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="TotalCredited" Type="Double" />
-    <Property Name="TotalDebited" Type="Double" />
-    <Property Name="Amount" Type="Double" />
-  </EntityType>
-  <EntityType Name="UserWalletListVW">
-    <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="UserId" />
-      <PropertyRef Name="TransactionType" />
-      <PropertyRef Name="OrderAction" />
-      <PropertyRef Name="TimeStamp" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" />
-    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-    <Property Name="OrderAction" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
-    <Property Name="TransactionId" Type="Int64" />
-    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
-    <Property Name="ActionId" Type="Int64" />
-    <Property Name="Amount" Type="Double" />
-  </EntityType>
-  <EntityType Name="UserWallet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="Amount" Type="Double" />
-    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
-    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.PK_USER_WALLET" FromRole="UserWallet" ToRole="AspNetUser" />
-    <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="UserWallet" ToRole="Transaction" />
-  </EntityType>
-  <Association Name="PK_USER_WALLET">
-    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-    <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserWallet">
-        <PropertyRef Name="WalletOfUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Transactions_UserWallets">
     <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -1013,4 +957,84 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="OrderVW">
+    <Key>
+      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="PhoneNumber" />
+      <PropertyRef Name="OrderDate" />
+      <PropertyRef Name="OrderState" />
+      <PropertyRef Name="ProductName" />
+      <PropertyRef Name="ProductId" />
+      <PropertyRef Name="ProductVariantId" />
+      <PropertyRef Name="Volume" />
+      <PropertyRef Name="QuantityMeasureName" />
+      <PropertyRef Name="Acronym" />
+      <PropertyRef Name="QuantityMeasureId" />
+      <PropertyRef Name="OrderToAddressId" />
+      <PropertyRef Name="ImageUrl" />
+      <PropertyRef Name="ImageId" />
+      <PropertyRef Name="Price" />
+      <PropertyRef Name="DiscPrice" />
+      <PropertyRef Name="Discount" />
+      <PropertyRef Name="OrderedQuantity" />
+      <PropertyRef Name="TimePeriod" />
+      <PropertyRef Name="Gst" />
+      <PropertyRef Name="OrderedTotal" />
+    </Key>
+    <Property Name="ViewInfoId" Type="Int64" />
+    <Property Name="OrderId" Type="Int64" Nullable="false" />
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="ReturnDetailId" Type="Int64" />
+    <Property Name="ReturnId" Type="Int64" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="OrderState" Type="Byte" Nullable="false" />
+    <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
+    <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsReturn" Type="Int32" />
+    <Property Name="AddressLine1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="AddressLine2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="LandMark" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="AreaCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FullName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="GPS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="OrderedPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProductId" Type="Int64" Nullable="false" />
+    <Property Name="ProductVariantId" Type="Int64" Nullable="false" />
+    <Property Name="Volume" Type="Int16" Nullable="false" />
+    <Property Name="QuantityMeasureName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Acronym" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="QuantityMeasureId" Type="Int16" Nullable="false" />
+    <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
+    <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ImageId" Type="Int64" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="DiscPrice" Type="Double" Nullable="false" />
+    <Property Name="Discount" Type="Double" Nullable="false" />
+    <Property Name="OrderedQuantity" Type="Int32" Nullable="false" />
+    <Property Name="ReturnOrderStatus" Type="Int32" />
+    <Property Name="TotalQuantity" Type="Int32" />
+    <Property Name="ReturnedQuantity" Type="Int32" />
+    <Property Name="TotalReturnedQuantity" Type="Int32" />
+    <Property Name="TimePeriod" Type="Int16" Nullable="false" />
+    <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+    <Property Name="TimePeriodText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Gst" Type="Int16" Nullable="false" />
+    <Property Name="OrderedTotal" Type="Double" Nullable="false" />
+    <Property Name="ReturnTotal" Type="Double" />
+    <Property Name="ReturnTotalSum" Type="Double" />
+    <Property Name="Total" Type="Double" />
+    <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
+  </EntityType>
 </Schema>

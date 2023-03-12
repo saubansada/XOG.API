@@ -175,6 +175,7 @@
           <Property Name="OrderedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
           <Property Name="OrderState" Type="tinyint" Nullable="false" />
+          <Property Name="TimePeriod" Type="smallint" Nullable="false" />
           <Property Name="DeliveredDate" Type="datetime" />
           <Property Name="DispatchedDate" Type="datetime" />
           <Property Name="Returned" Type="bit" />
@@ -298,7 +299,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="tinyint" Nullable="false" />
           <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -335,11 +336,11 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
             <PropertyRef Name="DiscPrice" />
             <PropertyRef Name="Discount" />
             <PropertyRef Name="OrderedQuantity" />
+            <PropertyRef Name="TimePeriod" />
             <PropertyRef Name="Gst" />
             <PropertyRef Name="OrderedTotal" />
-            <PropertyRef Name="ViewInfoId" />
           </Key>
-          <Property Name="ViewInfoId" Type="bigint" Nullable="false" />
+          <Property Name="ViewInfoId" Type="bigint" />
           <Property Name="OrderId" Type="bigint" Nullable="false" />
           <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="ReturnDetailId" Type="bigint" />
@@ -379,6 +380,9 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
           <Property Name="TotalQuantity" Type="int" />
           <Property Name="ReturnedQuantity" Type="int" />
           <Property Name="TotalReturnedQuantity" Type="int" />
+          <Property Name="TimePeriod" Type="smallint" Nullable="false" />
+          <Property Name="DeliveryDate" Type="datetime" />
+          <Property Name="TimePeriodText" Type="nvarchar(max)" />
           <Property Name="Gst" Type="smallint" Nullable="false" />
           <Property Name="OrderedTotal" Type="float" Nullable="false" />
           <Property Name="ReturnTotal" Type="float" />
@@ -420,12 +424,11 @@ warning 6002: The table/view 'xog_db.dbo.UserWalletListVW' does not have a prima
 warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="WeekDayTimings">
           <Key>
-            
-            
-            
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="WeekDayId" />
+            <PropertyRef Name="DayName" />
+            <PropertyRef Name="IsWeekDayActive" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" />
           <Property Name="WeekDayId" Type="tinyint" Nullable="false" />
           <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsWeekDayActive" Type="bit" Nullable="false" />
@@ -604,6 +607,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="OrderedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_DeliveryTimings">
+          <End Role="DeliveryTimings" Type="Self.DeliveryTimings" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryTimings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="TimePeriod" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -845,6 +860,17 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetDayId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="vdate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="GetDeliveryDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="datetime">
+          <Parameter Name="orderedDate" Type="date" Mode="In" />
+          <Parameter Name="timePeriod" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="GetTimeSlot" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+          <Parameter Name="orderDate" Type="date" Mode="In" />
+          <Parameter Name="timeId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="XOGModelStoreContainer">
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AdSenseAds" EntityType="Self.AdSenseAds" Schema="dbo" store:Type="Tables" />
@@ -915,6 +941,9 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     [OrderVW].[TotalQuantity] AS [TotalQuantity], 
     [OrderVW].[ReturnedQuantity] AS [ReturnedQuantity], 
     [OrderVW].[TotalReturnedQuantity] AS [TotalReturnedQuantity], 
+    [OrderVW].[TimePeriod] AS [TimePeriod], 
+    [OrderVW].[DeliveryDate] AS [DeliveryDate], 
+    [OrderVW].[TimePeriodText] AS [TimePeriodText], 
     [OrderVW].[Gst] AS [Gst], 
     [OrderVW].[OrderedTotal] AS [OrderedTotal], 
     [OrderVW].[ReturnTotal] AS [ReturnTotal], 
@@ -1010,6 +1039,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           </AssociationSet>
           <AssociationSet Name="FK_Orders_AspNetUsers" Association="Self.FK_Orders_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_DeliveryTimings" Association="Self.FK_Orders_DeliveryTimings">
+            <End Role="DeliveryTimings" EntitySet="DeliveryTimings" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Brands" Association="Self.FK_Product_Brands">
@@ -1113,8 +1146,12 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <EntitySet Name="ReturnOrders" EntityType="XOGModel.ReturnOrder" />
           <EntitySet Name="SubCategories" EntityType="XOGModel.SubCategory" />
           <EntitySet Name="Transactions" EntityType="XOGModel.Transaction" />
+          <EntitySet Name="UserWallets" EntityType="XOGModel.UserWallet" />
+          <EntitySet Name="WeekDayStatuses" EntityType="XOGModel.WeekDayStatus" />
           <EntitySet Name="WishLists" EntityType="XOGModel.WishList" />
-          <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
+          <EntitySet Name="UsersWalletVWs" EntityType="XOGModel.UsersWalletVW" />
+          <EntitySet Name="UserWalletListVWs" EntityType="XOGModel.UserWalletListVW" />
+          <EntitySet Name="WeekDayTimings" EntityType="XOGModel.WeekDayTiming" />
           <AssociationSet Name="FK_Addresses_AspNetUsers" Association="XOGModel.FK_Addresses_AspNetUsers">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Address" EntitySet="Addresses" />
@@ -1151,6 +1188,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="WishList" EntitySet="WishLists" />
           </AssociationSet>
+          <AssociationSet Name="PK_USER_WALLET" Association="XOGModel.PK_USER_WALLET">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserWallet" EntitySet="UserWallets" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_Brands" Association="XOGModel.FK_Product_Brands">
             <End Role="Brand" EntitySet="Brands" />
             <End Role="Product" EntitySet="Products" />
@@ -1162,6 +1203,14 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <AssociationSet Name="fk_SubCategory_Category" Association="XOGModel.fk_SubCategory_Category">
             <End Role="Category" EntitySet="Categories" />
             <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryTimings_WeekDayStatus" Association="XOGModel.FK_DeliveryTimings_WeekDayStatus">
+            <End Role="WeekDayStatus" EntitySet="WeekDayStatuses" />
+            <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_DeliveryTimings" Association="XOGModel.FK_Orders_DeliveryTimings">
+            <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderDetails_Orders" Association="XOGModel.FK_OrderDetails_Orders">
             <End Role="Order" EntitySet="Orders" />
@@ -1219,27 +1268,15 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             <End Role="ReturnOrder" EntitySet="ReturnOrders" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
-            <End Role="AspNetRole" EntitySet="AspNetRoles" />
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <EntitySet Name="WeekDayStatuses" EntityType="XOGModel.WeekDayStatus" />
-          <AssociationSet Name="FK_DeliveryTimings_WeekDayStatus" Association="XOGModel.FK_DeliveryTimings_WeekDayStatus">
-            <End Role="WeekDayStatus" EntitySet="WeekDayStatuses" />
-            <End Role="DeliveryTiming" EntitySet="DeliveryTimings" />
-          </AssociationSet>
-          <EntitySet Name="WeekDayTimings" EntityType="XOGModel.WeekDayTiming" />
-          <EntitySet Name="UsersWalletVWs" EntityType="XOGModel.UsersWalletVW" />
-          <EntitySet Name="UserWalletListVWs" EntityType="XOGModel.UserWalletListVW" />
-          <EntitySet Name="UserWallets" EntityType="XOGModel.UserWallet" />
-          <AssociationSet Name="PK_USER_WALLET" Association="XOGModel.PK_USER_WALLET">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="UserWallet" EntitySet="UserWallets" />
-          </AssociationSet>
           <AssociationSet Name="FK_Transactions_UserWallets" Association="XOGModel.FK_Transactions_UserWallets">
             <End Role="UserWallet" EntitySet="UserWallets" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="XOGModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
         </EntityContainer>
         <EntityType Name="Address">
           <Key>
@@ -1333,8 +1370,8 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="AspNetUser" ToRole="Order" />
           <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_AspNetUsers" FromRole="AspNetUser" ToRole="Transaction" />
           <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="AspNetUser" ToRole="WishList" />
-          <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
           <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
+          <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
         <EntityType Name="Brand">
           <Key>
@@ -1392,6 +1429,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <Property Name="ToMinutes" Type="Int16" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="WeekDayStatus" Relationship="XOGModel.FK_DeliveryTimings_WeekDayStatus" FromRole="DeliveryTiming" ToRole="WeekDayStatus" />
+          <NavigationProperty Name="Orders" Relationship="XOGModel.FK_Orders_DeliveryTimings" FromRole="DeliveryTiming" ToRole="Order" />
         </EntityType>
         <EntityType Name="EmailTemplate">
           <Key>
@@ -1427,6 +1465,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <Property Name="OrderedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="OrderState" Type="Byte" Nullable="false" />
+          <Property Name="TimePeriod" Type="Int16" Nullable="false" />
           <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
           <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
           <Property Name="Returned" Type="Boolean" />
@@ -1434,6 +1473,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="XOGModel.FK_Orders_Addresses" FromRole="Order" ToRole="Address" />
           <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Orders_AspNetUsers" FromRole="Order" ToRole="AspNetUser" />
+          <NavigationProperty Name="DeliveryTiming" Relationship="XOGModel.FK_Orders_DeliveryTimings" FromRole="Order" ToRole="DeliveryTiming" />
           <NavigationProperty Name="OrderDetails" Relationship="XOGModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
           <NavigationProperty Name="ReturnOrders" Relationship="XOGModel.FK_ReturnOrders_Orders" FromRole="Order" ToRole="ReturnOrder" />
           <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_orders" FromRole="Order" ToRole="Transaction" />
@@ -1568,6 +1608,26 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <NavigationProperty Name="ReturnOrder" Relationship="XOGModel.PK_RETURNS_TRANSACTIONS" FromRole="Transaction" ToRole="ReturnOrder" />
           <NavigationProperty Name="UserWallet" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="Transaction" ToRole="UserWallet" />
         </EntityType>
+        <EntityType Name="UserWallet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.PK_USER_WALLET" FromRole="UserWallet" ToRole="AspNetUser" />
+          <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="UserWallet" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="WeekDayStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" />
+          <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DeliveryTimings" Relationship="XOGModel.FK_DeliveryTimings_WeekDayStatus" FromRole="WeekDayStatus" ToRole="DeliveryTiming" />
+        </EntityType>
         <EntityType Name="WishList">
           <Key>
             <PropertyRef Name="Id" />
@@ -1579,78 +1639,51 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="WishList" ToRole="AspNetUser" />
           <NavigationProperty Name="Product" Relationship="XOGModel.FK_WishList_Products" FromRole="WishList" ToRole="Product" />
         </EntityType>
-        <EntityType Name="OrderVW">
+        <EntityType Name="UsersWalletVW">
           <Key>
-            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="WalletOfUserId" />
+          </Key>
+          <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TotalCredited" Type="Double" />
+          <Property Name="TotalDebited" Type="Double" />
+          <Property Name="Amount" Type="Double" />
+        </EntityType>
+        <EntityType Name="UserWalletListVW">
+          <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="UserId" />
-            <PropertyRef Name="PhoneNumber" />
-            <PropertyRef Name="OrderDate" />
-            <PropertyRef Name="OrderState" />
-            <PropertyRef Name="ProductName" />
-            <PropertyRef Name="ProductId" />
-            <PropertyRef Name="ProductVariantId" />
-            <PropertyRef Name="Volume" />
-            <PropertyRef Name="QuantityMeasureName" />
-            <PropertyRef Name="Acronym" />
-            <PropertyRef Name="QuantityMeasureId" />
-            <PropertyRef Name="OrderToAddressId" />
-            <PropertyRef Name="ImageUrl" />
-            <PropertyRef Name="ImageId" />
-            <PropertyRef Name="Price" />
-            <PropertyRef Name="DiscPrice" />
-            <PropertyRef Name="Discount" />
-            <PropertyRef Name="OrderedQuantity" />
-            <PropertyRef Name="Gst" />
-            <PropertyRef Name="OrderedTotal" />
-            <PropertyRef Name="ViewInfoId" />
+            <PropertyRef Name="TransactionType" />
+            <PropertyRef Name="OrderAction" />
+            <PropertyRef Name="TimeStamp" />
           </Key>
-          <Property Name="ViewInfoId" Type="Int64" Nullable="false" />
-          <Property Name="OrderId" Type="Int64" Nullable="false" />
           <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="ReturnDetailId" Type="Int64" />
-          <Property Name="ReturnId" Type="Int64" />
-          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OrderState" Type="Byte" Nullable="false" />
-          <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
-          <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsReturn" Type="Int32" />
-          <Property Name="AddressLine1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="LandMark" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="AreaCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FullName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="GPS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Name="OrderedPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="ProductVariantId" Type="Int64" Nullable="false" />
-          <Property Name="Volume" Type="Int16" Nullable="false" />
-          <Property Name="QuantityMeasureName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Acronym" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="QuantityMeasureId" Type="Int16" Nullable="false" />
-          <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
-          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ImageId" Type="Int64" Nullable="false" />
-          <Property Name="Price" Type="Double" Nullable="false" />
-          <Property Name="DiscPrice" Type="Double" Nullable="false" />
-          <Property Name="Discount" Type="Double" Nullable="false" />
-          <Property Name="OrderedQuantity" Type="Int32" Nullable="false" />
-          <Property Name="ReturnOrderStatus" Type="Int32" />
-          <Property Name="TotalQuantity" Type="Int32" />
-          <Property Name="ReturnedQuantity" Type="Int32" />
-          <Property Name="TotalReturnedQuantity" Type="Int32" />
-          <Property Name="Gst" Type="Int16" Nullable="false" />
-          <Property Name="OrderedTotal" Type="Double" Nullable="false" />
-          <Property Name="ReturnTotal" Type="Double" />
-          <Property Name="ReturnTotalSum" Type="Double" />
-          <Property Name="Total" Type="Double" />
-          <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
+          <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="OrderAction" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionId" Type="Int64" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ActionId" Type="Int64" />
+          <Property Name="Amount" Type="Double" />
+        </EntityType>
+        <EntityType Name="WeekDayTiming">
+          <Key>
+            <PropertyRef Name="WeekDayId" />
+            <PropertyRef Name="DayName" />
+            <PropertyRef Name="IsWeekDayActive" />
+          </Key>
+          <Property Name="Id" Type="Int64" />
+          <Property Name="WeekDayId" Type="Byte" Nullable="false" />
+          <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsTimingActive" Type="Boolean" />
+          <Property Name="HourStart" Type="Int16" />
+          <Property Name="HourEnd" Type="Int16" />
+          <Property Name="MinuteStart" Type="Int16" />
+          <Property Name="MinutesEnd" Type="Int16" />
+          <Property Name="FromHours" Type="Int16" />
+          <Property Name="FromMinutes" Type="Int16" />
+          <Property Name="ToHours" Type="Int16" />
+          <Property Name="ToMinutes" Type="Int16" />
         </EntityType>
         <Association Name="FK_Addresses_AspNetUsers">
           <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -1770,6 +1803,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="PK_USER_WALLET">
+          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserWallet">
+              <PropertyRef Name="WalletOfUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Brands">
           <End Type="XOGModel.Brand" Role="Brand" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1807,6 +1852,30 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Principal>
             <Dependent Role="SubCategory">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryTimings_WeekDayStatus">
+          <End Type="XOGModel.WeekDayStatus" Role="WeekDayStatus" Multiplicity="1" />
+          <End Type="XOGModel.DeliveryTiming" Role="DeliveryTiming" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeekDayStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryTiming">
+              <PropertyRef Name="DayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_DeliveryTimings">
+          <End Type="XOGModel.DeliveryTiming" Role="DeliveryTiming" Multiplicity="1" />
+          <End Type="XOGModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryTiming">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="TimePeriod" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1996,98 +2065,6 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-        </Association>
-        <EntityType Name="WeekDayStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DeliveryTimings" Relationship="XOGModel.FK_DeliveryTimings_WeekDayStatus" FromRole="WeekDayStatus" ToRole="DeliveryTiming" />
-        </EntityType>
-        <Association Name="FK_DeliveryTimings_WeekDayStatus">
-          <End Type="XOGModel.WeekDayStatus" Role="WeekDayStatus" Multiplicity="1" />
-          <End Type="XOGModel.DeliveryTiming" Role="DeliveryTiming" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WeekDayStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DeliveryTiming">
-              <PropertyRef Name="DayId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="WeekDayTiming">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="WeekDayId" Type="Byte" Nullable="false" />
-          <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
-          <Property Name="IsTimingActive" Type="Boolean" />
-          <Property Name="HourStart" Type="Int16" />
-          <Property Name="HourEnd" Type="Int16" />
-          <Property Name="MinuteStart" Type="Int16" />
-          <Property Name="MinutesEnd" Type="Int16" />
-          <Property Name="FromHours" Type="Int16" />
-          <Property Name="FromMinutes" Type="Int16" />
-          <Property Name="ToHours" Type="Int16" />
-          <Property Name="ToMinutes" Type="Int16" />
-        </EntityType>
-        <EntityType Name="UsersWalletVW">
-          <Key>
-            <PropertyRef Name="WalletOfUserId" />
-          </Key>
-          <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="TotalCredited" Type="Double" />
-          <Property Name="TotalDebited" Type="Double" />
-          <Property Name="Amount" Type="Double" />
-        </EntityType>
-        <EntityType Name="UserWalletListVW">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="TransactionType" />
-            <PropertyRef Name="OrderAction" />
-            <PropertyRef Name="TimeStamp" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="TransactionType" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="OrderAction" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
-          <Property Name="TransactionId" Type="Int64" />
-          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="ActionId" Type="Int64" />
-          <Property Name="Amount" Type="Double" />
-        </EntityType>
-        <EntityType Name="UserWallet">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WalletOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Double" />
-          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.PK_USER_WALLET" FromRole="UserWallet" ToRole="AspNetUser" />
-          <NavigationProperty Name="Transactions" Relationship="XOGModel.FK_Transactions_UserWallets" FromRole="UserWallet" ToRole="Transaction" />
-        </EntityType>
-        <Association Name="PK_USER_WALLET">
-          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UserWallet">
-              <PropertyRef Name="WalletOfUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Transactions_UserWallets">
           <End Type="XOGModel.UserWallet" Role="UserWallet" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -2102,6 +2079,86 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="XOGModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="OrderVW">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="OrderDate" />
+            <PropertyRef Name="OrderState" />
+            <PropertyRef Name="ProductName" />
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="ProductVariantId" />
+            <PropertyRef Name="Volume" />
+            <PropertyRef Name="QuantityMeasureName" />
+            <PropertyRef Name="Acronym" />
+            <PropertyRef Name="QuantityMeasureId" />
+            <PropertyRef Name="OrderToAddressId" />
+            <PropertyRef Name="ImageUrl" />
+            <PropertyRef Name="ImageId" />
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="DiscPrice" />
+            <PropertyRef Name="Discount" />
+            <PropertyRef Name="OrderedQuantity" />
+            <PropertyRef Name="TimePeriod" />
+            <PropertyRef Name="Gst" />
+            <PropertyRef Name="OrderedTotal" />
+          </Key>
+          <Property Name="ViewInfoId" Type="Int64" />
+          <Property Name="OrderId" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="ReturnDetailId" Type="Int64" />
+          <Property Name="ReturnId" Type="Int64" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderState" Type="Byte" Nullable="false" />
+          <Property Name="DeliveredDate" Type="DateTime" Precision="3" />
+          <Property Name="DispatchedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsReturn" Type="Int32" />
+          <Property Name="AddressLine1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="LandMark" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="AreaCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="GPS" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="OrderedPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="ProductVariantId" Type="Int64" Nullable="false" />
+          <Property Name="Volume" Type="Int16" Nullable="false" />
+          <Property Name="QuantityMeasureName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Acronym" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityMeasureId" Type="Int16" Nullable="false" />
+          <Property Name="OrderToAddressId" Type="Int64" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImageId" Type="Int64" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="DiscPrice" Type="Double" Nullable="false" />
+          <Property Name="Discount" Type="Double" Nullable="false" />
+          <Property Name="OrderedQuantity" Type="Int32" Nullable="false" />
+          <Property Name="ReturnOrderStatus" Type="Int32" />
+          <Property Name="TotalQuantity" Type="Int32" />
+          <Property Name="ReturnedQuantity" Type="Int32" />
+          <Property Name="TotalReturnedQuantity" Type="Int32" />
+          <Property Name="TimePeriod" Type="Int16" Nullable="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="TimePeriodText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gst" Type="Int16" Nullable="false" />
+          <Property Name="OrderedTotal" Type="Double" Nullable="false" />
+          <Property Name="ReturnTotal" Type="Double" />
+          <Property Name="ReturnTotalSum" Type="Double" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2280,6 +2337,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
                 <ScalarProperty Name="Returned" ColumnName="Returned" />
                 <ScalarProperty Name="DispatchedDate" ColumnName="DispatchedDate" />
                 <ScalarProperty Name="DeliveredDate" ColumnName="DeliveredDate" />
+                <ScalarProperty Name="TimePeriod" ColumnName="TimePeriod" />
                 <ScalarProperty Name="OrderState" ColumnName="OrderState" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="OrderedByUserId" ColumnName="OrderedByUserId" />
@@ -2400,6 +2458,25 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserWallets">
+            <EntityTypeMapping TypeName="XOGModel.UserWallet">
+              <MappingFragment StoreEntitySet="UserWallet">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeekDayStatuses">
+            <EntityTypeMapping TypeName="XOGModel.WeekDayStatus">
+              <MappingFragment StoreEntitySet="WeekDayStatuses">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DayName" ColumnName="DayName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WishLists">
             <EntityTypeMapping TypeName="XOGModel.WishList">
               <MappingFragment StoreEntitySet="WishLists">
@@ -2410,6 +2487,57 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UsersWalletVWs">
+            <EntityTypeMapping TypeName="XOGModel.UsersWalletVW">
+              <MappingFragment StoreEntitySet="UsersWalletVW">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalDebited" ColumnName="TotalDebited" />
+                <ScalarProperty Name="TotalCredited" ColumnName="TotalCredited" />
+                <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserWalletListVWs">
+            <EntityTypeMapping TypeName="XOGModel.UserWalletListVW">
+              <MappingFragment StoreEntitySet="UserWalletListVW">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="OrderAction" ColumnName="OrderAction" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeekDayTimings">
+            <EntityTypeMapping TypeName="XOGModel.WeekDayTiming">
+              <MappingFragment StoreEntitySet="WeekDayTimings">
+                <ScalarProperty Name="ToMinutes" ColumnName="ToMinutes" />
+                <ScalarProperty Name="ToHours" ColumnName="ToHours" />
+                <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
+                <ScalarProperty Name="FromHours" ColumnName="FromHours" />
+                <ScalarProperty Name="MinutesEnd" ColumnName="MinutesEnd" />
+                <ScalarProperty Name="MinuteStart" ColumnName="MinuteStart" />
+                <ScalarProperty Name="HourEnd" ColumnName="HourEnd" />
+                <ScalarProperty Name="HourStart" ColumnName="HourStart" />
+                <ScalarProperty Name="IsTimingActive" ColumnName="IsTimingActive" />
+                <ScalarProperty Name="IsWeekDayActive" ColumnName="IsWeekDayActive" />
+                <ScalarProperty Name="DayName" ColumnName="DayName" />
+                <ScalarProperty Name="WeekDayId" ColumnName="WeekDayId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <EntitySetMapping Name="OrderVWs">
             <EntityTypeMapping TypeName="XOGModel.OrderVW">
               <MappingFragment StoreEntitySet="OrderVW">
@@ -2419,6 +2547,9 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
                 <ScalarProperty Name="ReturnTotal" ColumnName="ReturnTotal" />
                 <ScalarProperty Name="OrderedTotal" ColumnName="OrderedTotal" />
                 <ScalarProperty Name="Gst" ColumnName="Gst" />
+                <ScalarProperty Name="TimePeriodText" ColumnName="TimePeriodText" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="TimePeriod" ColumnName="TimePeriod" />
                 <ScalarProperty Name="TotalReturnedQuantity" ColumnName="TotalReturnedQuantity" />
                 <ScalarProperty Name="ReturnedQuantity" ColumnName="ReturnedQuantity" />
                 <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
@@ -2459,76 +2590,6 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="ViewInfoId" ColumnName="ViewInfoId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="XOGModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUser">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="WeekDayStatuses">
-            <EntityTypeMapping TypeName="XOGModel.WeekDayStatus">
-              <MappingFragment StoreEntitySet="WeekDayStatuses">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="DayName" ColumnName="DayName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WeekDayTimings">
-            <EntityTypeMapping TypeName="XOGModel.WeekDayTiming">
-              <MappingFragment StoreEntitySet="WeekDayTimings">
-                <ScalarProperty Name="ToMinutes" ColumnName="ToMinutes" />
-                <ScalarProperty Name="ToHours" ColumnName="ToHours" />
-                <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
-                <ScalarProperty Name="FromHours" ColumnName="FromHours" />
-                <ScalarProperty Name="MinutesEnd" ColumnName="MinutesEnd" />
-                <ScalarProperty Name="MinuteStart" ColumnName="MinuteStart" />
-                <ScalarProperty Name="HourEnd" ColumnName="HourEnd" />
-                <ScalarProperty Name="HourStart" ColumnName="HourStart" />
-                <ScalarProperty Name="IsTimingActive" ColumnName="IsTimingActive" />
-                <ScalarProperty Name="IsWeekDayActive" ColumnName="IsWeekDayActive" />
-                <ScalarProperty Name="DayName" ColumnName="DayName" />
-                <ScalarProperty Name="WeekDayId" ColumnName="WeekDayId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UsersWalletVWs">
-            <EntityTypeMapping TypeName="XOGModel.UsersWalletVW">
-              <MappingFragment StoreEntitySet="UsersWalletVW">
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="TotalDebited" ColumnName="TotalDebited" />
-                <ScalarProperty Name="TotalCredited" ColumnName="TotalCredited" />
-                <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserWalletListVWs">
-            <EntityTypeMapping TypeName="XOGModel.UserWalletListVW">
-              <MappingFragment StoreEntitySet="UserWalletListVW">
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="OrderAction" ColumnName="OrderAction" />
-                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserWallets">
-            <EntityTypeMapping TypeName="XOGModel.UserWallet">
-              <MappingFragment StoreEntitySet="UserWallet">
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="WalletOfUserId" ColumnName="WalletOfUserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,7 +14,11 @@ namespace XOG.Models.ViewModels
         
         public string PhoneNumber { get; set; }
 
-        public int TimePeriod { get; set; }
+        public short TimePeriod { get; set; }
+
+        public DateTime? DeliveryDate { get; set; }
+          
+        public string TimePeriodText { get; set; }
 
         public int RelDay { get; set; }
 
@@ -28,7 +32,7 @@ namespace XOG.Models.ViewModels
 
         public DateTime? DispatchedDate { get; set; } 
 
-        public DateTime? DeliveryDate { get; set; }  
+        public DateTime? DeliveredDate { get; set; }  
 
         public OrderDetailViewModel[] Purchases { get; set; }
 

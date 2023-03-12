@@ -333,6 +333,7 @@
     <Compile Include="AppCode\DAL\Cart.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\CategoriesImage.cs" />
     <Compile Include="AppCode\DAL\Category.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
@@ -670,6 +671,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppCode\DAL\DBLinkQueries.sql" />
+    <Content Include="AppCode\DAL\Functions\GetDayId.sql" />
+    <Content Include="AppCode\DAL\Functions\GetDeliveryDate.sql" />
+    <Content Include="AppCode\DAL\Functions\GetTimeSlot.sql" />
+    <Content Include="AppCode\DAL\OrderReturnDetailsQueries.sql" />
+    <Content Include="AppCode\DAL\OrderReturnQueries.sql" />
+    <Content Include="AppCode\DAL\ReturnOrderDetailsQuery_update_1.sql" />
+    <Content Include="AppCode\DAL\Views\UserWalletListVW.sql" />
+    <Content Include="AppCode\DAL\Views\WeekDayTimings.sql" />
+    <Content Include="AppCode\DAL\Views\UsersWalletVW.sql" />
+    <Content Include="AppCode\DAL\Views\OrderVW.sql" />
     <Content Include="AppCode\DAL\WalletQueries.sql" />
     <Content Include="AppCode\DAL\XOGModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

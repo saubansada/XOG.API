@@ -26,6 +26,7 @@ namespace XOG.AppCode.DAL
         public string OrderedByUserId { get; set; }
         public System.DateTime OrderDate { get; set; }
         public byte OrderState { get; set; }
+        public short TimePeriod { get; set; }
         public Nullable<System.DateTime> DeliveredDate { get; set; }
         public Nullable<System.DateTime> DispatchedDate { get; set; }
         public Nullable<bool> Returned { get; set; }
@@ -34,6 +35,7 @@ namespace XOG.AppCode.DAL
     
         public virtual Address Address { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual DeliveryTiming DeliveryTiming { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -170,6 +170,7 @@
     <Property Name="OrderedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="OrderDate" Type="datetime" Nullable="false" />
     <Property Name="OrderState" Type="tinyint" Nullable="false" />
+    <Property Name="TimePeriod" Type="smallint" Nullable="false" />
     <Property Name="DeliveredDate" Type="datetime" />
     <Property Name="DispatchedDate" Type="datetime" />
     <Property Name="Returned" Type="bit" />
@@ -293,7 +294,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="tinyint" Nullable="false" />
     <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
@@ -330,11 +331,11 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
       <PropertyRef Name="DiscPrice" />
       <PropertyRef Name="Discount" />
       <PropertyRef Name="OrderedQuantity" />
+      <PropertyRef Name="TimePeriod" />
       <PropertyRef Name="Gst" />
       <PropertyRef Name="OrderedTotal" />
-      <PropertyRef Name="ViewInfoId" />
     </Key>
-    <Property Name="ViewInfoId" Type="bigint" Nullable="false" />
+    <Property Name="ViewInfoId" Type="bigint" />
     <Property Name="OrderId" Type="bigint" Nullable="false" />
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="ReturnDetailId" Type="bigint" />
@@ -374,6 +375,9 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
     <Property Name="TotalQuantity" Type="int" />
     <Property Name="ReturnedQuantity" Type="int" />
     <Property Name="TotalReturnedQuantity" Type="int" />
+    <Property Name="TimePeriod" Type="smallint" Nullable="false" />
+    <Property Name="DeliveryDate" Type="datetime" />
+    <Property Name="TimePeriodText" Type="nvarchar(max)" />
     <Property Name="Gst" Type="smallint" Nullable="false" />
     <Property Name="OrderedTotal" Type="float" Nullable="false" />
     <Property Name="ReturnTotal" Type="float" />
@@ -415,9 +419,11 @@ warning 6002: The table/view 'xog_db.dbo.UserWalletListVW' does not have a prima
 warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="WeekDayTimings">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="WeekDayId" />
+      <PropertyRef Name="DayName" />
+      <PropertyRef Name="IsWeekDayActive" />
     </Key>
-    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" />
     <Property Name="WeekDayId" Type="tinyint" Nullable="false" />
     <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="IsWeekDayActive" Type="bit" Nullable="false" />
@@ -596,6 +602,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Principal>
       <Dependent Role="Orders">
         <PropertyRef Name="OrderedByUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_DeliveryTimings">
+    <End Role="DeliveryTimings" Type="Self.DeliveryTimings" Multiplicity="1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeliveryTimings">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="TimePeriod" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -837,6 +855,17 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="GetDayId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+    <Parameter Name="vdate" Type="date" Mode="In" />
+  </Function>
+  <Function Name="GetDeliveryDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="datetime">
+    <Parameter Name="orderedDate" Type="date" Mode="In" />
+    <Parameter Name="timePeriod" Type="smallint" Mode="In" />
+  </Function>
+  <Function Name="GetTimeSlot" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+    <Parameter Name="orderDate" Type="date" Mode="In" />
+    <Parameter Name="timeId" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="XOGModelStoreContainer">
     <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AdSenseAds" EntityType="Self.AdSenseAds" Schema="dbo" store:Type="Tables" />
@@ -907,6 +936,9 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     [OrderVW].[TotalQuantity] AS [TotalQuantity], 
     [OrderVW].[ReturnedQuantity] AS [ReturnedQuantity], 
     [OrderVW].[TotalReturnedQuantity] AS [TotalReturnedQuantity], 
+    [OrderVW].[TimePeriod] AS [TimePeriod], 
+    [OrderVW].[DeliveryDate] AS [DeliveryDate], 
+    [OrderVW].[TimePeriodText] AS [TimePeriodText], 
     [OrderVW].[Gst] AS [Gst], 
     [OrderVW].[OrderedTotal] AS [OrderedTotal], 
     [OrderVW].[ReturnTotal] AS [ReturnTotal], 
@@ -1002,6 +1034,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     </AssociationSet>
     <AssociationSet Name="FK_Orders_AspNetUsers" Association="Self.FK_Orders_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_DeliveryTimings" Association="Self.FK_Orders_DeliveryTimings">
+      <End Role="DeliveryTimings" EntitySet="DeliveryTimings" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Brands" Association="Self.FK_Product_Brands">

@@ -144,10 +144,13 @@ namespace XOG.AppCode.Mappers
                         PhoneNumber = model.FirstOrDefault().PhoneNumber,
                         OrderDate = model.FirstOrDefault().OrderDate,
                         OrderState = (OrderStatus)model.FirstOrDefault().OrderState,
-                        DeliveryDate = model.FirstOrDefault().DeliveredDate,
+                        DeliveredDate = model.FirstOrDefault().DeliveredDate,
+                        DeliveryDate = model.FirstOrDefault().DeliveryDate,
                         DispatchedDate = model.FirstOrDefault().DispatchedDate,
                         SumAmount = (float)model.Sum(i => i.OrderedTotal),
                         TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
+                        TimePeriodText = model.FirstOrDefault().TimePeriodText,
+                        TimePeriod = model.FirstOrDefault().TimePeriod,
                         Address = new AddressViewModel()
                         {
                             FullName = model.FirstOrDefault().FirstName + " " + model.FirstOrDefault().LastName,
@@ -236,10 +239,13 @@ namespace XOG.AppCode.Mappers
                         PhoneNumber = model.FirstOrDefault().PhoneNumber,
                         OrderDate = model.FirstOrDefault().OrderDate,
                         OrderState = (OrderStatus)model.FirstOrDefault().OrderState,
-                        DeliveryDate = model.FirstOrDefault().DeliveredDate,
+                        DeliveryDate = model.FirstOrDefault().DeliveryDate,
+                        DeliveredDate = model.FirstOrDefault().DeliveredDate,
                         DispatchedDate = model.FirstOrDefault().DispatchedDate,
                         SumAmount = (float)model.Sum(i => i.OrderedTotal),
                         TotalBill = (float)model.Where(i => i.ReturnId == -1).Sum(i => i.OrderedTotal),
+                        TimePeriod = model.FirstOrDefault().TimePeriod,
+                        TimePeriodText = model.FirstOrDefault().TimePeriodText,
                         Address = new AddressViewModel()
                         {
                             FullName = model.FirstOrDefault().FirstName + " " + model.FirstOrDefault().LastName,
@@ -375,6 +381,8 @@ namespace XOG.AppCode.Mappers
                 purchases = _model.Purchases.ToDictionary(i => i.ProductVariantId, y => y.Quantity);
 
                 order.Id = _model.Id;
+                 
+                order.TimePeriod = _model.TimePeriod;
             }
             else if (model is OrderViewModel)
             {
@@ -393,6 +401,8 @@ namespace XOG.AppCode.Mappers
                 order.OrderToAddressId = customerInfo.DefaultAddress != null ? customerInfo.DefaultAddress.Id : 1;
 
                 order.Id = _model.Id;
+                 
+                order.TimePeriod = _model.TimePeriod;
             }
 
             order.TotalAmount = 0.0;
@@ -422,7 +432,7 @@ namespace XOG.AppCode.Mappers
             order.OrderedByUserId = customerInfo.Id;
 
             order.OrderDate = now;
-
+             
             order.OrderState = (byte)OrderStatus.Placed;
 
             order.Returned = false;

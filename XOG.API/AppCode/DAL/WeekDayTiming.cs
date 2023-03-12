@@ -14,7 +14,7 @@ namespace XOG.AppCode.DAL
     
     public partial class WeekDayTiming
     {
-        public long Id { get; set; }
+        public Nullable<long> Id { get; set; }
         public byte WeekDayId { get; set; }
         public string DayName { get; set; }
         public bool IsWeekDayActive { get; set; }

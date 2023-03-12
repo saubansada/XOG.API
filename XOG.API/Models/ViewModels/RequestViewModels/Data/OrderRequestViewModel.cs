@@ -12,7 +12,7 @@ namespace XOG.Models.ViewModels
 
         public string UserId { get; set; }
 
-        public int TimePeriod { get; set; }
+        public byte TimePeriod { get; set; }
 
         public int RelDay { get; set; }
 
