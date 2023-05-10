@@ -101,7 +101,7 @@ namespace XOG.AppCode.Mappers
                     LastName = model.LastName,
                     RegistrationDate = model.RegistrationDate,
                     AlternateMobileNumber = model.AlternateMobileNumber,
-                    DefaultAddress = model.Addresses.Count == 0 ? null : (model.Addresses.Count == 1 ? model.Addresses : model.Addresses.Where(i => i.IsDefault)).Select(m => 
+                    DefaultAddress = model.Addresses.Count == 0 ? null : (model.Addresses.Count == 1 ? model.Addresses : model.Addresses.Where(i => i.IsDefault)).Select(m =>
                     new AddressViewModel
                     {
                         Id = m.Id,
@@ -149,6 +149,8 @@ namespace XOG.AppCode.Mappers
         public static AspNetUser MapToAspNetUserEntity(this BaseModel model, object obj = null)
         {
             AspNetUser User = null;
+            UserViewModel current = (UserViewModel)obj;
+
 
             if (model is UserViewModel)
             {
@@ -156,21 +158,21 @@ namespace XOG.AppCode.Mappers
 
                 User = new AspNetUser()
                 {
-                    Id = _model.Id,
-                    UserType = _model.UserType.ToString(),
+                    Id = current.Id,
+                    UserType = current.UserType,
                     Email = _model.Email,
-                    EmailConfirmed = _model.EmailConfirmed,
-                    SecurityStamp = _model.SecurityStamp,
-                    PhoneNumber = _model.PhoneNumber,
-                    PhoneNumberConfirmed = _model.PhoneNumberConfirmed,
-                    TwoFactorEnabled = _model.TwoFactorEnabled,
-                    LockoutEndDateUtc = _model.LockoutEndDateUtc,
-                    LockoutEnabled = _model.LockoutEnabled,
-                    AccessFailedCount = _model.AccessFailedCount,
-                    UserName = _model.UserName,
+                    EmailConfirmed = current.EmailConfirmed,
+                    SecurityStamp = current.SecurityStamp,
+                    PhoneNumber = current.PhoneNumber,
+                    PhoneNumberConfirmed = current.PhoneNumberConfirmed,
+                    TwoFactorEnabled = current.TwoFactorEnabled,
+                    LockoutEndDateUtc = current.LockoutEndDateUtc,
+                    LockoutEnabled = current.LockoutEnabled,
+                    AccessFailedCount = current.AccessFailedCount,
+                    UserName = current.UserName,
                     FirstName = _model.FirstName,
                     LastName = _model.LastName,
-                    RegistrationDate = _model.RegistrationDate,
+                    RegistrationDate = current.RegistrationDate,
                     AlternateMobileNumber = _model.AlternateMobileNumber,
                 };
             }
@@ -179,21 +181,21 @@ namespace XOG.AppCode.Mappers
                 var _model = (UserRequestVM)model;
                 User = new AspNetUser()
                 {
-                    Id = _model.Id,
-                    UserType = _model.UserType.ToString(),
+                    Id = current.Id,
+                    UserType = current.UserType,
                     Email = _model.Email,
-                    EmailConfirmed = _model.EmailConfirmed,
-                    SecurityStamp = _model.SecurityStamp,
-                    PhoneNumber = _model.PhoneNumber,
-                    PhoneNumberConfirmed = _model.PhoneNumberConfirmed,
-                    TwoFactorEnabled = _model.TwoFactorEnabled,
-                    LockoutEndDateUtc = _model.LockoutEndDateUtc,
-                    LockoutEnabled = _model.LockoutEnabled,
-                    AccessFailedCount = _model.AccessFailedCount,
-                    UserName = _model.UserName,
+                    EmailConfirmed = current.EmailConfirmed,
+                    SecurityStamp = current.SecurityStamp,
+                    PhoneNumber = current.PhoneNumber,
+                    PhoneNumberConfirmed = current.PhoneNumberConfirmed,
+                    TwoFactorEnabled = current.TwoFactorEnabled,
+                    LockoutEndDateUtc = current.LockoutEndDateUtc,
+                    LockoutEnabled = current.LockoutEnabled,
+                    AccessFailedCount = current.AccessFailedCount,
+                    UserName = current.UserName,
                     FirstName = _model.FirstName,
                     LastName = _model.LastName,
-                    RegistrationDate = _model.RegistrationDate,
+                    RegistrationDate = current.RegistrationDate,
                     AlternateMobileNumber = _model.AlternateMobileNumber,
                 };
             }

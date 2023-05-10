@@ -53,7 +53,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async override Task<IHttpActionResult> GetAsync(int id)
+        public async override Task<IHttpActionResult> GetAsync(long id)
         {
             await Task.FromResult(0);
             throw new System.NotImplementedException();

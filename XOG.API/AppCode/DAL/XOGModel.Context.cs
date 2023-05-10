@@ -55,5 +55,7 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<UserWalletListVW> UserWalletListVWs { get; set; }
         public virtual DbSet<WeekDayTiming> WeekDayTimings { get; set; }
         public virtual DbSet<OrderVW> OrderVWs { get; set; }
+        public virtual DbSet<BankAccount> BankAccounts { get; set; }
+        public virtual DbSet<RedeemRequest> RedeemRequests { get; set; }
     }
 }

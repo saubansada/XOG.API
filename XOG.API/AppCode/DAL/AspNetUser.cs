@@ -27,6 +27,7 @@ namespace XOG.AppCode.DAL
             this.WishLists = new HashSet<WishList>();
             this.UserWallets = new HashSet<UserWallet>();
             this.AspNetRoles = new HashSet<AspNetRole>();
+            this.BankAccounts = new HashSet<BankAccount>();
         }
     
         public string Id { get; set; }
@@ -67,5 +68,7 @@ namespace XOG.AppCode.DAL
         public virtual ICollection<UserWallet> UserWallets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
     }
 }

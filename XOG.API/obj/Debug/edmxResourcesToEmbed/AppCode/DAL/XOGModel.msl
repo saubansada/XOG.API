@@ -350,6 +350,7 @@
     <EntitySetMapping Name="WeekDayTimings">
       <EntityTypeMapping TypeName="XOGModel.WeekDayTiming">
         <MappingFragment StoreEntitySet="WeekDayTimings">
+          <ScalarProperty Name="TimePeriodId" ColumnName="TimePeriodId" />
           <ScalarProperty Name="ToMinutes" ColumnName="ToMinutes" />
           <ScalarProperty Name="ToHours" ColumnName="ToHours" />
           <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
@@ -426,6 +427,30 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="ViewInfoId" ColumnName="ViewInfoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BankAccounts">
+      <EntityTypeMapping TypeName="XOGModel.BankAccount">
+        <MappingFragment StoreEntitySet="BankAccounts">
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="IFSCCode" ColumnName="IFSCCode" />
+          <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="AccountOfUserId" ColumnName="AccountOfUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RedeemRequests">
+      <EntityTypeMapping TypeName="XOGModel.RedeemRequest">
+        <MappingFragment StoreEntitySet="RedeemRequests">
+          <ScalarProperty Name="RequestCompletionDateTime" ColumnName="RequestCompletionDateTime" />
+          <ScalarProperty Name="RequestDateTime" ColumnName="RequestDateTime" />
+          <ScalarProperty Name="RequestState" ColumnName="RequestState" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

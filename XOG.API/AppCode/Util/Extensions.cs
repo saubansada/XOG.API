@@ -15,6 +15,12 @@ namespace XOG.Util
 {
     public static class Extensions
     {
+        //public static List<T> ConvertList<T>(this IEnumerable<object> value)
+        //{
+        //    //var containedType = type.GenericTypeArguments.First();
+        //    return value.Select(item => Convert.ChangeType(item, typeof(T))).ToList();
+        //}
+
         public static string Base64Decode(this string encodedText)
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(encodedText));

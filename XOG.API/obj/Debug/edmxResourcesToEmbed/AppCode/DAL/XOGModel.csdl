@@ -155,6 +155,16 @@
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
     <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
+    <EntitySet Name="BankAccounts" EntityType="XOGModel.BankAccount" />
+    <AssociationSet Name="FK_BankAccounts_AspNetUsers" Association="XOGModel.FK_BankAccounts_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="BankAccount" EntitySet="BankAccounts" />
+    </AssociationSet>
+    <EntitySet Name="RedeemRequests" EntityType="XOGModel.RedeemRequest" />
+    <AssociationSet Name="FK_RedeemRequests_BankAccounts" Association="XOGModel.FK_RedeemRequests_BankAccounts">
+      <End Role="BankAccount" EntitySet="BankAccounts" />
+      <End Role="RedeemRequest" EntitySet="RedeemRequests" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Address">
     <Key>
@@ -250,6 +260,7 @@
     <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="AspNetUser" ToRole="WishList" />
     <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
     <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+    <NavigationProperty Name="BankAccounts" Relationship="XOGModel.FK_BankAccounts_AspNetUsers" FromRole="AspNetUser" ToRole="BankAccount" />
   </EntityType>
   <EntityType Name="Brand">
     <Key>
@@ -548,8 +559,9 @@
       <PropertyRef Name="WeekDayId" />
       <PropertyRef Name="DayName" />
       <PropertyRef Name="IsWeekDayActive" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int64" />
+    <Property Name="Id" Type="Int64" Nullable="false" />
     <Property Name="WeekDayId" Type="Byte" Nullable="false" />
     <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
@@ -562,6 +574,7 @@
     <Property Name="FromMinutes" Type="Int16" />
     <Property Name="ToHours" Type="Int16" />
     <Property Name="ToMinutes" Type="Int16" />
+    <Property Name="TimePeriodId" Type="Int16" />
   </EntityType>
   <Association Name="FK_Addresses_AspNetUsers">
     <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -963,7 +976,6 @@
   </Association>
   <EntityType Name="OrderVW">
     <Key>
-      <PropertyRef Name="OrderId" />
       <PropertyRef Name="Id" />
       <PropertyRef Name="UserId" />
       <PropertyRef Name="PhoneNumber" />
@@ -986,8 +998,9 @@
       <PropertyRef Name="TimePeriod" />
       <PropertyRef Name="Gst" />
       <PropertyRef Name="OrderedTotal" />
+      <PropertyRef Name="ViewInfoId" />
     </Key>
-    <Property Name="ViewInfoId" Type="Int64" />
+    <Property Name="ViewInfoId" Type="Int64" Nullable="false" />
     <Property Name="OrderId" Type="Int64" Nullable="false" />
     <Property Name="Id" Type="Int64" Nullable="false" />
     <Property Name="ReturnDetailId" Type="Int64" />
@@ -1037,4 +1050,53 @@
     <Property Name="Total" Type="Double" />
     <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
   </EntityType>
+  <EntityType Name="BankAccount">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="BankName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="AccountNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IFSCCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_BankAccounts_AspNetUsers" FromRole="BankAccount" ToRole="AspNetUser" />
+    <Property Name="AccountName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="RedeemRequests" Relationship="XOGModel.FK_RedeemRequests_BankAccounts" FromRole="BankAccount" ToRole="RedeemRequest" />
+  </EntityType>
+  <Association Name="FK_BankAccounts_AspNetUsers">
+    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="XOGModel.BankAccount" Role="BankAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankAccount">
+        <PropertyRef Name="AccountOfUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RedeemRequest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BankAccountId" Type="Int64" Nullable="false" />
+    <Property Name="Amount" Type="Double" Nullable="false" />
+    <Property Name="RequestState" Type="Byte" Nullable="false" />
+    <Property Name="RequestDateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RequestCompletionDateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="BankAccount" Relationship="XOGModel.FK_RedeemRequests_BankAccounts" FromRole="RedeemRequest" ToRole="BankAccount" />
+  </EntityType>
+  <Association Name="FK_RedeemRequests_BankAccounts">
+    <End Type="XOGModel.BankAccount" Role="BankAccount" Multiplicity="1" />
+    <End Type="XOGModel.RedeemRequest" Role="RedeemRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankAccount">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RedeemRequest">
+        <PropertyRef Name="BankAccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -67,7 +67,7 @@ using XOG.Util;
             
 //            if (typeof(T) == typeof(Address))
 //            {
-//                var addresses = model.Addresses.Select(address => new
+//                var Addresses = model.Addresses.Select(address => new
 //                {
 //                    address.Id,
 //                    address.AddressOfUserId,
@@ -87,7 +87,7 @@ using XOG.Util;
 //                    LastName = model.LastName ?? "",
 //                    model.Email,
 //                    model.EmailConfirmed,
-//                    Addresses = addresses
+//                    Addresses = Addresses
 //                };
 //            }
 //            //else if (type == ModelType.OListItem && obj.isNullOrWholeNumber())

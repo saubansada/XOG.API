@@ -13,5 +13,6 @@ namespace XOG.Models.ViewModels
         public short ToHours { get; set; }
         public short ToMinutes { get; set; }
         public bool IsActive { get; set; }
+        public short? TimePeriodId { get; internal set; }
     } 
 }

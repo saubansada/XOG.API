@@ -86,7 +86,7 @@ namespace XOG.AppCode.BLL
 
             if (!string.IsNullOrWhiteSpace(id))
             {
-                query = context.AspNetUsers.Where(i => i.Id == id);
+                query = context.AspNetUsers.Where(i => i.Id == id || i.UserName == id);
             }
 
             var obj = query.ToList();

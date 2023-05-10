@@ -194,7 +194,9 @@ namespace XOG.Controllers
 
                 res.Data = new Dictionary<string, object>();
 
-                var wholeAmount = Int32.Parse(Math.Floor(amount) + "" + Math.Round((amount - (Math.Floor(amount))) * 100));
+                string appendingAmt = "" + Math.Round((amount - (Math.Floor(amount))) * 100);
+
+                var wholeAmount = Int32.Parse(Math.Floor(amount) + "" + appendingAmt + (appendingAmt.Length == 1 ? "0" : ""));
 
                 input.Add("amount", wholeAmount);
 
@@ -300,7 +302,9 @@ namespace XOG.Controllers
 
                 request.UserId = userId;
 
-                var wholeAmount = Int32.Parse(Math.Floor(totalAmount) + "" + Math.Round((totalAmount - (Math.Floor(totalAmount))) * 100));
+                string appendingAmt = "" + Math.Round((totalAmount - (Math.Floor(totalAmount))) * 100);
+
+                var wholeAmount = Int32.Parse(Math.Floor(totalAmount) + "" + appendingAmt + (appendingAmt.Length == 1 ? "0" : ""));
 
                 if (request.PaymentMode == PaymentType.CashOnDelivery || isFullWallet || (payment != null && payment["amount"] == wholeAmount))
                 {

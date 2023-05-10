@@ -19,7 +19,7 @@ namespace XOG.Abstracts
 
         public abstract IHttpActionResult GetSelectListAsync([FromUri] T1 filter);
 
-        public abstract Task<IHttpActionResult> GetAsync(int id);
+        public abstract Task<IHttpActionResult> GetAsync(long id);
 
         public abstract Task<IHttpActionResult> AddAsync(T2 request);
 

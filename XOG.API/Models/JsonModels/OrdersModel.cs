@@ -4,7 +4,7 @@ namespace XOGModels.JsonModels
 {
     public class OrdersModel 
     {
-        public long addressesId { get; set; }
+        public long AddressesId { get; set; }
 
         public string userId { get; set; }
 

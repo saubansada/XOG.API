@@ -13,12 +13,12 @@ using XOG.Models.ViewModels.RequestViewModels.Filters;
 namespace XOG.Controllers
 {
     [RoutePrefix("api/productgroup")]
-    public class ProductGroupController : CrudApiController<ProductFilterRequestVM, ProductGroupRequestVM>
+    public class ProductGroupController : CrudApiController<ProductGroupFilterRequestVM, ProductGroupRequestVM>
     {
         [HttpGet]
         [Route("get-list")]
         [OFAuthorize(Roles = "Developer, Admin, SubAdmin, Staff")]
-        public async override Task<IHttpActionResult> List([FromUri] ProductFilterRequestVM filter)
+        public async override Task<IHttpActionResult> List([FromUri] ProductGroupFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
               
@@ -31,7 +31,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get-select-list")]
-        public override IHttpActionResult GetSelectListAsync([FromUri] ProductFilterRequestVM filter)
+        public override IHttpActionResult GetSelectListAsync([FromUri] ProductGroupFilterRequestVM filter)
         {
             var res = new ReturnObject<object>();
 
@@ -44,7 +44,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async override Task<IHttpActionResult> GetAsync(int id)
+        public async override Task<IHttpActionResult> GetAsync(long id)
         {
             var res = new ReturnObject<ProductGroupViewModel>();
 

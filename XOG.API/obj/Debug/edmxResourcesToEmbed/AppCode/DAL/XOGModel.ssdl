@@ -87,6 +87,17 @@
     <Property Name="RegistrationDate" Type="datetime" />
     <Property Name="AlternateMobileNumber" Type="nvarchar" MaxLength="15" />
   </EntityType>
+  <EntityType Name="BankAccounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="AccountName" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="AccountNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="IFSCCode" Type="nvarchar" MaxLength="15" />
+  </EntityType>
   <EntityType Name="Brands">
     <Key>
       <PropertyRef Name="Id" />
@@ -236,6 +247,17 @@
     <Property Name="Acronym" Type="nvarchar" MaxLength="5" Nullable="false" />
     <Property Name="Enabled" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="RedeemRequests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankAccountId" Type="bigint" Nullable="false" />
+    <Property Name="Amount" Type="float" Nullable="false" />
+    <Property Name="RequestState" Type="tinyint" Nullable="false" />
+    <Property Name="RequestDateTime" Type="datetime" Nullable="false" />
+    <Property Name="RequestCompletionDateTime" Type="datetime" />
+  </EntityType>
   <EntityType Name="ReturnOrderDetails">
     <Key>
       <PropertyRef Name="Id" />
@@ -311,7 +333,6 @@
 warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="OrderVW">
     <Key>
-      <PropertyRef Name="OrderId" />
       <PropertyRef Name="Id" />
       <PropertyRef Name="UserId" />
       <PropertyRef Name="PhoneNumber" />
@@ -334,8 +355,9 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
       <PropertyRef Name="TimePeriod" />
       <PropertyRef Name="Gst" />
       <PropertyRef Name="OrderedTotal" />
+      <PropertyRef Name="ViewInfoId" />
     </Key>
-    <Property Name="ViewInfoId" Type="bigint" />
+    <Property Name="ViewInfoId" Type="bigint" Nullable="false" />
     <Property Name="OrderId" Type="bigint" Nullable="false" />
     <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="ReturnDetailId" Type="bigint" />
@@ -422,8 +444,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       <PropertyRef Name="WeekDayId" />
       <PropertyRef Name="DayName" />
       <PropertyRef Name="IsWeekDayActive" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="bigint" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="TimePeriodId" Type="smallint" />
     <Property Name="WeekDayId" Type="tinyint" Nullable="false" />
     <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="IsWeekDayActive" Type="bit" Nullable="false" />
@@ -482,6 +506,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Principal>
       <Dependent Role="AspNetUserRoles">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankAccounts_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="BankAccounts" Type="Self.BankAccounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankAccounts">
+        <PropertyRef Name="AccountOfUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -709,6 +745,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_RedeemRequests_BankAccounts">
+    <End Role="BankAccounts" Type="Self.BankAccounts" Multiplicity="1" />
+    <End Role="RedeemRequests" Type="Self.RedeemRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankAccounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RedeemRequests">
+        <PropertyRef Name="BankAccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ReturnOrderDetails_Orders">
     <End Role="ReturnOrders" Type="Self.ReturnOrders" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -874,6 +922,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BankAccounts" EntityType="Self.BankAccounts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Carts" EntityType="Self.Carts" Schema="dbo" store:Type="Tables" />
@@ -887,6 +936,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductVariants" EntityType="Self.ProductVariants" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuantityMeasures" EntityType="Self.QuantityMeasures" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RedeemRequests" EntityType="Self.RedeemRequests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ReturnOrderDetails" EntityType="Self.ReturnOrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ReturnOrders" EntityType="Self.ReturnOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
@@ -970,6 +1020,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="WeekDayTimings" EntityType="Self.WeekDayTimings" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [WeekDayTimings].[Id] AS [Id], 
+    [WeekDayTimings].[TimePeriodId] AS [TimePeriodId], 
     [WeekDayTimings].[WeekDayId] AS [WeekDayId], 
     [WeekDayTimings].[DayName] AS [DayName], 
     [WeekDayTimings].[IsWeekDayActive] AS [IsWeekDayActive], 
@@ -999,6 +1050,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankAccounts_AspNetUsers" Association="Self.FK_BankAccounts_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="BankAccounts" EntitySet="BankAccounts" />
     </AssociationSet>
     <AssociationSet Name="FK_Carts_AspNetUsers" Association="Self.FK_Carts_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1067,6 +1122,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <AssociationSet Name="fk_productVariants_quantityMeasureId" Association="Self.fk_productVariants_quantityMeasureId">
       <End Role="QuantityMeasures" EntitySet="QuantityMeasures" />
       <End Role="ProductVariants" EntitySet="ProductVariants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RedeemRequests_BankAccounts" Association="Self.FK_RedeemRequests_BankAccounts">
+      <End Role="BankAccounts" EntitySet="BankAccounts" />
+      <End Role="RedeemRequests" EntitySet="RedeemRequests" />
     </AssociationSet>
     <AssociationSet Name="FK_ReturnOrderDetails_Orders" Association="Self.FK_ReturnOrderDetails_Orders">
       <End Role="ReturnOrders" EntitySet="ReturnOrders" />

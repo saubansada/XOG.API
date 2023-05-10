@@ -28,6 +28,7 @@ namespace XOG.AppCode.Mappers
                 _query = query.Select(model => new WeekDayTimingViewModel
                 {
                     Id = model.WeekDayId,
+                    TimePeriodId = model.TimePeriodId,
                     DayName = model.DayName,
                     FromHours = model.FromHours ?? 0,
                     FromMinutes = model.FromMinutes ?? 0,
@@ -72,6 +73,7 @@ namespace XOG.AppCode.Mappers
                 {
                     Id = model.WeekDayId,
                     DayName = model.DayName,
+                    TimePeriodId = model.TimePeriodId,
                     FromHours = model.FromHours ?? 0,
                     FromMinutes = model.FromMinutes ?? 0,
                     ToHours = model.ToHours ?? 0,

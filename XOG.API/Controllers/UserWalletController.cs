@@ -90,7 +90,7 @@ namespace XOG.Controllers
 
         [HttpGet]
         [Route("get")]
-        public override async Task<IHttpActionResult> GetAsync(int id)
+        public override async Task<IHttpActionResult> GetAsync(long id)
         {
             var res = new ReturnObject<UserWalletInfo>();
 

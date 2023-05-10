@@ -201,7 +201,7 @@ namespace XOG.AppCode.BLL
 
                 res.Add("DBStatus", DBStatus.Success);
                 res.Add("OrderId", "" + orderId);
-                res.Add("Message", "Order confirmed successfully!");
+                res.Add("Message", "Order " + Enum.GetName(typeof(OrderStatus), order.OrderState).ToLower() + " successfully!");
                 res.Add("DetailedError", "");
 
                 return res;

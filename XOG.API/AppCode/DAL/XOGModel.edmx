@@ -92,6 +92,17 @@
           <Property Name="RegistrationDate" Type="datetime" />
           <Property Name="AlternateMobileNumber" Type="nvarchar" MaxLength="15" />
         </EntityType>
+        <EntityType Name="BankAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountOfUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AccountName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="IFSCCode" Type="nvarchar" MaxLength="15" />
+        </EntityType>
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -241,6 +252,17 @@
           <Property Name="Acronym" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="RedeemRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankAccountId" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+          <Property Name="RequestState" Type="tinyint" Nullable="false" />
+          <Property Name="RequestDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RequestCompletionDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="ReturnOrderDetails">
           <Key>
             <PropertyRef Name="Id" />
@@ -316,7 +338,7 @@
 warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="OrderVW">
           <Key>
-            <PropertyRef Name="OrderId" />
+            
             <PropertyRef Name="Id" />
             <PropertyRef Name="UserId" />
             <PropertyRef Name="PhoneNumber" />
@@ -339,8 +361,9 @@ warning 6002: The table/view 'xog_db.dbo.OrderVW' does not have a primary key de
             <PropertyRef Name="TimePeriod" />
             <PropertyRef Name="Gst" />
             <PropertyRef Name="OrderedTotal" />
+            <PropertyRef Name="ViewInfoId" />
           </Key>
-          <Property Name="ViewInfoId" Type="bigint" />
+          <Property Name="ViewInfoId" Type="bigint" Nullable="false" />
           <Property Name="OrderId" Type="bigint" Nullable="false" />
           <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="ReturnDetailId" Type="bigint" />
@@ -427,8 +450,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             <PropertyRef Name="WeekDayId" />
             <PropertyRef Name="DayName" />
             <PropertyRef Name="IsWeekDayActive" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="TimePeriodId" Type="smallint" />
           <Property Name="WeekDayId" Type="tinyint" Nullable="false" />
           <Property Name="DayName" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IsWeekDayActive" Type="bit" Nullable="false" />
@@ -487,6 +512,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Principal>
             <Dependent Role="AspNetUserRoles">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAccounts_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="BankAccounts" Type="Self.BankAccounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BankAccounts">
+              <PropertyRef Name="AccountOfUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -714,6 +751,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RedeemRequests_BankAccounts">
+          <End Role="BankAccounts" Type="Self.BankAccounts" Multiplicity="1" />
+          <End Role="RedeemRequests" Type="Self.RedeemRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankAccounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RedeemRequests">
+              <PropertyRef Name="BankAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReturnOrderDetails_Orders">
           <End Role="ReturnOrders" Type="Self.ReturnOrders" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -879,6 +928,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankAccounts" EntityType="Self.BankAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Carts" EntityType="Self.Carts" Schema="dbo" store:Type="Tables" />
@@ -892,6 +942,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductVariants" EntityType="Self.ProductVariants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuantityMeasures" EntityType="Self.QuantityMeasures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RedeemRequests" EntityType="Self.RedeemRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnOrderDetails" EntityType="Self.ReturnOrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReturnOrders" EntityType="Self.ReturnOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
@@ -975,6 +1026,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <EntitySet Name="WeekDayTimings" EntityType="Self.WeekDayTimings" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [WeekDayTimings].[Id] AS [Id], 
+    [WeekDayTimings].[TimePeriodId] AS [TimePeriodId], 
     [WeekDayTimings].[WeekDayId] AS [WeekDayId], 
     [WeekDayTimings].[DayName] AS [DayName], 
     [WeekDayTimings].[IsWeekDayActive] AS [IsWeekDayActive], 
@@ -1004,6 +1056,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <AssociationSet Name="FK_AspNetUserRoles_AspNetUser" Association="Self.FK_AspNetUserRoles_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAccounts_AspNetUsers" Association="Self.FK_BankAccounts_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="BankAccounts" EntitySet="BankAccounts" />
           </AssociationSet>
           <AssociationSet Name="FK_Carts_AspNetUsers" Association="Self.FK_Carts_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1072,6 +1128,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <AssociationSet Name="fk_productVariants_quantityMeasureId" Association="Self.fk_productVariants_quantityMeasureId">
             <End Role="QuantityMeasures" EntitySet="QuantityMeasures" />
             <End Role="ProductVariants" EntitySet="ProductVariants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RedeemRequests_BankAccounts" Association="Self.FK_RedeemRequests_BankAccounts">
+            <End Role="BankAccounts" EntitySet="BankAccounts" />
+            <End Role="RedeemRequests" EntitySet="RedeemRequests" />
           </AssociationSet>
           <AssociationSet Name="FK_ReturnOrderDetails_Orders" Association="Self.FK_ReturnOrderDetails_Orders">
             <End Role="ReturnOrders" EntitySet="ReturnOrders" />
@@ -1277,6 +1337,16 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="OrderVWs" EntityType="XOGModel.OrderVW" />
+          <EntitySet Name="BankAccounts" EntityType="XOGModel.BankAccount" />
+          <AssociationSet Name="FK_BankAccounts_AspNetUsers" Association="XOGModel.FK_BankAccounts_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="BankAccount" EntitySet="BankAccounts" />
+          </AssociationSet>
+          <EntitySet Name="RedeemRequests" EntityType="XOGModel.RedeemRequest" />
+          <AssociationSet Name="FK_RedeemRequests_BankAccounts" Association="XOGModel.FK_RedeemRequests_BankAccounts">
+            <End Role="BankAccount" EntitySet="BankAccounts" />
+            <End Role="RedeemRequest" EntitySet="RedeemRequests" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Address">
           <Key>
@@ -1372,6 +1442,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_AspNetUsers" FromRole="AspNetUser" ToRole="WishList" />
           <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
           <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="BankAccounts" Relationship="XOGModel.FK_BankAccounts_AspNetUsers" FromRole="AspNetUser" ToRole="BankAccount" />
         </EntityType>
         <EntityType Name="Brand">
           <Key>
@@ -1670,8 +1741,9 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             <PropertyRef Name="WeekDayId" />
             <PropertyRef Name="DayName" />
             <PropertyRef Name="IsWeekDayActive" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="WeekDayId" Type="Byte" Nullable="false" />
           <Property Name="DayName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="IsWeekDayActive" Type="Boolean" Nullable="false" />
@@ -1684,6 +1756,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <Property Name="FromMinutes" Type="Int16" />
           <Property Name="ToHours" Type="Int16" />
           <Property Name="ToMinutes" Type="Int16" />
+          <Property Name="TimePeriodId" Type="Int16" />
         </EntityType>
         <Association Name="FK_Addresses_AspNetUsers">
           <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -2085,7 +2158,6 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
         </Association>
         <EntityType Name="OrderVW">
           <Key>
-            <PropertyRef Name="OrderId" />
             <PropertyRef Name="Id" />
             <PropertyRef Name="UserId" />
             <PropertyRef Name="PhoneNumber" />
@@ -2108,8 +2180,9 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
             <PropertyRef Name="TimePeriod" />
             <PropertyRef Name="Gst" />
             <PropertyRef Name="OrderedTotal" />
+            <PropertyRef Name="ViewInfoId" />
           </Key>
-          <Property Name="ViewInfoId" Type="Int64" />
+          <Property Name="ViewInfoId" Type="Int64" Nullable="false" />
           <Property Name="OrderId" Type="Int64" Nullable="false" />
           <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="ReturnDetailId" Type="Int64" />
@@ -2159,6 +2232,55 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <Property Name="Total" Type="Double" />
           <Property Name="ReturnOrderDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="BankAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountOfUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BankName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IFSCCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_BankAccounts_AspNetUsers" FromRole="BankAccount" ToRole="AspNetUser" />
+          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RedeemRequests" Relationship="XOGModel.FK_RedeemRequests_BankAccounts" FromRole="BankAccount" ToRole="RedeemRequest" />
+        </EntityType>
+        <Association Name="FK_BankAccounts_AspNetUsers">
+          <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="XOGModel.BankAccount" Role="BankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BankAccount">
+              <PropertyRef Name="AccountOfUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RedeemRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankAccountId" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
+          <Property Name="RequestState" Type="Byte" Nullable="false" />
+          <Property Name="RequestDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RequestCompletionDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BankAccount" Relationship="XOGModel.FK_RedeemRequests_BankAccounts" FromRole="RedeemRequest" ToRole="BankAccount" />
+        </EntityType>
+        <Association Name="FK_RedeemRequests_BankAccounts">
+          <End Type="XOGModel.BankAccount" Role="BankAccount" Multiplicity="1" />
+          <End Type="XOGModel.RedeemRequest" Role="RedeemRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankAccount">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RedeemRequest">
+              <PropertyRef Name="BankAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2514,6 +2636,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
           <EntitySetMapping Name="WeekDayTimings">
             <EntityTypeMapping TypeName="XOGModel.WeekDayTiming">
               <MappingFragment StoreEntitySet="WeekDayTimings">
+                <ScalarProperty Name="TimePeriodId" ColumnName="TimePeriodId" />
                 <ScalarProperty Name="ToMinutes" ColumnName="ToMinutes" />
                 <ScalarProperty Name="ToHours" ColumnName="ToHours" />
                 <ScalarProperty Name="FromMinutes" ColumnName="FromMinutes" />
@@ -2590,6 +2713,30 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="ViewInfoId" ColumnName="ViewInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BankAccounts">
+            <EntityTypeMapping TypeName="XOGModel.BankAccount">
+              <MappingFragment StoreEntitySet="BankAccounts">
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="IFSCCode" ColumnName="IFSCCode" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="AccountOfUserId" ColumnName="AccountOfUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RedeemRequests">
+            <EntityTypeMapping TypeName="XOGModel.RedeemRequest">
+              <MappingFragment StoreEntitySet="RedeemRequests">
+                <ScalarProperty Name="RequestCompletionDateTime" ColumnName="RequestCompletionDateTime" />
+                <ScalarProperty Name="RequestDateTime" ColumnName="RequestDateTime" />
+                <ScalarProperty Name="RequestState" ColumnName="RequestState" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="BankAccountId" ColumnName="BankAccountId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

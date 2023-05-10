@@ -69,7 +69,7 @@ namespace XOG.Controllers
           
         [HttpGet]
         [Route("get/{id}")]
-        public async override Task<IHttpActionResult> GetAsync(int id)
+        public async override Task<IHttpActionResult> GetAsync(long id)
         {
             var res = new ReturnObject<AddressViewModel>();
 

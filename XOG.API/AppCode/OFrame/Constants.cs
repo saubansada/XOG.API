@@ -43,6 +43,9 @@ namespace XOG
             public static readonly string PRODUCT_GROUP = Language("ProductGroup");
             public static readonly string QUANTITY_MEASURE = Language("QuantityMeasure");
             public static readonly string BRAND = Language("Brand");
+            public static readonly string BANK_ACCOUNT = Language("BankAccount");
+            public static readonly string REDEEM_REQUEST = Language("RedeemRequest");
+            public static readonly string ADDRESS = Language("Address");
             public static readonly string CART = Language("Cart");
 
 
@@ -80,6 +83,18 @@ namespace XOG
             public static readonly string ERROR_ADDING_DELIVERY_TIMINGS = string.Format(ERROR, ADDING, CART);
             public static readonly string ERROR_UPDATING_DELIVERY_TIMINGS = string.Format(ERROR, UPDATING, CART);
             public static readonly string ERROR_DELETING_DELIVERY_TIMINGS = string.Format(ERROR, DELETING, CART);
+
+            public static readonly string ERROR_ADDING_BANK_ACCOUNT = string.Format(ERROR, ADDING, BANK_ACCOUNT);
+            public static readonly string ERROR_UPDATING_BANK_ACCOUNT = string.Format(ERROR, UPDATING, BANK_ACCOUNT);
+            public static readonly string ERROR_DELETING_BANK_ACCOUNT = string.Format(ERROR, DELETING, BANK_ACCOUNT);
+
+            public static readonly string ERROR_ADDING_REDEEM_REQUEST = string.Format(ERROR, ADDING, REDEEM_REQUEST);
+            public static readonly string ERROR_UPDATING_REDEEM_REQUEST = string.Format(ERROR, UPDATING, REDEEM_REQUEST);
+            public static readonly string ERROR_DELETING_REDEEM_REQUEST = string.Format(ERROR, DELETING, REDEEM_REQUEST);
+
+            public static readonly string ERROR_ADDING_ADDRESS = string.Format(ERROR, ADDING, ADDRESS);
+            public static readonly string ERROR_UPDATING_ADDRESS = string.Format(ERROR, UPDATING, ADDRESS);
+            public static readonly string ERROR_DELETING_ADDRESS = string.Format(ERROR, DELETING, ADDRESS);
         }
     }
 }
