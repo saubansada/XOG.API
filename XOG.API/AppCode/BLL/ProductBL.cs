@@ -65,7 +65,12 @@ namespace XOG.AppCode.BLL
 
                     query = filter.ProductGroupKey != null ? query.Where(i => i.ProductGroup.RouteKey == filter.ProductGroupKey) : query;
 
-                    query = filter.OfferPercentage != -1 ? query.Where(i => i.ProductVariants.Count(j => (int)j.DiscountPercentage == filter.OfferPercentage) > 0) : query;
+                }
+                else if (filter.ProductQueryType == ProductQueryType.Offers)
+                {
+                    query = query.Where(i => i.Enabled);
+
+                    query = query.Where(i => i.OfferDetails.Any(j => j.OfferId == filter.OfferId));
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Trending || filter.ProductQueryType == ProductQueryType.Suggestions)
                 {
@@ -76,7 +81,7 @@ namespace XOG.AppCode.BLL
                 else if (filter.ProductQueryType == ProductQueryType.Featured)
                 {
                     query = query.Where(i => i.Enabled).Skip(filter.Skip).Take(filter.PageSize).OrderByDescending(i => i.Id);
-                }
+                } 
             }
             return query;
         }

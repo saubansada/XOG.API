@@ -197,6 +197,7 @@
         Featured,
         Trending,
         QuickSlides,
+        Offers,
         Similars
     }
 

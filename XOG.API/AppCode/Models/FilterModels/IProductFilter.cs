@@ -22,7 +22,7 @@
 
         bool Enabled { get; set; }
 
-        int OfferPercentage { get; set; }
+        int OfferId { get; set; }
 
         ProductQueryType ProductQueryType { get; set; }
 

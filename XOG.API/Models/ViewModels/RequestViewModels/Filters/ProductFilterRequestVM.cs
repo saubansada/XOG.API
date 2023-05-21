@@ -14,7 +14,7 @@ namespace XOG.Models.ViewModels.RequestViewModels.Filters
         public int? ProductGroupId { get; set; }
         public int? BrandId { get; set; }
         public bool Enabled { get; set; } = true; 
-        public int OfferPercentage { get; set; } = -1;
+        public int OfferId { get; set; } = -1;
         public ProductQueryType ProductQueryType { get; set; } = ProductQueryType.FilterOrNone;
     }
 }

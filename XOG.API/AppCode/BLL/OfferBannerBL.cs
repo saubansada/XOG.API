@@ -140,16 +140,28 @@ namespace XOG.AppCode.BLL
             var res = new Dictionary<string, object>();
 
             try
-            {  
-                context.OfferBanners.Attach(offerBanner);
+            { 
+                var offerBannerEntity = context.OfferBanners.Find(offerBanner.Id);
 
-                context.Entry(offerBanner).State = EntityState.Modified;
+                offerBannerEntity.Id = offerBanner.Id;
+                offerBannerEntity.DisplayName = offerBanner.DisplayName;
+                offerBannerEntity.Description = offerBanner.Description;
+                offerBannerEntity.OfferUrl = offerBanner.OfferUrl;
+                offerBannerEntity.Enabled = offerBanner.Enabled;
+                offerBannerEntity.BannerImageUrl = offerBanner.BannerImageUrl;
+                offerBannerEntity.Placement = offerBanner.Placement;
+                offerBannerEntity.OfferId = offerBanner.OfferId;
 
+
+                context.OfferBanners.Attach(offerBannerEntity);
+
+                context.Entry(offerBannerEntity).State = EntityState.Modified;
+                  
                 await context.SaveChangesAsync();
 
                 res.Add("DBStatus", DBStatus.Success);
-                res.Add("OfferBannerId", "" + offerBanner.Id);
-                res.Add("Message", "Offer Banner " + Enum.GetName(typeof(OfferStatus), (offerBanner.Enabled ?? false) ? OfferStatus.Active : OfferStatus.InActive).ToLower() + " successfully!");
+                res.Add("OfferBannerId", "" + offerBannerEntity.Id);
+                res.Add("Message", "Offer Banner " + Enum.GetName(typeof(OfferStatus), (offerBannerEntity.Enabled ?? false) ? OfferStatus.Active : OfferStatus.InActive).ToLower() + " successfully!");
                 res.Add("DetailedError", "");
 
                 return res;
