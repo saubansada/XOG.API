@@ -43,6 +43,8 @@ namespace XOG
             public static readonly string PRODUCT_GROUP = Language("ProductGroup");
             public static readonly string QUANTITY_MEASURE = Language("QuantityMeasure");
             public static readonly string BRAND = Language("Brand");
+            public static readonly string OFFER_BANNER = Language("OfferBanner");
+            public static readonly string OFFER = Language("Offer");
             public static readonly string BANK_ACCOUNT = Language("BankAccount");
             public static readonly string REDEEM_REQUEST = Language("RedeemRequest");
             public static readonly string ADDRESS = Language("Address");
@@ -75,7 +77,15 @@ namespace XOG
             public static readonly string ERROR_ADDING_BRAND = string.Format(ERROR, ADDING, BRAND);
             public static readonly string ERROR_UPDATING_BRAND = string.Format(ERROR, UPDATING, BRAND);
             public static readonly string ERROR_DELETING_BRAND = string.Format(ERROR, DELETING, BRAND);
-
+             
+            public static readonly string ERROR_ADDING_OFFER_BANNER = string.Format(ERROR, ADDING, OFFER_BANNER);
+            public static readonly string ERROR_UPDATING_OFFER_BANNER = string.Format(ERROR, UPDATING, OFFER_BANNER);
+            public static readonly string ERROR_DELETING_OFFER_BANNER = string.Format(ERROR, DELETING, OFFER_BANNER);
+             
+            public static readonly string ERROR_ADDING_OFFER = string.Format(ERROR, ADDING, OFFER);
+            public static readonly string ERROR_UPDATING_OFFER = string.Format(ERROR, UPDATING, OFFER);
+            public static readonly string ERROR_DELETING_OFFER = string.Format(ERROR, DELETING, OFFER);
+             
             public static readonly string ERROR_ADDING_CART = string.Format(ERROR, ADDING, CART);
             public static readonly string ERROR_UPDATING_CART = string.Format(ERROR, UPDATING, CART);
             public static readonly string ERROR_DELETING_CART = string.Format(ERROR, DELETING, CART);

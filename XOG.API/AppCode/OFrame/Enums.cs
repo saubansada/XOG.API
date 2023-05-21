@@ -26,7 +26,7 @@
         largeXL,
         full,
     }
-    
+
     public enum ApiResult
     {
         ValidationError = 0,
@@ -53,7 +53,7 @@
 
     public enum TransactionType
     {
-        Debit = 0, 
+        Debit = 0,
         Credit = 1
     }
     public enum TransactionFor
@@ -266,6 +266,29 @@
         Cancelled = 6,
         Rejected = 7,
         Pending = 8
+    }
+    public enum OfferStatus
+    {
+        All = 0,
+        Active = 1,
+        InActive = 2
+    }
+    public enum OfferBannerPlacement
+    {
+        All = 0,
+        DesktopHomee = 1,
+        DesktopOfferss = 2,
+        MobileStatus = 3,
+        MobileOffers = 4
+    }
+    public enum ReemRequestStatus
+    {
+        All = 0,
+        Requested = 1,
+        Approved = 2,
+        Rejected = 3,
+        UnderProcess = 4,
+        Processed = 5
     }
 
     public enum PaymentType

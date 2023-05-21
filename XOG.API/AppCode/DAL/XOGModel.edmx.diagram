@@ -70,7 +70,12 @@
         <AssociationConnector Association="XOGModel.FK_BankAccounts_AspNetUsers" />
         <EntityTypeShape EntityType="XOGModel.RedeemRequest" Width="1.5" PointX="7.5" PointY="30.375" />
         <AssociationConnector Association="XOGModel.FK_RedeemRequests_BankAccounts" />
-        <AssociationConnector Association="XOGModel.FK_RedeemRequests_BankAccounts" />
+        <EntityTypeShape EntityType="XOGModel.OfferDetail" Width="1.5" PointX="11" PointY="12.75" />
+        <AssociationConnector Association="XOGModel.FK_OfferDetails_Product" />
+        <EntityTypeShape EntityType="XOGModel.Offer" Width="1.5" PointX="8.75" PointY="26.875" />
+        <AssociationConnector Association="XOGModel.FK_OfferDetails_Orffers" />
+        <EntityTypeShape EntityType="XOGModel.OfferBanner" Width="1.5" PointX="11" PointY="26.625" />
+        <AssociationConnector Association="XOGModel.FK_OfferBanner_Orffers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

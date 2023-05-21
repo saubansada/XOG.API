@@ -108,6 +108,19 @@ namespace XOG
             }
         }
 
+        public static string Storage_Offer_Image_Uploads
+        {
+            get
+            {
+                return LocalStoragesHelper.GetStoragePath("Storage_Offer_Image_Uploads");
+            }
+
+            set
+            {
+                LocalStoragesHelper.SetStoragePath("Storage_Offer_Image_Uploads", value);
+            }
+        }
+
         public static string Site_Map
         {
             get

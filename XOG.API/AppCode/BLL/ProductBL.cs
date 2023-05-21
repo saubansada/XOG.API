@@ -65,6 +65,7 @@ namespace XOG.AppCode.BLL
 
                     query = filter.ProductGroupKey != null ? query.Where(i => i.ProductGroup.RouteKey == filter.ProductGroupKey) : query;
 
+                    query = filter.OfferPercentage != -1 ? query.Where(i => i.ProductVariants.Count(j => (int)j.DiscountPercentage == filter.OfferPercentage) > 0) : query;
                 }
                 else if (filter.ProductQueryType == ProductQueryType.Trending || filter.ProductQueryType == ProductQueryType.Suggestions)
                 {
@@ -189,6 +190,7 @@ namespace XOG.AppCode.BLL
                 var products = GetFilteredQuery(filter, context);
                 var product_categories = products.Select(i => i.SubCategory.SubCategoryName);
                 var product_brand = products.Select(i => i.Brand.BrandName);
+
                 var sub_category_search = context.SubCategories.Where(i => i.SubCategoryName.StartsWith(filter.Search) ||
                                                                                           i.SubCategoryName.Contains(" " + filter.Search) ||
                                                                                             i.SubCategoryName.Contains(filter.Search) ||
@@ -198,8 +200,11 @@ namespace XOG.AppCode.BLL
                                                                                          i.BrandName.Contains(filter.Search) ||
                                                                                        filter.Search.Contains(i.BrandName)).Select(i => i.BrandName);
                 var product_list = products.Select(i => i.ProductName);
+
+
                 return product_list.Union(product_brand).Union(product_categories).Union(sub_category_search).Union(brand_search)
                                         .OrderBy(i => i.ToLower().StartsWith(filter.Search.ToLower()) ? 0 : 1).Take(filter.PageSize).ToArray();
+
             }
             else if (filter != null && filter.ProductQueryType == ProductQueryType.Variants)
             {

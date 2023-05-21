@@ -31,7 +31,12 @@ namespace XOG.AppCode.Mappers
                     BankAccountId = model.BankAccountId,
                     BankAccountNumber = model.BankAccount.AccountNumber,
                     Amount = model.Amount,
-                    RequestState = model.RequestState,
+                    AccountName = model.BankAccount.AccountName,
+                    BankName = model.BankAccount.BankName,
+                    IFSCCode = model.BankAccount.IFSCCode,
+                    PhoneNumber = model.BankAccount.AspNetUser.PhoneNumber,
+                    RequestState = (ReemRequestStatus)model.RequestState,
+                    RequestedUserFullName = model.BankAccount.AspNetUser.FirstName + " " + model.BankAccount.AspNetUser.LastName,
                     RequestDateTime = model.RequestDateTime,
                     RequestCompletionDateTime = model.RequestCompletionDateTime
                 });
@@ -68,8 +73,13 @@ namespace XOG.AppCode.Mappers
                     RequestedByUserId = model.BankAccount.AccountOfUserId,
                     BankAccountId = model.BankAccountId,
                     BankAccountNumber = model.BankAccount.AccountNumber,
+                    AccountName = model.BankAccount.AccountName,
+                    BankName = model.BankAccount.BankName,
+                    IFSCCode = model.BankAccount.IFSCCode,
                     Amount = model.Amount,
-                    RequestState = model.RequestState,
+                    PhoneNumber = model.BankAccount.AspNetUser.PhoneNumber,
+                    RequestedUserFullName = model.BankAccount.AspNetUser.FirstName + " " + model.BankAccount.AspNetUser.LastName,
+                    RequestState = (ReemRequestStatus)model.RequestState,
                     RequestDateTime = model.RequestDateTime,
                     RequestCompletionDateTime = model.RequestCompletionDateTime
                 };
@@ -107,7 +117,7 @@ namespace XOG.AppCode.Mappers
                 RedeemRequest = new RedeemRequest()
                 {
                     Id = _model.Id,
-                    RequestState = 1,
+                    RequestState = (byte)_model.RequestState,
                     Amount = _model.Amount,
                     BankAccountId = _model.BankAccountId,
                     RequestDateTime = System.DateTime.UtcNow,
@@ -120,7 +130,7 @@ namespace XOG.AppCode.Mappers
                 RedeemRequest = new RedeemRequest()
                 {
                     Id = _model.Id,
-                    RequestState = 1,
+                    RequestState = (byte)_model.RequestState,
                     Amount = _model.Amount,
                     BankAccountId = _model.BankAccountId,
                     RequestDateTime = System.DateTime.UtcNow,

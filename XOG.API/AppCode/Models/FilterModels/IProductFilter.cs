@@ -22,6 +22,8 @@
 
         bool Enabled { get; set; }
 
+        int OfferPercentage { get; set; }
+
         ProductQueryType ProductQueryType { get; set; }
 
     }

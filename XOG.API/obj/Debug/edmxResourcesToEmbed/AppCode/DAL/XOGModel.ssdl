@@ -160,6 +160,36 @@
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="TemplateCategory" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="OfferBanners">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OfferId" Type="bigint" Nullable="false" />
+    <Property Name="DisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="2000" />
+    <Property Name="Enabled" Type="bit" />
+    <Property Name="BannerImageUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="OfferUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Placement" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OfferDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OfferId" Type="bigint" Nullable="false" />
+    <Property Name="ProductId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Offers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DisplayName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Enabled" Type="bit" />
+  </EntityType>
   <EntityType Name="OrderDetails">
     <Key>
       <PropertyRef Name="Id" />
@@ -589,6 +619,42 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_OfferBanner_Orffers">
+    <End Role="Offers" Type="Self.Offers" Multiplicity="1" />
+    <End Role="OfferBanners" Type="Self.OfferBanners" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Offers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OfferBanners">
+        <PropertyRef Name="OfferId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfferDetails_Orffers">
+    <End Role="Offers" Type="Self.Offers" Multiplicity="1" />
+    <End Role="OfferDetails" Type="Self.OfferDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Offers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OfferDetails">
+        <PropertyRef Name="OfferId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfferDetails_Product">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="OfferDetails" Type="Self.OfferDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OfferDetails">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_OrderDetails_Orders">
     <End Role="Orders" Type="Self.Orders" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -929,6 +995,9 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DeliveryTimings" EntityType="Self.DeliveryTimings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OfferBanners" EntityType="Self.OfferBanners" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OfferDetails" EntityType="Self.OfferDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Offers" EntityType="Self.Offers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductGroups" EntityType="Self.ProductGroups" Schema="dbo" store:Type="Tables" />
@@ -1074,6 +1143,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <AssociationSet Name="FK_DeliveryTimings_WeekDayStatus" Association="Self.FK_DeliveryTimings_WeekDayStatus">
       <End Role="WeekDayStatuses" EntitySet="WeekDayStatuses" />
       <End Role="DeliveryTimings" EntitySet="DeliveryTimings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfferBanner_Orffers" Association="Self.FK_OfferBanner_Orffers">
+      <End Role="Offers" EntitySet="Offers" />
+      <End Role="OfferBanners" EntitySet="OfferBanners" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfferDetails_Orffers" Association="Self.FK_OfferDetails_Orffers">
+      <End Role="Offers" EntitySet="Offers" />
+      <End Role="OfferDetails" EntitySet="OfferDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfferDetails_Product" Association="Self.FK_OfferDetails_Product">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="OfferDetails" EntitySet="OfferDetails" />
     </AssociationSet>
     <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
       <End Role="Orders" EntitySet="Orders" />

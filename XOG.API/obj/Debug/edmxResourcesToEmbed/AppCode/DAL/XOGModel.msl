@@ -454,5 +454,38 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OfferDetails">
+      <EntityTypeMapping TypeName="XOGModel.OfferDetail">
+        <MappingFragment StoreEntitySet="OfferDetails">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OfferId" ColumnName="OfferId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Offers">
+      <EntityTypeMapping TypeName="XOGModel.Offer">
+        <MappingFragment StoreEntitySet="Offers">
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OfferBanners">
+      <EntityTypeMapping TypeName="XOGModel.OfferBanner">
+        <MappingFragment StoreEntitySet="OfferBanners">
+          <ScalarProperty Name="Placement" ColumnName="Placement" />
+          <ScalarProperty Name="OfferUrl" ColumnName="OfferUrl" />
+          <ScalarProperty Name="BannerImageUrl" ColumnName="BannerImageUrl" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="OfferId" ColumnName="OfferId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -290,6 +290,8 @@
     <Compile Include="AppCode\Abstracts\CrudApiController.cs" />
     <Compile Include="AppCode\Abstracts\AppViewPage.cs" />
     <Compile Include="AppCode\Abstracts\AuthController.cs" />
+    <Compile Include="AppCode\BLL\OfferBannerBL.cs" />
+    <Compile Include="AppCode\BLL\OfferBL.cs" />
     <Compile Include="AppCode\BLL\RedeemRequestBL.cs" />
     <Compile Include="AppCode\BLL\BankAccountBL.cs" />
     <Compile Include="AppCode\BLL\AreaBL.cs" />
@@ -349,6 +351,15 @@
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\EmailTemplate.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\Offer.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\OfferBanner.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\OfferDetail.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\Order.cs">
@@ -462,6 +473,8 @@
     <Compile Include="AppCode\Helpers\WebControlHelper.cs" />
     <Compile Include="AppCode\HtmlHelpers\HtmlRequestHelper.cs" />
     <Compile Include="AppCode\ILL\EmailPlaceHolder.cs" />
+    <Compile Include="AppCode\Mappers\OfferBannerMapper.cs" />
+    <Compile Include="AppCode\Mappers\OfferMapper.cs" />
     <Compile Include="AppCode\Mappers\RedeemRequestMapper.cs" />
     <Compile Include="AppCode\Mappers\BankAccountMapper.cs" />
     <Compile Include="AppCode\Mappers\CartMapper.cs" />
@@ -477,6 +490,7 @@
     <Compile Include="AppCode\Models\FileUploadMessageSettings.cs" />
     <Compile Include="AppCode\Models\FileUploadResult.cs" />
     <Compile Include="AppCode\Models\FileUploadSettings.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IOrderFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IRedeemRequestFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IBankAccountFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IAddressFilter.cs" />
@@ -484,7 +498,7 @@
     <Compile Include="AppCode\Models\FilterModels\ICartFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\ICategoryFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IBaseFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\IOrderFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IOfferFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IProductFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IProductGroupFilter.cs" />
     <Compile Include="AppCode\Models\FilterModels\IDeliveryTimingsFilter.cs" />
@@ -613,6 +627,8 @@
     <Compile Include="Areas\MyAdmin\Models\ViewModels\ProductAdminVM.cs" />
     <Compile Include="Areas\MyAdmin\Models\ViewModels\SubCategoryVM.cs" />
     <Compile Include="Areas\MyAdmin\Models\ViewModels\UserAdminVM.cs" />
+    <Compile Include="Controllers\OfferBannerController.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\RedeemRequestController.cs" />
     <Compile Include="Controllers\BankAccountController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
@@ -639,6 +655,7 @@
     <Compile Include="Models\JsonModels\OrdersModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReturnObject.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\OfferRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\RedeemRequestRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\BankAccountRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\AddressRequestVM.cs" />
@@ -657,6 +674,7 @@
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SubCategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SupplierSaveRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\UserRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\OfferFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\RedeemRequestFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BankAccountFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BaseFilterRequestVM.cs" />
@@ -672,6 +690,7 @@
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\OrderFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\ProductFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\UserWalletFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\OfferrViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\RedeemRequestViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\BankAccountViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\AddressViewModel.cs" />

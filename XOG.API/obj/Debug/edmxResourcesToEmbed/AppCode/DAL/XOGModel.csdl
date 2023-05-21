@@ -165,6 +165,21 @@
       <End Role="BankAccount" EntitySet="BankAccounts" />
       <End Role="RedeemRequest" EntitySet="RedeemRequests" />
     </AssociationSet>
+    <EntitySet Name="OfferDetails" EntityType="XOGModel.OfferDetail" />
+    <AssociationSet Name="FK_OfferDetails_Product" Association="XOGModel.FK_OfferDetails_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OfferDetail" EntitySet="OfferDetails" />
+    </AssociationSet>
+    <EntitySet Name="Offers" EntityType="XOGModel.Offer" />
+    <AssociationSet Name="FK_OfferDetails_Orffers" Association="XOGModel.FK_OfferDetails_Orffers">
+      <End Role="Offer" EntitySet="Offers" />
+      <End Role="OfferDetail" EntitySet="OfferDetails" />
+    </AssociationSet>
+    <EntitySet Name="OfferBanners" EntityType="XOGModel.OfferBanner" />
+    <AssociationSet Name="FK_OfferBanner_Orffers" Association="XOGModel.FK_OfferBanner_Orffers">
+      <End Role="Offer" EntitySet="Offers" />
+      <End Role="OfferBanner" EntitySet="OfferBanners" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Address">
     <Key>
@@ -408,6 +423,7 @@
     <NavigationProperty Name="SubCategory" Relationship="XOGModel.FK_Product_SubCategory" FromRole="Product" ToRole="SubCategory" />
     <NavigationProperty Name="ProductVariants" Relationship="XOGModel.fk_productVariants_productId" FromRole="Product" ToRole="ProductVariant" />
     <NavigationProperty Name="WishLists" Relationship="XOGModel.FK_WishList_Products" FromRole="Product" ToRole="WishList" />
+    <NavigationProperty Name="OfferDetails" Relationship="XOGModel.FK_OfferDetails_Product" FromRole="Product" ToRole="OfferDetail" />
   </EntityType>
   <EntityType Name="ProductVariant">
     <Key>
@@ -1096,6 +1112,77 @@
       </Principal>
       <Dependent Role="RedeemRequest">
         <PropertyRef Name="BankAccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OfferDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OfferId" Type="Int64" Nullable="false" />
+    <Property Name="ProductId" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="XOGModel.FK_OfferDetails_Product" FromRole="OfferDetail" ToRole="Product" />
+    <NavigationProperty Name="Offer" Relationship="XOGModel.FK_OfferDetails_Orffers" FromRole="OfferDetail" ToRole="Offer" />
+  </EntityType>
+  <Association Name="FK_OfferDetails_Product">
+    <End Type="XOGModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="XOGModel.OfferDetail" Role="OfferDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OfferDetail">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Offer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Enabled" Type="Boolean" />
+    <NavigationProperty Name="OfferDetails" Relationship="XOGModel.FK_OfferDetails_Orffers" FromRole="Offer" ToRole="OfferDetail" />
+    <NavigationProperty Name="OfferBanners" Relationship="XOGModel.FK_OfferBanner_Orffers" FromRole="Offer" ToRole="OfferBanner" />
+  </EntityType>
+  <Association Name="FK_OfferDetails_Orffers">
+    <End Type="XOGModel.Offer" Role="Offer" Multiplicity="1" />
+    <End Type="XOGModel.OfferDetail" Role="OfferDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Offer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OfferDetail">
+        <PropertyRef Name="OfferId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OfferBanner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OfferId" Type="Int64" Nullable="false" />
+    <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="Enabled" Type="Boolean" />
+    <Property Name="BannerImageUrl" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OfferUrl" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Placement" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Offer" Relationship="XOGModel.FK_OfferBanner_Orffers" FromRole="OfferBanner" ToRole="Offer" />
+  </EntityType>
+  <Association Name="FK_OfferBanner_Orffers">
+    <End Type="XOGModel.Offer" Role="Offer" Multiplicity="1" />
+    <End Type="XOGModel.OfferBanner" Role="OfferBanner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Offer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OfferBanner">
+        <PropertyRef Name="OfferId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

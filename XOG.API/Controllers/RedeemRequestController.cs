@@ -183,35 +183,35 @@ namespace XOG.Controllers
             return Ok(res);
         }
 
-        //[HttpPut]
-        //[Route("edit")]
-        //public override async Task<IHttpActionResult> EditAsync(RedeemRequestRequestVM request)
-        //{
-        //    var userName = HttpContext.Current.User.Identity.Name;
+        [HttpPut]
+        [Route("edit")]
+        public override async Task<IHttpActionResult> EditAsync(RedeemRequestRequestVM request)
+        {
+            var userName = HttpContext.Current.User.Identity.Name;
 
-        //    request.RequestedByUserId = (await UserManager.FindByNameAsync(userName)).Id;
+            request.RequestedByUserId = (await UserManager.FindByNameAsync(userName)).Id;
 
-        //    var res = new ReturnObject<DBStatus>();
+            var res = new ReturnObject<DBStatus>();
 
-        //    var entity = request.MapToRedeemRequestEntity();
+            var entity = request.MapToRedeemRequestEntity();
 
-        //    res.Data = await new RedeemRequestBL().EditAsync(entity);
+            res.Data = await new RedeemRequestBL().EditAsync(entity);
 
-        //    res.IsSuccess = res.Data == DBStatus.Success;
+            res.IsSuccess = res.Data == DBStatus.Success;
 
-        //    res.Result = ApiResult.Success;
+            res.Result = ApiResult.Success;
 
-        //    res.Message = "Saved Successfully!";
+            res.Message = "Saved Successfully!";
 
-        //    if (!res.IsSuccess)
-        //    {
-        //        res.Result = ApiResult.Failure;
+            if (!res.IsSuccess)
+            {
+                res.Result = ApiResult.Failure;
 
-        //        return BadRequest("Error Occurred while saving");
-        //    }
+                return BadRequest("Error Occurred while saving");
+            }
 
-        //    return Ok(res);
-        //}
+            return Ok(res);
+        }
 
         [HttpDelete]
         [Route("delete/{id}")]
@@ -237,11 +237,6 @@ namespace XOG.Controllers
             }
 
             return Ok(res);
-        }
-
-        public override Task<IHttpActionResult> EditAsync(RedeemRequestRequestVM request)
-        {
-            return null;
         }
     }
 }

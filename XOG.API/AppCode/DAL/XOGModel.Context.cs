@@ -57,5 +57,8 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<OrderVW> OrderVWs { get; set; }
         public virtual DbSet<BankAccount> BankAccounts { get; set; }
         public virtual DbSet<RedeemRequest> RedeemRequests { get; set; }
+        public virtual DbSet<OfferDetail> OfferDetails { get; set; }
+        public virtual DbSet<Offer> Offers { get; set; }
+        public virtual DbSet<OfferBanner> OfferBanners { get; set; }
     }
 }

@@ -182,7 +182,8 @@ namespace XOG.Controllers
             string storagePath = storageType == "product" ? LocalStorages.Storage_Product_Image_Uploads :
                                     storageType == "category" ? LocalStorages.Storage_Category_Image_Uploads :
                                         storageType == "subcategory" ? LocalStorages.Storage_Sub_Category_Image_Uploads :
-                                            storageType == "brand" ? LocalStorages.Storage_Brand_Image_Uploads : LocalStorages.Storage_Uploads;
+                                            storageType == "brand" ? LocalStorages.Storage_Brand_Image_Uploads : 
+                                            storageType == "offerbanner" ? LocalStorages.Storage_Offer_Image_Uploads : LocalStorages.Storage_Uploads;
 
             if (httpRequest.Files.Count > 0)
             {

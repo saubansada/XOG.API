@@ -20,6 +20,7 @@ namespace XOG.AppCode.DAL
             this.ProductImages = new HashSet<ProductImage>();
             this.ProductVariants = new HashSet<ProductVariant>();
             this.WishLists = new HashSet<WishList>();
+            this.OfferDetails = new HashSet<OfferDetail>();
         }
     
         public long Id { get; set; }
@@ -41,5 +42,7 @@ namespace XOG.AppCode.DAL
         public virtual ICollection<ProductVariant> ProductVariants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WishList> WishLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OfferDetail> OfferDetails { get; set; }
     }
 }
