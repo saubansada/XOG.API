@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<scripts>
-  <script path="~/Content/Plugins/jQuery/jquery-2.2.3.min.js" />
-  <script path="~/Content/Plugins/BootStrap/Scripts/bootstrap.min.js" />
-</scripts>
