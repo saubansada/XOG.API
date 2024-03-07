@@ -1,5 +1,8 @@
-﻿using Owin;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Cors;
+using Owin;
 
+[assembly: OwinStartup(typeof(XOG.Startup))]
 namespace XOG
 {
     public partial class Startup

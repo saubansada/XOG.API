@@ -253,6 +253,8 @@ namespace XOG.Controllers
 
                 Payment payment = null;
 
+                request.UserId = userId;
+
                 if (request.PaymentMode == PaymentType.OnlinePayment)
                 {
                     walletInfo = (UserWalletInfo)wbl.GetUserWalletByUserNameOrId<UserWalletInfo>(context, userId);

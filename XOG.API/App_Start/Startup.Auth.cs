@@ -3,7 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using XOG.AppCode.Helpers;
-using XOG.Helpers;
+using XOG.Helpers; 
 
 namespace XOG
 {
@@ -40,6 +40,7 @@ namespace XOG
             //var OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
             //app.UseOAuthBearerAuthentication(OAuthOptions);
             //app.UseOAuthAuthorizationServer(OAuthOptions);
+             
 
             app.UseOAuthBearerTokens(OAuthOptions);
         }

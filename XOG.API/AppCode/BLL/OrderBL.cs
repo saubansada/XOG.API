@@ -11,6 +11,7 @@ using XOG.AppCode.Models.FilterModels;
 using XOG.AppCode.Mappers;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using XOG.Hubs;
 
 namespace XOG.AppCode.BLL
 {
@@ -127,10 +128,22 @@ namespace XOG.AppCode.BLL
                 {
                     context.Transactions.Add(transaction);
 
-                    ts.Complete();
+                    var orderId = transaction.Order.Id;
+
+                    var userId = transaction.Order.OrderedByUserId;
+                     
+                    var userTokens = model.AspNetUser.AspNetUserNotificationTokens.Select(i => i.NotificationToken).ToArray();
+
+                    await context.SaveChangesAsync();
+
+                   await NotificationBL.Instance.SendPushNotification(userTokens, "Your Order has been placed", 
+                            "You order #" + transaction.Order.Id + " is has been placed successfully", 
+                            orderId, 1,
+                            userId);
+
+                   ts.Complete();
                 }
 
-                await context.SaveChangesAsync();
 
                 res.Add("DBStatus", DBStatus.Success);
                 res.Add("OrderId", "" + model.Id);
@@ -186,6 +199,8 @@ namespace XOG.AppCode.BLL
             {
                 var order = await context.Orders.FindAsync(orderId);
 
+                var userId = order.OrderedByUserId;
+
                 if (order == null)
                 {
                     throw new Exception("No Order Found!");
@@ -193,11 +208,22 @@ namespace XOG.AppCode.BLL
 
                 order.OrderState = (byte)orderState;
 
-                context.Orders.Attach(order);
+                context.Orders.Attach(order); 
 
                 context.Entry(order).State = EntityState.Modified;
 
+                //var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+
+                //if (hubContext != null)
+                //{
+                //    await hubContext.Clients.User(order.OrderedByUserId).SendAsync("OrderUpdateStatus", "You order is updated");
+                //}
+
                 await context.SaveChangesAsync();
+
+                var userTokens = order.AspNetUser.AspNetUserNotificationTokens.Select(i => i.NotificationToken).ToArray();
+
+                await NotificationBL.Instance.SendPushNotification(userTokens, "Update order has been " + orderState, "You order #" + order.Id + " has been " + orderState, orderId, 1, userId);
 
                 res.Add("DBStatus", DBStatus.Success);
                 res.Add("OrderId", "" + orderId);
@@ -320,8 +346,13 @@ namespace XOG.AppCode.BLL
 
                     await context.SaveChangesAsync();
                      
+                    var userTokens = order.Order.AspNetUser.AspNetUserNotificationTokens.Select(i => i.NotificationToken).ToArray();
+
+                    await NotificationBL.Instance.SendPushNotification(userTokens, "Update on your Return Order Request", "You request for return order #" + order.Order.Id + " is moved to " + orderState + " stage", order.Order.Id, 2, order.Order.OrderedByUserId);
+
                     ts.Complete();
                 }
+
 
                 res.Add("DBStatus", DBStatus.Success);
                 res.Add("OrderReturnId", "" + returnOrderId);

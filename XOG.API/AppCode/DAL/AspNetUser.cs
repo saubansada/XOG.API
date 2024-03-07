@@ -28,6 +28,8 @@ namespace XOG.AppCode.DAL
             this.UserWallets = new HashSet<UserWallet>();
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.BankAccounts = new HashSet<BankAccount>();
+            this.AspNetUserNotificationTokens = new HashSet<AspNetUserNotificationToken>();
+            this.Notifications = new HashSet<Notification>();
         }
     
         public string Id { get; set; }
@@ -70,5 +72,9 @@ namespace XOG.AppCode.DAL
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUserNotificationToken> AspNetUserNotificationTokens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

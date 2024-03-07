@@ -57,6 +57,14 @@
     <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
+  <EntityType Name="AspNetUserNotificationTokens">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="NotificationToken" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="RoleId" />
@@ -160,6 +168,24 @@
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="TemplateCategory" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Notifications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActionUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RecipientUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="NotificationAspect" Type="tinyint" Nullable="false" />
+    <Property Name="AspectRecordId" Type="bigint" Nullable="false" />
+    <Property Name="NavigatioUrl" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="NotificationTitle" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="NotificationMessage" Type="nvarchar" MaxLength="1024" Nullable="false" />
+    <Property Name="NotificationIconUrl" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsArchived" Type="bit" Nullable="false" />
+    <Property Name="IsEmail" Type="bit" Nullable="false" />
+    <Property Name="IsSMS" Type="bit" Nullable="false" />
+    <Property Name="IsPushNotification" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="OfferBanners">
     <Key>
       <PropertyRef Name="Id" />
@@ -169,7 +195,7 @@
     <Property Name="DisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar" MaxLength="2000" />
     <Property Name="Enabled" Type="bit" />
-    <Property Name="BannerImageUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="BannerImageUrl" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="OfferUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Placement" Type="tinyint" Nullable="false" />
   </EntityType>
@@ -267,6 +293,24 @@
     <Property Name="Enabled" Type="bit" Nullable="false" />
     <Property Name="MaxPurchase" Type="int" Nullable="false" />
     <Property Name="HSNCode" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'xog_db.dbo.PushNotifications' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="PushNotifications">
+    <Key>
+      <PropertyRef Name="NotificationToken" />
+      <PropertyRef Name="NotificationId" />
+      <PropertyRef Name="IsBackground" />
+      <PropertyRef Name="IsForeground" />
+      <PropertyRef Name="IsNotified" />
+      <PropertyRef Name="IsViewed" />
+    </Key>
+    <Property Name="NotificationToken" Type="bigint" Nullable="false" />
+    <Property Name="NotificationId" Type="bigint" Nullable="false" />
+    <Property Name="IsBackground" Type="bit" Nullable="false" />
+    <Property Name="IsForeground" Type="bit" Nullable="false" />
+    <Property Name="IsNotified" Type="bit" Nullable="false" />
+    <Property Name="IsViewed" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="QuantityMeasures">
     <Key>
@@ -515,6 +559,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_AspNetUserNotificationTokens_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="AspNetUserNotificationTokens" Type="Self.AspNetUserNotificationTokens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserNotificationTokens">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AspNetUserRoles_AspNetRole">
     <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
     <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
@@ -616,6 +672,18 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Principal>
       <Dependent Role="DeliveryTimings">
         <PropertyRef Name="DayId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Notifications_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Notifications">
+        <PropertyRef Name="RecipientUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -811,6 +879,30 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PushNotifications_AspNetUserNotificationTokens">
+    <End Role="AspNetUserNotificationTokens" Type="Self.AspNetUserNotificationTokens" Multiplicity="1" />
+    <End Role="PushNotifications" Type="Self.PushNotifications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUserNotificationTokens">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PushNotifications">
+        <PropertyRef Name="NotificationToken" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PushNotifications_Notifications">
+    <End Role="Notifications" Type="Self.Notifications" Multiplicity="1" />
+    <End Role="PushNotifications" Type="Self.PushNotifications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Notifications">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PushNotifications">
+        <PropertyRef Name="NotificationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_RedeemRequests_BankAccounts">
     <End Role="BankAccounts" Type="Self.BankAccounts" Multiplicity="1" />
     <End Role="RedeemRequests" Type="Self.RedeemRequests" Multiplicity="*" />
@@ -986,6 +1078,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserNotificationTokens" EntityType="Self.AspNetUserNotificationTokens" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BankAccounts" EntityType="Self.BankAccounts" Schema="dbo" store:Type="Tables" />
@@ -995,6 +1088,7 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DeliveryTimings" EntityType="Self.DeliveryTimings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplates" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OfferBanners" EntityType="Self.OfferBanners" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OfferDetails" EntityType="Self.OfferDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Offers" EntityType="Self.Offers" Schema="dbo" store:Type="Tables" />
@@ -1013,6 +1107,16 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <EntitySet Name="UserWallet" EntityType="Self.UserWallet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WeekDayStatuses" EntityType="Self.WeekDayStatuses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WishLists" EntityType="Self.WishLists" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PushNotifications" EntityType="Self.PushNotifications" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [PushNotifications].[NotificationToken] AS [NotificationToken], 
+    [PushNotifications].[NotificationId] AS [NotificationId], 
+    [PushNotifications].[IsBackground] AS [IsBackground], 
+    [PushNotifications].[IsForeground] AS [IsForeground], 
+    [PushNotifications].[IsNotified] AS [IsNotified], 
+    [PushNotifications].[IsViewed] AS [IsViewed]
+    FROM [dbo].[PushNotifications] AS [PushNotifications]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="OrderVW" EntityType="Self.OrderVW" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [OrderVW].[ViewInfoId] AS [ViewInfoId], 
@@ -1112,6 +1216,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AdSenseAds" EntitySet="AdSenseAds" />
     </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserNotificationTokens_AspNetUsers" Association="Self.FK_AspNetUserNotificationTokens_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserNotificationTokens" EntitySet="AspNetUserNotificationTokens" />
+    </AssociationSet>
     <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
@@ -1143,6 +1251,10 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <AssociationSet Name="FK_DeliveryTimings_WeekDayStatus" Association="Self.FK_DeliveryTimings_WeekDayStatus">
       <End Role="WeekDayStatuses" EntitySet="WeekDayStatuses" />
       <End Role="DeliveryTimings" EntitySet="DeliveryTimings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Notifications_AspNetUsers" Association="Self.FK_Notifications_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Notifications" EntitySet="Notifications" />
     </AssociationSet>
     <AssociationSet Name="FK_OfferBanner_Orffers" Association="Self.FK_OfferBanner_Orffers">
       <End Role="Offers" EntitySet="Offers" />
@@ -1203,6 +1315,14 @@ warning 6002: The table/view 'xog_db.dbo.WeekDayTimings' does not have a primary
     <AssociationSet Name="fk_productVariants_quantityMeasureId" Association="Self.fk_productVariants_quantityMeasureId">
       <End Role="QuantityMeasures" EntitySet="QuantityMeasures" />
       <End Role="ProductVariants" EntitySet="ProductVariants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PushNotifications_AspNetUserNotificationTokens" Association="Self.FK_PushNotifications_AspNetUserNotificationTokens">
+      <End Role="AspNetUserNotificationTokens" EntitySet="AspNetUserNotificationTokens" />
+      <End Role="PushNotifications" EntitySet="PushNotifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PushNotifications_Notifications" Association="Self.FK_PushNotifications_Notifications">
+      <End Role="Notifications" EntitySet="Notifications" />
+      <End Role="PushNotifications" EntitySet="PushNotifications" />
     </AssociationSet>
     <AssociationSet Name="FK_RedeemRequests_BankAccounts" Association="Self.FK_RedeemRequests_BankAccounts">
       <End Role="BankAccounts" EntitySet="BankAccounts" />

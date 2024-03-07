@@ -1,5 +1,3 @@
-D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.App.config
-D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CoreCompileInputs.cache
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.dll.config
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\XOG.pdb
@@ -45,8 +43,11 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.AspNet.Identity.Owin.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\microsoft.identitymodel.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.IdentityModel.Protocol.Extensions.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Cors.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Host.HttpListener.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Hosting.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.Cookies.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.Facebook.dll
@@ -78,6 +79,7 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Extensions.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Formatting.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Primitives.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Cors.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Helpers.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.dll
@@ -106,7 +108,10 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.AspNet.Identity.Owin.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.IdentityModel.Protocol.Extensions.pdb
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.IdentityModel.Protocol.Extensions.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.xml
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Cors.xml
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Host.HttpListener.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Hosting.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.Jwt.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Threading.Tasks.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Threading.Tasks.Extensions.xml
@@ -123,8 +128,10 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Buffers.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.IdentityModel.Tokens.Jwt.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Memory.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Extensions.xml
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Formatting.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Primitives.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.Owin.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Helpers.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Mvc.xml
@@ -134,8 +141,6 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.WebPages.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.WebPages.Deployment.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.WebPages.Razor.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Antlr3.Runtime.pdb
-D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Net.Http.Formatting.xml
-D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.WebHost.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\EntityFramework.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\EntityFramework.SqlServer.xml
@@ -147,7 +152,11 @@ D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.Owin.Security.OAuth.xml
 D:\Projects\XOGProject\XOG.API\XOG.API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.App.config
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.AssemblyReference.cache
+D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CoreCompileInputs.cache
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.CopyComplete
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.dll
 D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.pdb
-D:\Projects\XOGProject\XOG.API\XOG.API\obj\Debug\XOG.API.csproj.AssemblyReference.cache
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.Cors.dll
+D:\Projects\XOGProject\XOG.API\XOG.API\bin\System.Web.Http.Cors.xml

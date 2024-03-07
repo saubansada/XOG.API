@@ -49,7 +49,9 @@ namespace XOG
             public static readonly string REDEEM_REQUEST = Language("RedeemRequest");
             public static readonly string ADDRESS = Language("Address");
             public static readonly string CART = Language("Cart");
-
+            public static readonly string NOTIFICATION = Language("Notification");
+            public static readonly string PUSH_NOTIFICATION = Language("Push Notification");
+            public static readonly string NOTIFICATION_TOKEN = Language("Notification Token");
 
             public static readonly string ERROR = Language("Error") + " {0} {1} ";
              
@@ -64,7 +66,6 @@ namespace XOG
             public static readonly string ERROR_ADDING_SUB_CATEGORY = string.Format(ERROR, ADDING, SUB_CATEGORY);
             public static readonly string ERROR_UPDATING_SUB_CATEGORY = string.Format(ERROR, UPDATING, SUB_CATEGORY);
             public static readonly string ERROR_DELETING_SUB_CATEGORY = string.Format(ERROR, DELETING, SUB_CATEGORY);
-
 
             public static readonly string ERROR_ADDING_PRODUCT_GROUP = string.Format(ERROR, ADDING, PRODUCT_GROUP);
             public static readonly string ERROR_UPDATING_PRODUCT_GROUP = string.Format(ERROR, UPDATING, PRODUCT_GROUP);
@@ -105,6 +106,10 @@ namespace XOG
             public static readonly string ERROR_ADDING_ADDRESS = string.Format(ERROR, ADDING, ADDRESS);
             public static readonly string ERROR_UPDATING_ADDRESS = string.Format(ERROR, UPDATING, ADDRESS);
             public static readonly string ERROR_DELETING_ADDRESS = string.Format(ERROR, DELETING, ADDRESS);
+
+            public static readonly string ERROR_ADDING_NOTIFICATION = string.Format(ERROR, ADDING, NOTIFICATION);
+            public static readonly string ERROR_ADDING_PUSH_NOTIFICATION = string.Format(ERROR, ADDING, PUSH_NOTIFICATION);
+            public static readonly string ERROR_ADDING_NOTIFICATION_TOKEN = string.Format(ERROR, ADDING, NOTIFICATION_TOKEN);
         }
     }
 }

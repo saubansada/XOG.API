@@ -76,6 +76,13 @@
         <AssociationConnector Association="XOGModel.FK_OfferDetails_Orffers" />
         <EntityTypeShape EntityType="XOGModel.OfferBanner" Width="1.5" PointX="11" PointY="26.625" />
         <AssociationConnector Association="XOGModel.FK_OfferBanner_Orffers" />
+        <EntityTypeShape EntityType="XOGModel.PushNotification" Width="1.5" PointX="7.5" PointY="41.25" />
+        <EntityTypeShape EntityType="XOGModel.AspNetUserNotificationToken" Width="1.5" PointX="5.25" PointY="44.5" />
+        <AssociationConnector Association="XOGModel.FK_AspNetUserNotificationTokens_AspNetUsers" />
+        <AssociationConnector Association="XOGModel.FK_PushNotifications_AspNetUserNotificationTokens" />
+        <EntityTypeShape EntityType="XOGModel.Notification" Width="1.5" PointX="5.25" PointY="39.625" />
+        <AssociationConnector Association="XOGModel.FK_Notifications_AspNetUsers" />
+        <AssociationConnector Association="XOGModel.FK_PushNotifications_Notifications" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

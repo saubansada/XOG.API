@@ -141,6 +141,8 @@ namespace XOG.AppCode.Helpers
                 context.Validated(ticket);
 
                 context.Request.Context.Authentication.SignIn(oAuthClaimIdentity);
+
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             }
         }
 

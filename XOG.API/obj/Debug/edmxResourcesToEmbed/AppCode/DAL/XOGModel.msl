@@ -487,5 +487,45 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PushNotifications">
+      <EntityTypeMapping TypeName="XOGModel.PushNotification">
+        <MappingFragment StoreEntitySet="PushNotifications">
+          <ScalarProperty Name="IsViewed" ColumnName="IsViewed" />
+          <ScalarProperty Name="IsNotified" ColumnName="IsNotified" />
+          <ScalarProperty Name="IsForeground" ColumnName="IsForeground" />
+          <ScalarProperty Name="IsBackground" ColumnName="IsBackground" />
+          <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+          <ScalarProperty Name="NotificationToken" ColumnName="NotificationToken" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserNotificationTokens">
+      <EntityTypeMapping TypeName="XOGModel.AspNetUserNotificationToken">
+        <MappingFragment StoreEntitySet="AspNetUserNotificationTokens">
+          <ScalarProperty Name="NotificationToken" ColumnName="NotificationToken" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="XOGModel.Notification">
+        <MappingFragment StoreEntitySet="Notifications">
+          <ScalarProperty Name="IsPushNotification" ColumnName="IsPushNotification" />
+          <ScalarProperty Name="IsSMS" ColumnName="IsSMS" />
+          <ScalarProperty Name="IsEmail" ColumnName="IsEmail" />
+          <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+          <ScalarProperty Name="NotificationIconUrl" ColumnName="NotificationIconUrl" />
+          <ScalarProperty Name="NotificationMessage" ColumnName="NotificationMessage" />
+          <ScalarProperty Name="NotificationTitle" ColumnName="NotificationTitle" />
+          <ScalarProperty Name="NavigatioUrl" ColumnName="NavigatioUrl" />
+          <ScalarProperty Name="AspectRecordId" ColumnName="AspectRecordId" />
+          <ScalarProperty Name="NotificationAspect" ColumnName="NotificationAspect" />
+          <ScalarProperty Name="RecipientUserId" ColumnName="RecipientUserId" />
+          <ScalarProperty Name="ActionUserId" ColumnName="ActionUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

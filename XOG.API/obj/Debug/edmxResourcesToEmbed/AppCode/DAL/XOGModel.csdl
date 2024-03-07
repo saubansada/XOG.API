@@ -180,6 +180,25 @@
       <End Role="Offer" EntitySet="Offers" />
       <End Role="OfferBanner" EntitySet="OfferBanners" />
     </AssociationSet>
+    <EntitySet Name="PushNotifications" EntityType="XOGModel.PushNotification" />
+    <EntitySet Name="AspNetUserNotificationTokens" EntityType="XOGModel.AspNetUserNotificationToken" />
+    <AssociationSet Name="FK_AspNetUserNotificationTokens_AspNetUsers" Association="XOGModel.FK_AspNetUserNotificationTokens_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserNotificationToken" EntitySet="AspNetUserNotificationTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PushNotifications_AspNetUserNotificationTokens" Association="XOGModel.FK_PushNotifications_AspNetUserNotificationTokens">
+      <End Role="AspNetUserNotificationToken" EntitySet="AspNetUserNotificationTokens" />
+      <End Role="PushNotification" EntitySet="PushNotifications" />
+    </AssociationSet>
+    <EntitySet Name="Notifications" EntityType="XOGModel.Notification" />
+    <AssociationSet Name="FK_Notifications_AspNetUsers" Association="XOGModel.FK_Notifications_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PushNotifications_Notifications" Association="XOGModel.FK_PushNotifications_Notifications">
+      <End Role="Notification" EntitySet="Notifications" />
+      <End Role="PushNotification" EntitySet="PushNotifications" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Address">
     <Key>
@@ -276,6 +295,8 @@
     <NavigationProperty Name="UserWallets" Relationship="XOGModel.PK_USER_WALLET" FromRole="AspNetUser" ToRole="UserWallet" />
     <NavigationProperty Name="AspNetRoles" Relationship="XOGModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
     <NavigationProperty Name="BankAccounts" Relationship="XOGModel.FK_BankAccounts_AspNetUsers" FromRole="AspNetUser" ToRole="BankAccount" />
+    <NavigationProperty Name="AspNetUserNotificationTokens" Relationship="XOGModel.FK_AspNetUserNotificationTokens_AspNetUsers" FromRole="AspNetUser" ToRole="AspNetUserNotificationToken" />
+    <NavigationProperty Name="Notifications" Relationship="XOGModel.FK_Notifications_AspNetUsers" FromRole="AspNetUser" ToRole="Notification" />
   </EntityType>
   <EntityType Name="Brand">
     <Key>
@@ -1183,6 +1204,102 @@
       </Principal>
       <Dependent Role="OfferBanner">
         <PropertyRef Name="OfferId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PushNotification">
+    <Key>
+      <PropertyRef Name="NotificationToken" />
+      <PropertyRef Name="NotificationId" />
+      <PropertyRef Name="IsBackground" />
+      <PropertyRef Name="IsForeground" />
+      <PropertyRef Name="IsNotified" />
+      <PropertyRef Name="IsViewed" />
+    </Key>
+    <Property Name="NotificationToken" Type="Int64" Nullable="false" />
+    <Property Name="NotificationId" Type="Int64" Nullable="false" />
+    <Property Name="IsBackground" Type="Boolean" Nullable="false" />
+    <Property Name="IsForeground" Type="Boolean" Nullable="false" />
+    <Property Name="IsNotified" Type="Boolean" Nullable="false" />
+    <Property Name="IsViewed" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="AspNetUserNotificationToken" Relationship="XOGModel.FK_PushNotifications_AspNetUserNotificationTokens" FromRole="PushNotification" ToRole="AspNetUserNotificationToken" />
+    <NavigationProperty Name="Notification" Relationship="XOGModel.FK_PushNotifications_Notifications" FromRole="PushNotification" ToRole="Notification" />
+  </EntityType>
+  <EntityType Name="AspNetUserNotificationToken">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="NotificationToken" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_AspNetUserNotificationTokens_AspNetUsers" FromRole="AspNetUserNotificationToken" ToRole="AspNetUser" />
+    <NavigationProperty Name="PushNotifications" Relationship="XOGModel.FK_PushNotifications_AspNetUserNotificationTokens" FromRole="AspNetUserNotificationToken" ToRole="PushNotification" />
+  </EntityType>
+  <Association Name="FK_AspNetUserNotificationTokens_AspNetUsers">
+    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="XOGModel.AspNetUserNotificationToken" Role="AspNetUserNotificationToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserNotificationToken">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PushNotifications_AspNetUserNotificationTokens">
+    <End Type="XOGModel.AspNetUserNotificationToken" Role="AspNetUserNotificationToken" Multiplicity="1" />
+    <End Type="XOGModel.PushNotification" Role="PushNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUserNotificationToken">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PushNotification">
+        <PropertyRef Name="NotificationToken" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActionUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="RecipientUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="NotificationAspect" Type="Byte" Nullable="false" />
+    <Property Name="AspectRecordId" Type="Int64" Nullable="false" />
+    <Property Name="NavigatioUrl" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="NotificationTitle" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="NotificationMessage" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+    <Property Name="NotificationIconUrl" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="IsArchived" Type="Boolean" Nullable="false" />
+    <Property Name="IsEmail" Type="Boolean" Nullable="false" />
+    <Property Name="IsSMS" Type="Boolean" Nullable="false" />
+    <Property Name="IsPushNotification" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="XOGModel.FK_Notifications_AspNetUsers" FromRole="Notification" ToRole="AspNetUser" />
+    <NavigationProperty Name="PushNotifications" Relationship="XOGModel.FK_PushNotifications_Notifications" FromRole="Notification" ToRole="PushNotification" />
+  </EntityType>
+  <Association Name="FK_Notifications_AspNetUsers">
+    <End Type="XOGModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="XOGModel.Notification" Role="Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="RecipientUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PushNotifications_Notifications">
+    <End Type="XOGModel.Notification" Role="Notification" Multiplicity="1" />
+    <End Type="XOGModel.PushNotification" Role="PushNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Notification">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PushNotification">
+        <PropertyRef Name="NotificationId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

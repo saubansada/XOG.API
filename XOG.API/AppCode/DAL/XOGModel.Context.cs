@@ -60,5 +60,8 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<OfferDetail> OfferDetails { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
         public virtual DbSet<OfferBanner> OfferBanners { get; set; }
+        public virtual DbSet<PushNotification> PushNotifications { get; set; }
+        public virtual DbSet<AspNetUserNotificationToken> AspNetUserNotificationTokens { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
     }
 }
