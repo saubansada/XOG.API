@@ -1,5 +1,4 @@
 ﻿using XOG.Helpers;
-using XOG.Models;
 using System;
 using System.Data.Entity.Validation;
 using System.IO;
@@ -22,13 +21,12 @@ namespace XOG.Util
 
             try
             {
-                //MailHelper.Send(new EmailMessage
-                //{
-                //    From = AppConfig.WebsiteMainEmail,
-                //    Body = errorMessage,
-                //    To = AppConfig.ErrorAdminEmail,
-                //    Subject = AppConfig.SiteName + ": Error Log"
-                //});
+                MailHelper.Send(new Microsoft.AspNet.Identity.IdentityMessage
+                { 
+                    Destination = AppConfig.ErrorAdminEmail,
+                    Body = errorMessage,
+                    Subject = AppConfig.SiteName + ": Error Log"
+                });
             }
             catch (Exception mex)
             {

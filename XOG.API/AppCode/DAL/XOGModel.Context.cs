@@ -30,19 +30,38 @@ namespace XOG.AppCode.DAL
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<CategoriesImage> CategoriesImages { get; set; }
+        public virtual DbSet<DeliveryTiming> DeliveryTimings { get; set; }
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<ProductGroup> ProductGroups { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductVariant> ProductVariants { get; set; }
+        public virtual DbSet<QuantityMeasure> QuantityMeasures { get; set; }
+        public virtual DbSet<ReturnOrderDetail> ReturnOrderDetails { get; set; }
+        public virtual DbSet<ReturnOrder> ReturnOrders { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<UserWallet> UserWallets { get; set; }
+        public virtual DbSet<WeekDayStatus> WeekDayStatuses { get; set; }
         public virtual DbSet<WishList> WishLists { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<UsersWalletVW> UsersWalletVWs { get; set; }
+        public virtual DbSet<UserWalletListVW> UserWalletListVWs { get; set; }
+        public virtual DbSet<WeekDayTiming> WeekDayTimings { get; set; }
+        public virtual DbSet<OrderVW> OrderVWs { get; set; }
+        public virtual DbSet<BankAccount> BankAccounts { get; set; }
+        public virtual DbSet<RedeemRequest> RedeemRequests { get; set; }
+        public virtual DbSet<OfferDetail> OfferDetails { get; set; }
+        public virtual DbSet<Offer> Offers { get; set; }
+        public virtual DbSet<OfferBanner> OfferBanners { get; set; }
+        public virtual DbSet<PushNotification> PushNotifications { get; set; }
+        public virtual DbSet<AspNetUserNotificationToken> AspNetUserNotificationTokens { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
     }
 }

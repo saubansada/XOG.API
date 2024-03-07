@@ -1,5 +1,4 @@
 ﻿using XOG.Helpers;
-using XOG.Util;
 using System;
 using System.Xml;
 
@@ -11,7 +10,7 @@ namespace XOG.SettingsHelpers
         const string uniqueKey = "_KeywordsHelper_";
         static readonly string fileName = AppConfig.KeywordsFile;
 
-        public static void AddKeyword(string name, string value)
+        public static bool AddKeyword(string name, string value)
         {
             if (!IsKeywordPresent(name))
             {
@@ -27,7 +26,9 @@ namespace XOG.SettingsHelpers
                 xmlDoc.SelectSingleNode(keyXPath).ParentNode.AppendChild(newKey);
 
                 SaveXml(xmlDoc);
+                return true;
             }
+            return false;
         }
 
         public static void DeleteKeyword(string name)
@@ -114,11 +115,11 @@ namespace XOG.SettingsHelpers
 
         public static void SetKeywordValue(string name, string value)
         {
-            SetKeywordValue(name, value, PerformanceMode.None); 
+            SetKeywordValue(name, value, PerformanceMode.None);
         }
 
         public static void SetKeywordValue(string name, string value, PerformanceMode performanceMode)
-        {  
+        {
             var performanceKey = uniqueKey + name;
 
             Func<string, string, bool> fnc = SetKeywordValueToSettings;
@@ -144,10 +145,10 @@ namespace XOG.SettingsHelpers
 
                         SaveXml(xmlDoc);
 
-                        return true; 
+                        return true;
                     }
                 }
-            } 
+            }
             return false;
         }
 

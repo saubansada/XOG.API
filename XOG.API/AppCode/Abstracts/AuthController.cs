@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using XOG.Factories;
-using XOG.Helpers;
 using System.Web;
 using System.Web.Mvc;
 
 namespace XOG.Abstracts
 {
-    public abstract class AuthController : AppController
+    public abstract class AuthController : Controller
     {
         protected const string XsrfKey = "XsrfId";
         ApplicationRoleManager _roleManager;

@@ -26,7 +26,7 @@
         largeXL,
         full,
     }
-    
+
     public enum ApiResult
     {
         ValidationError = 0,
@@ -49,6 +49,17 @@
         Male,
         Female,
         Unspecified,
+    }
+
+    public enum TransactionType
+    {
+        Debit = 0,
+        Credit = 1
+    }
+    public enum TransactionFor
+    {
+        System = 0,
+        Wallet = 1
     }
 
     public enum HashServiceProvider : int
@@ -154,7 +165,7 @@
 
     public enum UserType
     {
-        User,
+        Customer,
         Staff,
         Admin,
         SubAdmin,
@@ -162,14 +173,14 @@
         Any
     }
 
-    public enum ModelType
-    {
-        Default,
-        AdminView,
-        UserView,
-        OListItem,
-        NameArray
-    }
+    //public enum ModelType
+    //{
+    //    Default,
+    //    AdminView,
+    //    UserView,
+    //    OListItem,
+    //    NameArray
+    //}
 
     public enum ListingType
     {
@@ -181,10 +192,12 @@
     public enum ProductQueryType
     {
         FilterOrNone,
+        Variants,
         Suggestions,
         Featured,
         Trending,
         QuickSlides,
+        Offers,
         Similars
     }
 
@@ -246,13 +259,43 @@
     public enum OrderStatus
     {
         All = 0,
-        Tentative = 1,
-        Placed = 2,
-        Notified = 3,
-        Processing = 4,
-        Rejected = 5,
-        Dispatched = 6,
-        Dilevered = 7
+        Placed = 1,
+        Confirmed = 2,
+        Packed = 3,
+        Dispatched = 4,
+        Delivered = 5,
+        Cancelled = 6,
+        Rejected = 7,
+        Pending = 8
+    }
+    public enum OfferStatus
+    {
+        All = 0,
+        Active = 1,
+        InActive = 2
+    }
+    public enum OfferBannerPlacement
+    {
+        All = 0,
+        DesktopHomee = 1,
+        DesktopOfferss = 2,
+        MobileStatus = 3,
+        MobileOffers = 4
+    }
+    public enum ReemRequestStatus
+    {
+        All = 0,
+        Requested = 1,
+        Approved = 2,
+        Rejected = 3,
+        UnderProcess = 4,
+        Processed = 5
+    }
+
+    public enum PaymentType
+    {
+        CashOnDelivery = 1,
+        OnlinePayment = 2,
     }
 
     public enum OTPType

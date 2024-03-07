@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace XOG
@@ -29,6 +25,12 @@ namespace XOG
                name: "init",
                url: "init",
                defaults: new { controller = "Home", action = "Init", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+               name: "CurrentOtp",
+               url: "CurrentOtp",
+               defaults: new { controller = "Home", action = "CurrentOtp", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

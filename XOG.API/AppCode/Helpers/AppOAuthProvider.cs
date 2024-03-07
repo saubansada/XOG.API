@@ -5,12 +5,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using XOG.Factories;
-using XOG.Models;
 
 namespace XOG.AppCode.Helpers
 {
@@ -62,44 +59,90 @@ namespace XOG.AppCode.Helpers
         /// <returns>Returns when task is completed</returns>  
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            // Initialization.  
             string usernameVal = context.UserName;
+
             string passwordVal = context.Password;
+
             using (ApplicationUserManager userManager = context.OwinContext.GetUserManager<ApplicationUserManager>())
             {
-                //var user = this.databaseManager.Logi(usernameVal, passwordVal).ToList();
-                ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
- 
-                // Verification.  
-                if (user == null)
-                {
-                    // Settings.  
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                ApplicationUser user = await userManager.FindByNameAsync(context.UserName);
 
-                    // Retuen info.  
-                    return;
+                bool twoFactorEnabled = false;
+
+                if (user != null)
+                {
+                    context.Request.Context.Authentication.SignOut();
+
+                    twoFactorEnabled = await userManager.GetTwoFactorEnabledAsync(user.Id);
+                }
+                else if (user == null && passwordVal == "")
+                {
+                    var res = await userManager.CreateAsync(new ApplicationUser { UserName = usernameVal, Email = usernameVal + "@xog.com" });
+
+                    if (res.Succeeded)
+                    {
+                        user = await userManager.FindByNameAsync(context.UserName);
+
+                        await userManager.AddToRoleAsync(user.Id, "User");
+                    }
+                    else
+                    {
+                        context.SetError("Failed to Create User");
+                    }
                 }
 
-                // Initialization.  
+                if (passwordVal == "" || twoFactorEnabled)
+                {
+                    await userManager.SetTwoFactorEnabledAsync(user.Id, true);
+
+                    var code = await userManager.GenerateTwoFactorTokenAsync(user.Id, "PhoneCode");
+
+                    IdentityResult notificationResult = await userManager.NotifyTwoFactorTokenAsync(user.Id, "PhoneCode", code);
+
+                    if (!notificationResult.Succeeded)
+                    {
+                        context.SetError("Failed to send OTP");
+                    }
+                }
+                else
+                {
+                    user = await userManager.FindAsync(usernameVal, passwordVal);
+
+                    if (user == null)
+                    {
+                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+
+                        return;
+                    }
+                }
+
                 var claims = new List<Claim>();
+
                 var userInfo = user;
 
-                // Setting  
                 claims.Add(new Claim(ClaimTypes.Name, userInfo.UserName));
 
-                // Setting Claim Identities for OAUTH 2 protocol.  
                 ClaimsIdentity oAuthClaimIdentity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+
                 ClaimsIdentity cookiesClaimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationType);
 
                 var roles_ = userManager.GetRoles(user.Id);
 
-                // Setting user authentication.  
-                AuthenticationProperties properties = CreateProperties(userInfo.UserName, string.Join(",", roles_));
+                if(roles_.Count == 0)
+                {
+                    await userManager.AddToRoleAsync(user.Id, "User");
+                    roles_ = userManager.GetRoles(user.Id);
+                }
+
+                AuthenticationProperties properties = CreateProperties(userInfo, string.Join(",", roles_));
+
                 AuthenticationTicket ticket = new AuthenticationTicket(oAuthClaimIdentity, properties);
 
-                // Grant access to authorize user.  
                 context.Validated(ticket);
-                context.Request.Context.Authentication.SignIn(cookiesClaimIdentity);
+
+                context.Request.Context.Authentication.SignIn(oAuthClaimIdentity);
+
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             }
         }
 
@@ -184,17 +227,19 @@ namespace XOG.AppCode.Helpers
         /// </summary>  
         /// <param name="userName">User name parameter</param>  
         /// <returns>Returns authenticated properties.</returns>  
-        public static AuthenticationProperties CreateProperties(string userName, string roles)
+        public static AuthenticationProperties CreateProperties(ApplicationUser user, string roles)
         {
 
             string dateTime = DateTime.Now.ToString();
             // Settings.  
             IDictionary<string, string> data = new Dictionary<string, string>
                                                {
-                                                   { "userName", userName },
+                                                   { "userId", user.Id },
+                                                   { "requireOTP" , user.TwoFactorEnabled.ToString() },
+                                                   { "userName", user.UserName },
                                                    { "roles", roles },
                                                    { "logged_in", dateTime }
-                                               }; 
+                                               };
             // Return info.  
             return new AuthenticationProperties(data);
         }

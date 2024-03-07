@@ -1,23 +1,9 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web.Http;
-using IdentityServer3.AccessTokenValidation;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using XOG.AppCode.Helpers;
-using XOG.Factories;
-using XOG.Helpers;
-using XOG.Models;
+using XOG.Helpers; 
 
 namespace XOG
 {
@@ -49,6 +35,12 @@ namespace XOG
                 AccessTokenExpireTimeSpan = TimeSpan.FromHours(4),
                 AllowInsecureHttp = true 
             };
+
+            // Token Generation
+            //var OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
+            //app.UseOAuthBearerAuthentication(OAuthOptions);
+            //app.UseOAuthAuthorizationServer(OAuthOptions);
+             
 
             app.UseOAuthBearerTokens(OAuthOptions);
         }

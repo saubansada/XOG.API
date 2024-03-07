@@ -1,53 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
-using System.Transactions; 
-using System.Threading.Tasks;
-using System.Web;
+using System.Transactions;
 using XOG.AppCode.DAL;
-using XOG.AppCode.Transformers;
 using XOG.Util;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOGModels.JsonModels;
 using XOG.AppCode.Models.FilterModels;
+using XOG.AppCode.Mappers;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using XOG.Hubs;
 
 namespace XOG.AppCode.BLL
 {
     public class OrderBL
     {
-
-        internal static XOGEntities GetXOGContext()
+        internal XOGEntities GetXOGContext()
         {
             return new XOGEntities();
         }
-
-        private static IQueryable<Order> GetFilteredWhereQuery(IQueryable<Order> query, OrderFilter filter)
+        private IQueryable<OrderVW> GetFilteredWhereQuery(IQueryable<OrderVW> query, IOrderFilter filter)
         {
             if (filter != null)
             {
                 string[] userIds = filter.userIds.Trim().Equals("") != true ? filter.userIds.Split(',') : new string[0];
-                  
-                query = userIds.Length == 0 ? query : query.Where(i => userIds.Contains(i.AspNetUser.Id));
 
-                query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.OrderDetails
-                    .Where(o =>
-                        o.Product.ProductName.Equals(filter.Search) ||
-                        filter.Search.Contains(o.Product.ProductName)).Count() > 0) : query;
+                query = userIds.Length == 0 ? query : query.Where(i => filter.IsAdminRequest || userIds.Contains(i.UserId));
 
-                query = !(string.IsNullOrWhiteSpace(filter.CustomerName)) ?
-                        query.Where(i => i.AspNetUser.FirstName.Contains(filter.CustomerName) ||
-                        filter.CustomerName.Contains(i.AspNetUser.FirstName)) : query;
+                query = !(string.IsNullOrWhiteSpace(filter.Search)) ?
+                    query.Where(i => i.ProductName.Equals(filter.Search) || filter.Search.Contains(i.ProductName)) : query;
 
-                query = (filter.ItemsCountStart >= 0 && filter.ItemsCountEnd >= 0) ? query.Where(i => i.OrderDetails.Count() >= filter.ItemsCountStart && i.OrderDetails.Count() <= filter.ItemsCountEnd) :
-                            query;
+                //query = !(string.IsNullOrWhiteSpace(filter.CustomerName)) ?
+                //        query.Where(i => i.FirstName.Contains(filter.CustomerName) ||
+                //        filter.CustomerName.Contains(i.AspNetUser.FirstName)) : query;
+
+                //query = (filter.ItemsCountStart >= 0 && filter.ItemsCountEnd >= 0) ? query.Where(i => i.OrderDetails.Count() >= filter.ItemsCountStart && i.OrderDetails.Count() <= filter.ItemsCountEnd) :
+                //            query;
 
                 query = query.Where(i => i.OrderDate > filter.OrderDateStart && i.OrderDate <= filter.OrderDateEnd);
 
-                query = filter.OrderState != OrderStatus.All ? query.Where(i => i.OrderState == (byte)filter.OrderState) : query;
+                if (!filter.IsReturnedOrder && filter.OrderState != OrderStatus.All)
+                {
+                    query = query.Where(i => i.OrderState == (byte)OrderStatus.Placed || i.OrderState == (byte)OrderStatus.Confirmed);
+                }
 
-                query = query.Where(i => i.OrderState == (byte)OrderStatus.Placed || i.OrderState == (byte)OrderStatus.Notified);
+                if (filter.IsReturnedOrder)
+                {
+                    if (filter.OrderState != (byte)OrderStatus.All)
+                    {
+                        query = query.Where(i => i.ReturnOrderStatus == (byte)filter.OrderState);
+                    }
+                    query = query.Where(i => i.ReturnDetailId > -1);
+                }
 
                 query = query.OrderByDescending(i => "OrderDate");
             }
@@ -55,7 +61,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private static IQueryable<Order> GetFilteredQuery(OrderFilter filter, XOGEntities context = null)
+        private IQueryable<OrderVW> GetFilteredQuery<T>(IOrderFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -65,173 +71,339 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                     }
-                    return GetFilteredQuery(filter, _context);
+                    return GetFilteredQuery<T>(filter, _context);
                 }
             }
-            return GetFilteredWhereQuery(context.Orders, filter);
+            return GetFilteredWhereQuery(context.OrderVWs, filter);
         }
 
-
-        internal static object GetTList(XOGEntities context = null, OrderFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(IOrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
-            if (context == null)
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
-                    }
-                    return GetTList(_context, filter, type, listType, model);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return GetList<T>(_context, filter, listType, model);
             }
-            var query = GetFilteredQuery(filter, context);
-
-            return query.TransformToOrderModelListing(model, type, listType);
         }
 
-        internal static object PlaceOrder(XOGEntities context = null, OrdersModel model = null)
+        internal object GetList<T>(XOGEntities context, IOrderFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
-            if (model == null)
-            {
-                return null;
-            }
+            var query = GetFilteredQuery<T>(filter, context);
 
-            DateTime now = Utilities.DateTimeNow();
+            return filter.IsReturnedOrder ? query.MapToOrderRetunsModelList<T>(model, listType) :
+                query.MapToOrderModelList<T>(model, listType);
+        }
 
-            if (context == null)
+        internal async Task<Dictionary<string, object>> PlaceOrder(Order model, UserWallet walletInfo = null)
+        {
+            using (var _context = new XOGEntities())
             {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception("Error Occurred");
-                    }
-                    return PlaceOrder(_context, model);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return await PlaceOrder(_context, model, walletInfo);
             }
+        }
+         
+        internal async Task<Dictionary<string, object>> PlaceOrder(XOGEntities context, Order model, UserWallet walletInfo = null)
+        {
+            var res = new Dictionary<string, object>();
 
             try
             {
-                var ids = "";
-
-                model.cartList.ToList().ForEach(i =>
-                { 
-                    ids += i.ProductId + ",";
-                });
-
-                var productList = (List<Object>)ProductBL.GetTList(context, new ProductFilterRequestVM() { Ids = ids }, listType: ListingType.List);
-
-                var orderDetails = new List<OrderDetail>();
-
-                double totalAmount = 0.0;
-
-                for (int i = 0; i < productList.Count; i++)
-                {
-                    var product = (Product)productList[i];
-
-                    var quantity = model.cartList[i].CartCount;
-
-                    orderDetails.Add(new OrderDetail()
-                    {
-                        ProductId = product.Id,
-                        Price = product.Mrp,
-                        Quantity = quantity,
-                        Discount = product.DiscountPercentage,
-                        Gst = product.Gst,
-                        Cost = product.Cost, 
-                    });
-
-                    totalAmount = totalAmount + GetProductTotalAmount(product.Mrp, quantity, product.DiscountPercentage, product.Gst);
-                }
-
-                var customerInfo = UsersBL.GetUserInfo(model.userId, context);
-
-                Type t = customerInfo.GetType();
-
-                PropertyInfo p = t.GetProperty("Id");
-
-                object customerId = p.GetValue(customerInfo, null);
-
-                var address = context.Addresses.Where(i => i.Id == model.addressesId).FirstOrDefault();
-                 
-                var order = new Order()
-                {
-                    OrderedByUserId = customerId.ToString(),
-                    OrderDate = now,
-                    OrderState = (byte)OrderStatus.Placed,
-                    OrderToAddressId = address.Id,
-                    Returned = false,
-                    DispatchedDate = now,   
-                    TotalAmount = totalAmount,
-                    DeliveredDate = now,
-                    OrderDetails = orderDetails
-                };
-
                 var transaction = new DAL.Transaction()
                 {
-                    PaymentDateTime = now,
-                    BilledByUserId = model.userId,
-                    TotalAmount = totalAmount,
-                    Canceled = false,
-                    Order = order
+                    PaymentDateTime = model.OrderDate,
+                    BilledByUserId = model.OrderedByUserId,
+                    TotalAmount = model.TotalAmount,
+                    UserWallet = walletInfo,
+                    Order = model
                 };
 
                 using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-
                     context.Transactions.Add(transaction);
 
-                    ts.Complete();
-                }
-                  
-                context.SaveChanges();
+                    var orderId = transaction.Order.Id;
 
-                return order.Id;
+                    var userId = transaction.Order.OrderedByUserId;
+                     
+                    var userTokens = model.AspNetUser.AspNetUserNotificationTokens.Select(i => i.NotificationToken).ToArray();
+
+                    await context.SaveChangesAsync();
+
+                   await NotificationBL.Instance.SendPushNotification(userTokens, "Your Order has been placed", 
+                            "You order #" + transaction.Order.Id + " is has been placed successfully", 
+                            orderId, 1,
+                            userId);
+
+                   ts.Complete();
+                }
+
+
+                res.Add("DBStatus", DBStatus.Success);
+                res.Add("OrderId", "" + model.Id);
+                res.Add("Amount", model.TotalAmount);
+                res.Add("Message", "Order placed successfully!");
+                res.Add("DetailedError", "");
+
+                return res;
 
             }
             catch (Exception ex)
             {
                 ErrorLogger.LogError("Some Error Occurred : Details - " + ex.Message);
 
-                return -1;
+                res.Add("DbStatus", DBStatus.Error);
+                res.Add("OrderId", "");
+                res.Add("Amount", model.TotalAmount);
+                res.Add("Message", "Error occurred while placing order!");
+                res.Add("DetailedError", ex.Message);
+                return res;
             }
         }
 
-        internal static object GetOrder(XOGEntities context = null, long id = -1, string userId = "", ModelType modelType = ModelType.Default, bool isCurrent = false)
+        internal async Task<Dictionary<string, object>> ReturnOrder(ReturnOrder model)
         {
-            if (id < 0 && isCurrent == false)
+            using (var _context = new XOGEntities())
             {
-                return null;
-            }
-
-            if (context == null)
-            {
-                using (var _context = new XOGEntities())
+                if (_context == null)
                 {
-                    if (_context == null)
-                    {
-                        throw new Exception("Error Occurred");
-                    }
-                    return GetOrder(_context, id, userId, modelType, isCurrent);
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
+                return await ReturnOrder(_context, model);
             }
+        }
+
+        internal async Task<Dictionary<string, object>> UpdateOrderStatus(long orderId, OrderStatus orderState)
+        {
+            using (var _context = new XOGEntities())
+            {
+                if (_context == null)
+                {
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
+                }
+                return await UpdateOrderStatus(_context, orderId, orderState);
+            }
+        }
+
+        internal async Task<Dictionary<string, object>> UpdateOrderStatus(XOGEntities context, long orderId, OrderStatus orderState)
+        {
+            var res = new Dictionary<string, object>();
 
             try
             {
-                OrderStatus[] toExcludeOrderStates = { OrderStatus.All, OrderStatus.Dilevered, OrderStatus.Rejected };
+                var order = await context.Orders.FindAsync(orderId);
 
-                var data = isCurrent && id < 0 ? context.Orders.Where(i => i.AspNetUser.Id == userId && !toExcludeOrderStates.Contains((OrderStatus)i.OrderState)).OrderByDescending(i => i.OrderDate).FirstOrDefault()
-                                    : context.Orders.Where(i => i.Id == id).FirstOrDefault();
-                  
+                var userId = order.OrderedByUserId;
 
-                if (data != null && isCurrent && data.AspNetUser.Id != userId && data.AspNetUser.AspNetRoles.Count(i => i.Name == "Admin" || i.Name == "Developer" || i.Name == "SuperAdmin") <= 0)
+                if (order == null)
                 {
-
-                    throw new Exception("The User trying to Access to Record is Invalid");
+                    throw new Exception("No Order Found!");
                 }
 
-                return data.TransformToOrderModel(type: modelType);
+                order.OrderState = (byte)orderState;
+
+                context.Orders.Attach(order); 
+
+                context.Entry(order).State = EntityState.Modified;
+
+                //var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+
+                //if (hubContext != null)
+                //{
+                //    await hubContext.Clients.User(order.OrderedByUserId).SendAsync("OrderUpdateStatus", "You order is updated");
+                //}
+
+                await context.SaveChangesAsync();
+
+                var userTokens = order.AspNetUser.AspNetUserNotificationTokens.Select(i => i.NotificationToken).ToArray();
+
+                await NotificationBL.Instance.SendPushNotification(userTokens, "Update order has been " + orderState, "You order #" + order.Id + " has been " + orderState, orderId, 1, userId);
+
+                res.Add("DBStatus", DBStatus.Success);
+                res.Add("OrderId", "" + orderId);
+                res.Add("Message", "Order " + Enum.GetName(typeof(OrderStatus), order.OrderState).ToLower() + " successfully!");
+                res.Add("DetailedError", "");
+
+                return res;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger.LogError("Some Error Occurred : Details - " + ex.Message);
+
+                res.Add("DbStatus", DBStatus.Error);
+                res.Add("OrderId", orderId);
+                res.Add("Message", "Error occurred while confirming order!");
+                res.Add("DetailedError", ex.Message);
+                return res;
+            }
+        }
+
+        internal async Task<Dictionary<string, object>> ReturnOrder(XOGEntities context, ReturnOrder model)
+        {
+
+            var res = new Dictionary<string, object>();
+
+            try
+            {
+                using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    context.ReturnOrders.Add(model);
+
+                    ts.Complete();
+                }
+
+                await context.SaveChangesAsync();
+
+                res.Add("DBStatus", DBStatus.Success);
+                res.Add("Message", "Order returned initiated!");
+
+                return res;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger.LogError("Some Error Occurred : Details - " + ex.Message);
+
+                res.Add("DbStatus", DBStatus.Error);
+                res.Add("OrderId", "");
+                res.Add("Message", "Error occurred while initiating return order!");
+                res.Add("DetailedError", ex.Message);
+                return res;
+            }
+        }
+
+        internal async Task<Dictionary<string, object>> UpdateOrderReturnStatus(long returnOrderId, OrderStatus orderState)
+        {
+            using (var _context = new XOGEntities())
+            {
+                if (_context == null)
+                {
+                    throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
+                }
+                return await UpdateOrderReturnStatus(_context, returnOrderId, orderState);
+            }
+        }
+
+        internal async Task<Dictionary<string, object>> UpdateOrderReturnStatus(XOGEntities context, long returnOrderId, OrderStatus orderState)
+        {
+            var res = new Dictionary<string, object>();
+
+            try
+            {
+                using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    var order = await context.ReturnOrders.FindAsync(returnOrderId);
+
+                    if (order == null)
+                    {
+                        throw new Exception("No Order Found!");
+                    }
+
+                    var userWallet = new UserWallet();
+
+                    userWallet.WalletOfUserId = order.Order.OrderedByUserId;
+
+                    userWallet.Amount = context.OrderVWs.Where(i => i.ReturnId == returnOrderId).Sum(i => i.ReturnTotalSum);
+
+                    userWallet.TimeStamp = DateTime.Now;
+
+                    context.UserWallets.Add(userWallet);
+
+                    await context.SaveChangesAsync();
+
+                    DAL.Transaction transaction = new DAL.Transaction();
+
+                    transaction.OrderId = order.OrderId;
+
+                    transaction.BilledByUserId = userWallet.WalletOfUserId;
+
+                    transaction.ReturnId = order.Id;
+
+                    transaction.WalletId = userWallet.Id;
+
+                    transaction.PaymentDateTime = DateTime.Now;
+
+                    transaction.TransactionFor = (int)TransactionFor.Wallet;
+
+                    transaction.TransactionType = (int)TransactionType.Credit;
+
+                    context.Transactions.Add(transaction);
+
+                    await context.SaveChangesAsync();
+
+                    order.ReturnOrderState = (byte)orderState;
+
+                    context.ReturnOrders.Attach(order);
+
+                    context.Entry(order).State = EntityState.Modified;
+
+                    await context.SaveChangesAsync();
+                     
+                    var userTokens = order.Order.AspNetUser.AspNetUserNotificationTokens.Select(i => i.NotificationToken).ToArray();
+
+                    await NotificationBL.Instance.SendPushNotification(userTokens, "Update on your Return Order Request", "You request for return order #" + order.Order.Id + " is moved to " + orderState + " stage", order.Order.Id, 2, order.Order.OrderedByUserId);
+
+                    ts.Complete();
+                }
+
+
+                res.Add("DBStatus", DBStatus.Success);
+                res.Add("OrderReturnId", "" + returnOrderId);
+                res.Add("Message", "Order return confirmed successfully!");
+                res.Add("DetailedError", "");
+                return res;
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger.LogError("Some Error Occurred : Details - " + ex.Message);
+
+                res.Add("DbStatus", DBStatus.Error);
+                res.Add("OrderId", returnOrderId);
+                res.Add("Message", "Error occurred while confirming order!");
+                res.Add("DetailedError", ex.Message);
+                return res;
+            }
+        }
+
+        internal async Task<object> GetOrder<T>(long id, bool isReturnedOrder = false, string userId = "")
+        {
+            using (var _context = new XOGEntities())
+            {
+                if (_context == null)
+                {
+                    throw new Exception("Error Occurred");
+                }
+                return await GetOrder<T>(_context, isReturnedOrder, id, userId);
+            }
+        }
+
+        internal async Task<object> GetOrder<T>(XOGEntities context, bool isReturnedOrder = false, long id = -1, string userId = "")
+        {
+            try
+            {
+                var user = context.AspNetUsers.Find(userId);
+
+                var data = context.OrderVWs.Where(i => (isReturnedOrder && i.ReturnId == id) || (!isReturnedOrder && i.OrderId == id));
+
+                if (data == null || user == null)
+                {
+                    return null;
+                }
+                else if (data.Count(j => j.UserId != userId) > 0 &&
+                                user.AspNetRoles.Count(i => i.Name == "Admin" ||
+                                i.Name == "Developer" || i.Name == "SuperAdmin") == 0)
+                {
+                    return null;
+                }
+
+                return data.MapToOrderModel<T>();
 
             }
             catch (Exception ex)
@@ -242,12 +414,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        private static double GetProductTotalAmount(double mrp, int quantity, double discount, double gst)
-        {
-            var toReturn = (mrp - (mrp * discount / 100) - (mrp * gst / 100)) * quantity;
-            return toReturn;
-        }
 
     }
 }
- 
+

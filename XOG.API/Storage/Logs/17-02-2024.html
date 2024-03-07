@@ -1,0 +1,41 @@
+<h3>Exception Generated On 17 फरवरी 2024 @ 22:08</h3><br /><br /><strong>Page Location:</strong> /api/app-notification/save-pushed-notification<br /><br /><strong>Client IP Address:</strong> ::1<br /><br /><strong>Error Message:</strong> Error Adding Push  Notification  : 
+System.Data.Entity.Infrastructure.DbUpdateException: Unable to update the EntitySet 'PushNotifications' because it has a DefiningQuery and no <InsertFunction> element exists in the <ModificationFunctionMapping> element to support the current operation. ---> System.Data.Entity.Core.UpdateException: Unable to update the EntitySet 'PushNotifications' because it has a DefiningQuery and no <InsertFunction> element exists in the <ModificationFunctionMapping> element to support the current operation.
+   at System.Data.Entity.SqlServer.SqlGen.DmlSqlGenerator.ExpressionTranslator.Visit(DbScanExpression expression)
+   at System.Data.Entity.SqlServer.SqlGen.DmlSqlGenerator.GenerateInsertSql(DbInsertCommandTree tree, SqlGenerator sqlGenerator, List`1& parameters, Boolean generateReturningSql, Boolean upperCaseKeywords, Boolean createParameters)
+   at System.Data.Entity.SqlServer.SqlGen.SqlGenerator.GenerateSql(DbCommandTree tree, SqlVersion sqlVersion, List`1& parameters, CommandType& commandType, HashSet`1& paramsToForceNonUnicode)
+   at System.Data.Entity.SqlServer.SqlProviderServices.CreateCommand(DbProviderManifest providerManifest, DbCommandTree commandTree)
+   at System.Data.Entity.SqlServer.SqlProviderServices.CreateDbCommandDefinition(DbProviderManifest providerManifest, DbCommandTree commandTree)
+   at System.Data.Entity.Core.Common.DbProviderServices.CreateCommand(DbCommandTree commandTree, DbInterceptionContext interceptionContext)
+   at System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.CreateCommand(DbModificationCommandTree commandTree)
+   at System.Data.Entity.Core.Mapping.Update.Internal.DynamicUpdateCommand.CreateCommand(Dictionary`2 identifierValues)
+   at System.Data.Entity.Core.Mapping.Update.Internal.DynamicUpdateCommand.<ExecuteAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.<UpdateAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Data.Entity.Core.Objects.ObjectContext.<ExecuteInTransactionAsync>d__3d`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Data.Entity.Core.Objects.ObjectContext.<SaveChangesToStoreAsync>d__39.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.<ExecuteAsyncImplementation>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Data.Entity.Core.Objects.ObjectContext.<SaveChangesInternalAsync>d__31.MoveNext()
+   --- End of inner exception stack trace ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at XOG.AppCode.BLL.NotificationBL.<SavePushedNotification>d__10.MoveNext() in D:\Projects\XOGProject\XOG.API\XOG.API\AppCode\BLL\NotificationBL.cs:line 129<br /><br /><strong>Error Details:</strong> <br /><br /><strong>Method Name:</strong> <br /><br /><strong>Source:</strong> <br /><br /><strong>Stack Trace:</strong><br />NA<br /><hr /><br /><h3>Mail Exception</h3><br /><br /><strong>Error Message:</strong> The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. For more information, go to<br /><br /><strong>Error Details:</strong> <br /><br /><strong>Method Name:</strong> CheckResponse<br /><br /><strong>Source:</strong> System<br /><br /><strong>Stack Trace:</strong><br />   at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at XOG.Helpers.MailHelper.SendUsingSmtp(IdentityMessage message) in D:\Projects\XOGProject\XOG.API\XOG.API\AppCode\Helpers\MailHelper.cs:line 213
+   at XOG.Helpers.MailHelper.Send(IdentityMessage message) in D:\Projects\XOGProject\XOG.API\XOG.API\AppCode\Helpers\MailHelper.cs:line 105
+   at XOG.Util.ErrorLogger.LogError(Exception ex, DbEntityValidationException e) in D:\Projects\XOGProject\XOG.API\XOG.API\AppCode\Util\ErrorLogger.cs:line 24<hr /><br />

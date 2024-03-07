@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using XOG.AppCode.Models.FilterModels;
+﻿using XOG.AppCode.Models.FilterModels;
 
 namespace XOG.Models.ViewModels.RequestViewModels.Filters
 {
-    public class BrandFilterRequestVM : BrandFilter
+    public class BrandFilterRequestVM : BaseFilterRequestVM, IBrandFilter
     {
+        public string Search { get; set; }
+        public string Ids { get; set; }
     }
 }

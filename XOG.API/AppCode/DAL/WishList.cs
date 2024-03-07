@@ -19,7 +19,7 @@ namespace XOG.AppCode.DAL
         public Nullable<long> ProductId { get; set; }
         public Nullable<short> Quantity { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

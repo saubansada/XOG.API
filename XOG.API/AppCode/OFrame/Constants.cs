@@ -1,5 +1,4 @@
-﻿using XOG.SettingsHelpers;
-using XOG.Util;
+﻿using XOG.Util;
 
 namespace XOG
 {
@@ -41,9 +40,18 @@ namespace XOG
             public static readonly string PRODUCT = Language("Product");
             public static readonly string CATEGORY = Language("Category");
             public static readonly string SUB_CATEGORY = Language("SubCategory");
+            public static readonly string PRODUCT_GROUP = Language("ProductGroup");
+            public static readonly string QUANTITY_MEASURE = Language("QuantityMeasure");
             public static readonly string BRAND = Language("Brand");
+            public static readonly string OFFER_BANNER = Language("OfferBanner");
+            public static readonly string OFFER = Language("Offer");
+            public static readonly string BANK_ACCOUNT = Language("BankAccount");
+            public static readonly string REDEEM_REQUEST = Language("RedeemRequest");
+            public static readonly string ADDRESS = Language("Address");
             public static readonly string CART = Language("Cart");
-
+            public static readonly string NOTIFICATION = Language("Notification");
+            public static readonly string PUSH_NOTIFICATION = Language("Push Notification");
+            public static readonly string NOTIFICATION_TOKEN = Language("Notification Token");
 
             public static readonly string ERROR = Language("Error") + " {0} {1} ";
              
@@ -59,13 +67,49 @@ namespace XOG
             public static readonly string ERROR_UPDATING_SUB_CATEGORY = string.Format(ERROR, UPDATING, SUB_CATEGORY);
             public static readonly string ERROR_DELETING_SUB_CATEGORY = string.Format(ERROR, DELETING, SUB_CATEGORY);
 
+            public static readonly string ERROR_ADDING_PRODUCT_GROUP = string.Format(ERROR, ADDING, PRODUCT_GROUP);
+            public static readonly string ERROR_UPDATING_PRODUCT_GROUP = string.Format(ERROR, UPDATING, PRODUCT_GROUP);
+            public static readonly string ERROR_DELETING_PRODUCT_GROUP = string.Format(ERROR, DELETING, PRODUCT_GROUP);
+
+            public static readonly string ERROR_ADDING_QUANTITY_MEASURE = string.Format(ERROR, ADDING, QUANTITY_MEASURE);
+            public static readonly string ERROR_UPDATING_QUANTITY_MEASURE = string.Format(ERROR, UPDATING, QUANTITY_MEASURE);
+            public static readonly string ERROR_DELETING_QUANTITY_MEASURE = string.Format(ERROR, DELETING, QUANTITY_MEASURE);
+
             public static readonly string ERROR_ADDING_BRAND = string.Format(ERROR, ADDING, BRAND);
             public static readonly string ERROR_UPDATING_BRAND = string.Format(ERROR, UPDATING, BRAND);
             public static readonly string ERROR_DELETING_BRAND = string.Format(ERROR, DELETING, BRAND);
-
+             
+            public static readonly string ERROR_ADDING_OFFER_BANNER = string.Format(ERROR, ADDING, OFFER_BANNER);
+            public static readonly string ERROR_UPDATING_OFFER_BANNER = string.Format(ERROR, UPDATING, OFFER_BANNER);
+            public static readonly string ERROR_DELETING_OFFER_BANNER = string.Format(ERROR, DELETING, OFFER_BANNER);
+             
+            public static readonly string ERROR_ADDING_OFFER = string.Format(ERROR, ADDING, OFFER);
+            public static readonly string ERROR_UPDATING_OFFER = string.Format(ERROR, UPDATING, OFFER);
+            public static readonly string ERROR_DELETING_OFFER = string.Format(ERROR, DELETING, OFFER);
+             
             public static readonly string ERROR_ADDING_CART = string.Format(ERROR, ADDING, CART);
             public static readonly string ERROR_UPDATING_CART = string.Format(ERROR, UPDATING, CART);
             public static readonly string ERROR_DELETING_CART = string.Format(ERROR, DELETING, CART);
+
+            public static readonly string ERROR_ADDING_DELIVERY_TIMINGS = string.Format(ERROR, ADDING, CART);
+            public static readonly string ERROR_UPDATING_DELIVERY_TIMINGS = string.Format(ERROR, UPDATING, CART);
+            public static readonly string ERROR_DELETING_DELIVERY_TIMINGS = string.Format(ERROR, DELETING, CART);
+
+            public static readonly string ERROR_ADDING_BANK_ACCOUNT = string.Format(ERROR, ADDING, BANK_ACCOUNT);
+            public static readonly string ERROR_UPDATING_BANK_ACCOUNT = string.Format(ERROR, UPDATING, BANK_ACCOUNT);
+            public static readonly string ERROR_DELETING_BANK_ACCOUNT = string.Format(ERROR, DELETING, BANK_ACCOUNT);
+
+            public static readonly string ERROR_ADDING_REDEEM_REQUEST = string.Format(ERROR, ADDING, REDEEM_REQUEST);
+            public static readonly string ERROR_UPDATING_REDEEM_REQUEST = string.Format(ERROR, UPDATING, REDEEM_REQUEST);
+            public static readonly string ERROR_DELETING_REDEEM_REQUEST = string.Format(ERROR, DELETING, REDEEM_REQUEST);
+
+            public static readonly string ERROR_ADDING_ADDRESS = string.Format(ERROR, ADDING, ADDRESS);
+            public static readonly string ERROR_UPDATING_ADDRESS = string.Format(ERROR, UPDATING, ADDRESS);
+            public static readonly string ERROR_DELETING_ADDRESS = string.Format(ERROR, DELETING, ADDRESS);
+
+            public static readonly string ERROR_ADDING_NOTIFICATION = string.Format(ERROR, ADDING, NOTIFICATION);
+            public static readonly string ERROR_ADDING_PUSH_NOTIFICATION = string.Format(ERROR, ADDING, PUSH_NOTIFICATION);
+            public static readonly string ERROR_ADDING_NOTIFICATION_TOKEN = string.Format(ERROR, ADDING, NOTIFICATION_TOKEN);
         }
     }
 }

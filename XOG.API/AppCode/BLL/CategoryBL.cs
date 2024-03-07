@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using XOG.AppCode.DAL;
+using XOG.AppCode.Mappers;
 using XOG.AppCode.Models.FilterModels;
-using XOG.AppCode.Transformers;
-using XOG.Areas.MyAdmin.Models.ViewModels;
-using XOG.Models.ViewModels.RequestViewModels.Filters;
 using XOG.Util;
 
 namespace XOG.AppCode.BLL
@@ -20,15 +16,13 @@ namespace XOG.AppCode.BLL
             return new XOGEntities();
         }
 
-        private IQueryable<Category> GetFilteredWhereQuery(IQueryable<Category> query, CategoryFilter filter)
+        private IQueryable<Category> GetFilteredWhereQuery(IQueryable<Category> query, ICategoryFilter filter)
         {
             if (filter != null)
             {
                 query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.CategoryName.Contains(filter.Search) ||
                                                                                       filter.Search.Contains(i.CategoryName))
-                                                                   : query;
-
-                query = (int)filter.ProductDivision != -1 ? query.Where(i => i.ProductMainType == (int)filter.ProductDivision) : query;
+                                                                   : query; 
 
                 query = !(string.IsNullOrWhiteSpace(filter.Ids)) ? query.Where(i => filter.Ids.StartsWith(i.Id + ",") ||
                                                                                     filter.Ids.Contains("," + i.Id + ",")
@@ -37,7 +31,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private IQueryable<Category> GetFilteredQuery(CategoryFilter filter, XOGEntities context = null)
+        private IQueryable<Category> GetFilteredQuery(ICategoryFilter filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -53,7 +47,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Categories, filter);
         }
 
-        internal object GetList<T>(CategoryFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(ICategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             using (var _context = new XOGEntities())
             {
@@ -61,11 +55,11 @@ namespace XOG.AppCode.BLL
                 {
                     throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                 }
-                return GetList<T>(_context, filter, type, listType, model);
+                return GetList<T>(_context, filter, listType, model);
             }
         }
 
-        internal object GetList<T>(XOGEntities context, CategoryFilter filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context, ICategoryFilter filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             var query = GetFilteredQuery(filter, context);
 
@@ -228,7 +222,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal async Task<DBStatus> DeleteMultipleAsync(CategoryFilter categoryFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(ICategoryFilter categoryFilters, XOGEntities context = null)
         {
             try
             {

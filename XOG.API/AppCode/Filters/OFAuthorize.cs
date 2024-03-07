@@ -6,14 +6,9 @@ namespace XOG.Filters
     {
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
-            {
-                filterContext.Result = new RedirectToRouteResult(
-                    new System.Web.Routing.RouteValueDictionary(
-                        new { action = "Login", controller = "Account", area = "" }));
-            }
-            else
-            {
+            if (!filterContext.HttpContext.User.Identity.IsAuthenticated ||
+                    filterContext.HttpContext.User.Identity.Name == null)
+            { 
                 base.HandleUnauthorizedRequest(filterContext);
             }
         }

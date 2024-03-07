@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=A2NWPLSK14SQL-v04.shr.prod.iad2.secureserver.net;Integrated Security=False;initial catalog=xog_db;User ID=modern.xevello;password=Aban@Modern;Connect Timeout=15;Encrypt=False;Packet Size=4096" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Projects\\XOGProject\\XOG\.API\\XOG\.API\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="XOGEntities-Web.config Connection String" description="XOGEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/AppCode.DAL.XOGModel.csdl|res://*/AppCode.DAL.XOGModel.ssdl|res://*/AppCode.DAL.XOGModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=A2NWPLSK14SQL-v04.shr.prod.iad2.secureserver.net;Integrated Security=False;initial catalog=xog_db;User ID=modern.xevello;password=Aban@Modern;Connect Timeout=15;Encrypt=False;Packet Size=4096&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Projects\\XOGProject\\XOG\.API\\XOG\.API\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='XOGEntities']/@connectionString" />
+  </parameter>
+  <parameter name="XOG.Factories.AppDbContext-Web.config Connection String" description="XOG.Factories.AppDbContext Connection String used in web.config by the application to access the database." defaultValue="XOG.Factories.AppDbContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Projects\\XOGProject\\XOG\.API\\XOG\.API\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='XOG.Factories.AppDbContext']/@connectionString" />
+  </parameter>
+</parameters>

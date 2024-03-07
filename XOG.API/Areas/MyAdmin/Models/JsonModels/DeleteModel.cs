@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace XOG.Areas.MyAdmin.Models.JsonModels
+﻿namespace XOG.Areas.MyAdmin.Models.JsonModels
 {
     public class DeleteModel
     {

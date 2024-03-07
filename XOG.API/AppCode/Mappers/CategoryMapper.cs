@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using XOG.AppCode.DAL;
 using XOG.AppCode.Models;
-using XOG.Areas.MyAdmin.Models.ViewModels;
 using XOG.Helpers;
 using XOG.Models;
 using XOG.Models.ViewModels;
 using XOG.Models.ViewModels.RequestViewModels.Data;
 using XOG.Util;
 
-namespace XOG.AppCode.Transformers
+namespace XOG.AppCode.Mappers
 {
     public static class CategoryMapper
     {
@@ -21,6 +18,7 @@ namespace XOG.AppCode.Transformers
             {
                 return null;
             }
+
             var _query = (IQueryable<object>)query;
 
             if (typeof(T) == typeof(CategoryViewModel))
@@ -28,9 +26,10 @@ namespace XOG.AppCode.Transformers
                 _query = query.Select(model => new CategoryViewModel
                 {
                     Id = model.Id,
-                    ProductDivision = (ProductDivision)model.ProductMainType,
                     CategoryDescription = model.CategoryDescription,
                     CategoryName = model.CategoryName,
+                    CategoryBanner = model.CategoryBanner,
+                    CategoryImage = model.CategoryImage,
                     RouteKey = model.RouteKey
                 });
             }
@@ -45,7 +44,7 @@ namespace XOG.AppCode.Transformers
                 });
                 return res.ToList();
             }
-            else if (typeof(T) == typeof(Array))
+            else if (typeof(T) == typeof(string[]))
             {
                 int id = obj.NullReverse();
                 var res = query.Select(model => model.CategoryName);
@@ -70,9 +69,10 @@ namespace XOG.AppCode.Transformers
                 var returnObj = new CategoryViewModel
                 {
                     Id = model.Id,
-                    ProductDivision = (ProductDivision)model.ProductMainType,
                     CategoryDescription = model.CategoryDescription,
                     CategoryName = model.CategoryName,
+                    CategoryBanner = model.CategoryBanner,
+                    CategoryImage = model.CategoryImage,
                     RouteKey = model.RouteKey
                 };
                 return (T)Convert.ChangeType(returnObj, typeof(T));
@@ -94,36 +94,38 @@ namespace XOG.AppCode.Transformers
             }
         }
 
-        public static IQueryable<Category> MapToCategoryEntityQueryable<T>(IQueryable<BaseModel> query, object obj = null)
+        public static IQueryable<Category> MapToCategoryEntityQueryable(IQueryable<BaseModel> query, object obj = null)
         {
-            return query == null ? null : query.Select(model => MapToCategoryEntity<T>(model, obj));
+            return query == null ? null : query.Select(model => MapToCategoryEntity(model, obj));
         }
 
-        public static Category MapToCategoryEntity<T>(this BaseModel model, object obj = null)
+        public static Category MapToCategoryEntity(this BaseModel model, object obj = null)
         {
             Category Category = null;
 
-            if (typeof(T) == typeof(CategoryViewModel))
+            if (model is CategoryViewModel)
             {
                 var _model = (CategoryViewModel)model;
                 Category = new Category()
                 {
                     Id = _model.Id,
-                    ProductMainType = (byte)_model.ProductDivision,
                     CategoryDescription = _model.CategoryDescription,
                     CategoryName = _model.CategoryName,
+                    CategoryBanner = _model.CategoryBanner,
+                    CategoryImage = _model.CategoryImage,
                     RouteKey = _model.CategoryName.ToRouteKey()
                 };
             }
-            else if (typeof(T) == typeof(CategoryRequestVM))
+            else if (model is CategoryRequestVM)
             {
                 var _model = (CategoryRequestVM)model;
                 Category = new Category()
                 {
                     Id = _model.Id,
-                    ProductMainType = (byte)_model.ProductDivision,
                     CategoryDescription = _model.CategoryDescription,
                     CategoryName = _model.CategoryName,
+                    CategoryBanner = _model.CategoryBanner,
+                    CategoryImage = _model.CategoryImage,
                     RouteKey = _model.CategoryName.ToRouteKey()
                 };
             }

@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort>44317</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -85,11 +85,20 @@
     <Reference Include="Microsoft.IdentityModel.Protocol.Extensions, Version=1.0.2.33, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.2.206221351\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Cors.4.2.2\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Jwt, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.Jwt.3.0.1\lib\net45\Microsoft.Owin.Security.Jwt.dll</HintPath>
@@ -109,8 +118,17 @@
     <Reference Include="MySql.Data.EntityFramework, Version=8.0.21.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.EntityFramework.8.0.21\lib\net452\MySql.Data.EntityFramework.dll</HintPath>
     </Reference>
+    <!-- <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference> -->
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.7.5\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Razorpay, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Razorpay.3.0.0\lib\net45\Razorpay.dll</HintPath>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
@@ -154,6 +172,9 @@
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
@@ -165,15 +186,26 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Cors, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.9\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.9\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.9\lib\net45\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -215,9 +247,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.8.0.21\lib\net452\Ubiety.Dns.Core.dll</HintPath>
@@ -238,12 +267,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Formatting">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Http.WebHost">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
@@ -252,9 +275,6 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
@@ -282,12 +302,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCode\Abstracts\AppController.cs" />
+    <Compile Include="AppCode\Abstracts\CrudApiController.cs" />
     <Compile Include="AppCode\Abstracts\AppViewPage.cs" />
     <Compile Include="AppCode\Abstracts\AuthController.cs" />
+    <Compile Include="AppCode\BLL\NotificationBL.cs" />
+    <Compile Include="AppCode\BLL\OfferBannerBL.cs" />
+    <Compile Include="AppCode\BLL\OfferBL.cs" />
+    <Compile Include="AppCode\BLL\RedeemRequestBL.cs" />
+    <Compile Include="AppCode\BLL\BankAccountBL.cs" />
     <Compile Include="AppCode\BLL\AreaBL.cs" />
+    <Compile Include="AppCode\BLL\AddressBL.cs" />
     <Compile Include="AppCode\BLL\BrandBL.cs" />
+    <Compile Include="AppCode\BLL\UserWalletBL.cs" />
     <Compile Include="AppCode\BLL\CartBL.cs" />
+    <Compile Include="AppCode\BLL\UserBL.cs" />
     <Compile Include="AppCode\BLL\CategoryBL.cs" />
     <Compile Include="AppCode\BLL\CustomerBL.cs" />
     <Compile Include="AppCode\BLL\EmailTemplateBL.cs" />
@@ -295,11 +323,12 @@
     <Compile Include="AppCode\BLL\GridsModelBL.cs" />
     <Compile Include="AppCode\BLL\OrderBL.cs" />
     <Compile Include="AppCode\BLL\ProductBL.cs" />
+    <Compile Include="AppCode\BLL\QuantityMeasureBL.cs" />
     <Compile Include="AppCode\BLL\SiteMapBL.cs" />
     <Compile Include="AppCode\BLL\SiteTrackingBL.cs" />
+    <Compile Include="AppCode\BLL\ProductGroupBL.cs" />
     <Compile Include="AppCode\BLL\SubCategoryBL.cs" />
     <Compile Include="AppCode\BLL\TListModelBL.cs" />
-    <Compile Include="AppCode\BLL\UsersBL.cs" />
     <Compile Include="AppCode\DAL\Address.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
@@ -318,22 +347,41 @@
     <Compile Include="AppCode\DAL\AspNetUserLogin.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\AspNetUserNotificationToken.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\BankAccount.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\Brand.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\Cart.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="AppCode\DAL\CategoriesImage.cs">
-      <DependentUpon>XOGModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="AppCode\DAL\CategoriesImage.cs" />
     <Compile Include="AppCode\DAL\Category.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\C__MigrationHistory.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\DeliveryTiming.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\EmailTemplate.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\Notification.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\Offer.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\OfferBanner.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\OfferDetail.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\Order.cs">
@@ -342,16 +390,58 @@
     <Compile Include="AppCode\DAL\OrderDetail.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\OrderVW.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\Product.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\DAL\ProductGroup.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppCode\DAL\ProductImage.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\ProductVariant.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\PushNotification.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\QuantityMeasure.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\RedeemRequest.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\ReturnOrder.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\ReturnOrderDetail.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\SubCategory.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\Transaction.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\UsersWalletVW.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\UserWallet.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\UserWalletListVW.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\WeekDayStatus.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\WeekDayTiming.cs">
+      <DependentUpon>XOGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppCode\DAL\WishList.cs">
       <DependentUpon>XOGModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\DAL\XOGModel.Context.cs">
@@ -369,9 +459,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>XOGModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="AppCode\DAL\WishList.cs">
-      <DependentUpon>XOGModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="AppCode\BLL\DeliveryTimingBL.cs" />
     <Compile Include="AppCode\Factories\AppDbContext.cs" />
     <Compile Include="AppCode\Factories\ApplicationRoleManager.cs" />
     <Compile Include="AppCode\Factories\ApplicationSignInManager.cs" />
@@ -382,6 +470,7 @@
     <Compile Include="AppCode\Filters\CompressAttribute.cs" />
     <Compile Include="AppCode\Filters\LanguageSelectorFilter.cs" />
     <Compile Include="AppCode\Filters\OFAuthorize.cs" />
+    <Compile Include="AppCode\Filters\TwoFactorAuthorize.cs" />
     <Compile Include="AppCode\Helpers\CookiesHelper.cs" />
     <Compile Include="AppCode\Helpers\CustomHtmlHelper.cs" />
     <Compile Include="AppCode\Helpers\EmailTagsHelper.cs" />
@@ -409,20 +498,39 @@
     <Compile Include="AppCode\Helpers\WebControlHelper.cs" />
     <Compile Include="AppCode\HtmlHelpers\HtmlRequestHelper.cs" />
     <Compile Include="AppCode\ILL\EmailPlaceHolder.cs" />
+    <Compile Include="AppCode\Mappers\OfferBannerMapper.cs" />
+    <Compile Include="AppCode\Mappers\OfferMapper.cs" />
+    <Compile Include="AppCode\Mappers\RedeemRequestMapper.cs" />
+    <Compile Include="AppCode\Mappers\BankAccountMapper.cs" />
+    <Compile Include="AppCode\Mappers\CartMapper.cs" />
+    <Compile Include="AppCode\Mappers\DeliveryTimingsMapper.cs" />
+    <Compile Include="AppCode\Mappers\ProductVariantMapper.cs" />
+    <Compile Include="AppCode\Mappers\UserWalletMapper.cs" />
+    <Compile Include="AppCode\Mappers\UserMapper.cs" />
+    <Compile Include="AppCode\Mappers\QuantityMeasureMapper.cs" />
+    <Compile Include="AppCode\Mappers\ProductGroupMapper.cs" />
     <Compile Include="AppCode\Models\BaseModel.cs" />
     <Compile Include="AppCode\Models\EmailMessage.cs" />
     <Compile Include="AppCode\Models\EmailTemplateModel.cs" />
     <Compile Include="AppCode\Models\FileUploadMessageSettings.cs" />
     <Compile Include="AppCode\Models\FileUploadResult.cs" />
     <Compile Include="AppCode\Models\FileUploadSettings.cs" />
-    <Compile Include="AppCode\Models\FilterModels\BrandFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\CartFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\CategoryFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\BaseFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\OrderFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\ProductFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\SubCategoryFilter.cs" />
-    <Compile Include="AppCode\Models\FilterModels\UserFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IOrderFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IRedeemRequestFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IBankAccountFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IAddressFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IBrandFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\ICartFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\ICategoryFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IBaseFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IOfferFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IProductFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IProductGroupFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IDeliveryTimingsFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IQuantityMeasureFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\ISubCategoryFilter.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IAddUserWallet.cs" />
+    <Compile Include="AppCode\Models\FilterModels\IUserFilter.cs" />
     <Compile Include="AppCode\Models\GridModel.cs" />
     <Compile Include="AppCode\Models\GridPage.cs" />
     <Compile Include="AppCode\Models\GridPager.cs" />
@@ -454,7 +562,7 @@
     <Compile Include="AppCode\OFrame\Validator.cs" />
     <Compile Include="AppCode\Performance\ApplicationStateHelper.cs" />
     <Compile Include="AppCode\Performance\CacheHelper.cs" />
-    <Compile Include="AppCode\Performance\MemoryCacheHelper.cs" />
+    <Compile Include="AppCode\Performance\MessageQueueCacheHelper.cs" />
     <Compile Include="AppCode\Performance\RedisCacheHelper.cs" />
     <Compile Include="AppCode\Performance\SessionHelper.cs" />
     <Compile Include="AppCode\Providers\LanguageModelMetadataProvider.cs" />
@@ -472,14 +580,14 @@
     <Compile Include="AppCode\SettingsHelpers\ThemeScriptsHelper.cs" />
     <Compile Include="AppCode\SettingsHelpers\ThemeStylesheetsHelper.cs" />
     <Compile Include="AppCode\SettingsHelpers\ValidationHelper.cs" />
-    <Compile Include="AppCode\Mappers\AddressTransformer.cs" />
-    <Compile Include="AppCode\Mappers\BrandTransformer.cs" />
+    <Compile Include="AppCode\Mappers\AddressMapper.cs" />
+    <Compile Include="AppCode\Mappers\BrandMapper.cs" />
     <Compile Include="AppCode\Mappers\CartTransformer.cs" />
     <Compile Include="AppCode\Mappers\CategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\OrderDetailsTransformer.cs" />
-    <Compile Include="AppCode\Mappers\OrderTransformer.cs" />
-    <Compile Include="AppCode\Mappers\ProductTransformer.cs" />
-    <Compile Include="AppCode\Mappers\SubCategoryTransformer.cs" />
+    <Compile Include="AppCode\Mappers\OrderMapper.cs" />
+    <Compile Include="AppCode\Mappers\ProductMapper.cs" />
+    <Compile Include="AppCode\Mappers\SubCategoryMapper.cs" />
     <Compile Include="AppCode\Mappers\UserTransformer.cs" />
     <Compile Include="AppCode\Util\Converter.cs" />
     <Compile Include="AppCode\Util\DataParser.cs" />
@@ -544,41 +652,108 @@
     <Compile Include="Areas\MyAdmin\Models\ViewModels\ProductAdminVM.cs" />
     <Compile Include="Areas\MyAdmin\Models\ViewModels\SubCategoryVM.cs" />
     <Compile Include="Areas\MyAdmin\Models\ViewModels\UserAdminVM.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\OfferBannerController.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
+    <Compile Include="Controllers\RedeemRequestController.cs" />
+    <Compile Include="Controllers\BankAccountController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\DeliveryTimingsController.cs" />
+    <Compile Include="Controllers\OrderReturnsController.cs" />
+    <Compile Include="Controllers\UserWalletController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\QuantityMeasureController.cs" />
+    <Compile Include="Controllers\ProductGroupController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbContextModel.cs" />
     <Compile Include="Models\JsonModels\ContactUs.cs" />
     <Compile Include="Models\JsonModels\OrdersModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReturnObject.cs" />
-    <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductSaveRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\SaveFirebaseTokenRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\CreateNotificationRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\PushNotificationRequestVM.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\NotificationModel.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\OfferRequestViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\PushNotificationModel.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\RedeemRequestRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\BankAccountRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\AddressRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\AddWalletRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\CartRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\DeliveryTimingsRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderReturnRequestViewModel.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\OrderRequestViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\FirebaseTokenModel.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\SettingsRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\QuantityMeasureRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\CustomerSaveRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\BrandRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\ProductGroupRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\SubCategoryRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Data\SupplierSaveRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Data\UserRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\OfferFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\RedeemRequestFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\BankAccountFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BaseFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\AddressFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\BrandFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\DeliveryTimingsFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\QuantityMeasureFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\ProductGroupFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\UserFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\SubCategoryFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\CartFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\CategoryFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\OrderFilterRequestVM.cs" />
     <Compile Include="Models\ViewModels\RequestViewModels\Filters\ProductFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\RequestViewModels\Filters\UserWalletFilterRequestVM.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\OfferrViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\RedeemRequestViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\BankAccountViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\AddressViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\BrandModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\CartModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\CategoryModels.cs" />
-    <Compile Include="Models\ViewModels\ResponseViewModels\OrdersViewModel.cs" />
-    <Compile Include="Models\ViewModels\ResponseViewModels\ProductModels.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\OrderViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\DeliveryTimingsModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\QuantityMeasureViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\ProductViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\ProductGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModels\SubCategoryModels.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\UserViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResponseViewModels\UserWalletViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppCode\DAL\DBLinkQueries.sql" />
+    <Content Include="AppCode\DAL\Functions\GetDayId.sql" />
+    <Content Include="AppCode\DAL\Functions\GetDeliveryDate.sql" />
+    <Content Include="AppCode\DAL\Functions\GetTimeSlot.sql" />
+    <Content Include="AppCode\DAL\OrderReturnDetailsQueries.sql" />
+    <Content Include="AppCode\DAL\OrderReturnQueries.sql" />
+    <Content Include="AppCode\DAL\ReturnOrderDetailsQuery_update_1.sql" />
+    <Content Include="AppCode\DAL\Views\UserWalletListVW.sql" />
+    <Content Include="AppCode\DAL\Views\WeekDayTimings.sql" />
+    <Content Include="AppCode\DAL\Views\UsersWalletVW.sql" />
+    <Content Include="AppCode\DAL\Views\OrderVW.sql" />
+    <Content Include="AppCode\DAL\WalletQueries.sql" />
     <Content Include="AppCode\DAL\XOGModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>XOGModel.edmx</DependentUpon>
@@ -613,13 +788,18 @@
     <Content Include="Content\admin\assets\img\white.png" />
     <Content Include="Content\admin\favicon.ico" />
     <Content Include="Content\admin\index.html" />
+    <Content Include="Content\admin\main.10ad43454b1a977f79fd.js" />
     <Content Include="Content\admin\polyfills.47b71eaaf61844678dc9.js" />
     <Content Include="Content\admin\runtime.3ac6596c4674b1c07d66.js" />
     <Content Include="Content\admin\scripts.2f7b6ca26fba4ba6698e.js" />
-    <Content Include="Content\admin\styles.760a81acbabe1813a1f0.css" />
+    <Content Include="Content\admin\styles.c6fcecbabe052346a36f.css" />
+    <Content Include="Content\user\142-es2017.cc6f6dbd7562917d42ca.js" />
+    <Content Include="Content\user\142-es5.cc6f6dbd7562917d42ca.js" />
     <Content Include="Content\user\3rdpartylicenses.txt" />
-    <Content Include="Content\user\619.25a6b48a553a644987c9.js" />
-    <Content Include="Content\user\970.4cc7755f4cc14ab1461f.js" />
+    <Content Include="Content\user\552-es2017.f3d4b41a67faa965867b.js" />
+    <Content Include="Content\user\552-es5.f3d4b41a67faa965867b.js" />
+    <Content Include="Content\user\999-es2017.74151081be5bc9c2fb5c.js" />
+    <Content Include="Content\user\999-es5.74151081be5bc9c2fb5c.js" />
     <Content Include="Content\user\assets\1.jpg" />
     <Content Include="Content\user\assets\2.jpg" />
     <Content Include="Content\user\assets\3.jpg" />
@@ -628,6 +808,7 @@
     <Content Include="Content\user\assets\6.jpg" />
     <Content Include="Content\user\assets\7.jpg" />
     <Content Include="Content\user\assets\8.jpg" />
+    <Content Include="Content\user\assets\amul.jpeg" />
     <Content Include="Content\user\assets\app-store.png" />
     <Content Include="Content\user\assets\categories\beverages.jpg" />
     <Content Include="Content\user\assets\categories\breakfast.jpg" />
@@ -641,6 +822,7 @@
     <Content Include="Content\user\assets\grocery-category.png" />
     <Content Include="Content\user\assets\grocery.png" />
     <Content Include="Content\user\assets\logo-web.jpeg" />
+    <Content Include="Content\user\assets\mb-catg.png" />
     <Content Include="Content\user\assets\play-store.png" />
     <Content Include="Content\user\assets\products\atta-ashirvad.jpg" />
     <Content Include="Content\user\assets\products\atta-ashirvad.png" />
@@ -653,15 +835,33 @@
     <Content Include="Content\user\assets\products\onion.jpg" />
     <Content Include="Content\user\assets\products\tata.jpg" />
     <Content Include="Content\user\assets\products\tea.jpg" />
+    <Content Include="Content\user\assets\splash1.jpg" />
+    <Content Include="Content\user\assets\story.jpg" />
     <Content Include="Content\user\assets\test.png" />
     <Content Include="Content\user\assets\thumb-1920-656029.png" />
     <Content Include="Content\user\favicon.ico" />
     <Content Include="Content\user\index.html" />
-    <Content Include="Content\user\main.1ddc609e5f097f8a8e1c.js" />
-    <Content Include="Content\user\polyfills.2a10446fae00f56a8851.js" />
-    <Content Include="Content\user\runtime.973b709c785fa3ff731d.js" />
+    <Content Include="Content\user\main-es2017.b236aa93ab766775a534.js" />
+    <Content Include="Content\user\main-es5.b236aa93ab766775a534.js" />
+    <Content Include="Content\user\polyfills-es2017.4007a6dd460daa111191.js" />
+    <Content Include="Content\user\polyfills-es5.0a1add61536b255b23a1.js" />
+    <Content Include="Content\user\runtime-es2017.3f7036cd2200a2df86dc.js" />
+    <Content Include="Content\user\runtime-es5.3f7036cd2200a2df86dc.js" />
     <Content Include="Content\user\scripts.2f7b6ca26fba4ba6698e.js" />
-    <Content Include="Content\user\styles.7fd79e777fdda774675f.css" />
+    <Content Include="Content\user\styles.c9e839ea6b4ad671ac53.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Home\Admin.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -688,15 +888,6 @@
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="NLog.config" />
-    <EntityDeploy Include="AppCode\DAL\XOGModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>XOGModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="AppCode\DAL\XOGModel.edmx.diagram">
-      <DependentUpon>XOGModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Content\user\assets\products\cooking-oil.webp" />
-    <Content Include="Content\user\assets\products\madhur.webp" />
     <Content Include="Areas\MyAdmin\Views\Brand\Add.cshtml" />
     <Content Include="Areas\MyAdmin\Views\Brand\BrandFormPartial.cshtml" />
     <Content Include="Areas\MyAdmin\Views\Brand\Edit.cshtml" />
@@ -739,20 +930,35 @@
     <Content Include="Content\admin\material-icons-two-tone.4c33c9e24cfd67a9d5b6.woff" />
     <Content Include="Content\admin\material-icons.73d1c707f0f76e3a9930.woff" />
     <Content Include="Content\admin\material-icons.938bd2e7157d28dca4bb.woff2" />
-    <Content Include="Content\user\material-icons-outlined.44a3cac6961a9a4c5552.woff2" />
-    <Content Include="Content\user\material-icons-outlined.b3fefa35b11abd5b00ca.woff" />
-    <Content Include="Content\user\material-icons-round.5edc2ac67d87479b897b.woff2" />
-    <Content Include="Content\user\material-icons-round.c11b70542df09b76cffe.woff" />
-    <Content Include="Content\user\material-icons-sharp.4d0bd0d233803357b215.woff" />
-    <Content Include="Content\user\material-icons-sharp.c678cb27addc55581299.woff2" />
-    <Content Include="Content\user\material-icons-two-tone.2041dcb86924aafa5d6e.woff" />
-    <Content Include="Content\user\material-icons-two-tone.c3881f7c047146ff546c.woff2" />
-    <Content Include="Content\user\material-icons.955cc4e50baa5e6271a2.woff2" />
-    <Content Include="Content\user\material-icons.f26a38706c9665a40421.woff" />
+    <Content Include="Content\user\assets\bestbuy.webp" />
+    <Content Include="Content\user\assets\costco.webp" />
+    <Content Include="Content\user\assets\products\cooking-oil.webp" />
+    <Content Include="Content\user\assets\products\madhur.webp" />
+    <Content Include="Content\user\assets\safeway.webp" />
+    <Content Include="Content\user\assets\thewine.webp" />
+    <Content Include="Content\user\material-icons-outlined.a55facf19bd472183ef5.woff" />
+    <Content Include="Content\user\material-icons-outlined.c32fc86b5d23fdcfcd4d.woff2" />
+    <Content Include="Content\user\material-icons-round.14fc6f6a609772c817b0.woff2" />
+    <Content Include="Content\user\material-icons-round.1d2975b71bddc932cb7e.woff" />
+    <Content Include="Content\user\material-icons-sharp.3a0d3ee832500dda50c5.woff2" />
+    <Content Include="Content\user\material-icons-sharp.a9826221a78430fb6178.woff" />
+    <Content Include="Content\user\material-icons-two-tone.4cd0b540933d1628c224.woff2" />
+    <Content Include="Content\user\material-icons-two-tone.862d6cd39626a9ddf097.woff" />
+    <Content Include="Content\user\material-icons.1dd1bb366e173805f48f.woff" />
+    <Content Include="Content\user\material-icons.90170fbdd3dad451d44d.woff2" />
+    <EntityDeploy Include="AppCode\DAL\XOGModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>XOGModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="AppCode\DAL\XOGModel.edmx.diagram">
+      <DependentUpon>XOGModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\modern.xevello.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\modern.xevello.com - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\modernmartsupermarket.com - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\modernmartsupermarket.com - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\paighameislam.org - Web Deploy.pubxml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Web.config" />
@@ -769,11 +975,16 @@
     <Content Include="Storage\sitemap.json" />
     <Content Include="Views\Layouts\FallBack.cshtml" />
     <Content Include="Views\Home\Init.cshtml" />
+    <Content Include="Views\Home\CurrentOtp.cshtml" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppCode\DAL\Queries\" />
     <Folder Include="AppCode\Mappers\Admin\" />
     <Folder Include="Views\Product\" />
+    <Folder Include="Views\Settings\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -802,6 +1013,8 @@
           <DevelopmentServerPort>65240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>https://localhost:44317/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44317/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

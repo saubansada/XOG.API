@@ -1,14 +1,4 @@
-﻿
-using XOG.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-
-namespace XOG.Util
+﻿namespace XOG.Util
 {
     /// <summary>
     /// Unit of Work class responsible for DB transactions

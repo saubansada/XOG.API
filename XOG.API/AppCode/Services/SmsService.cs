@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using XOG.Util;
 
 namespace XOG.Services
 {
@@ -48,8 +48,27 @@ namespace XOG.Services
 
                         if (!AppConfig.IsProduction.ToLower().Equals("True"))
                         {
+                            //new EmailService().SendAsync(new IdentityMessage
+                            //{
+                            //    Body = message.Body,
+                            //    Destination = "sadasauban123@gmail.com",
+                            //    Subject = "Verificaation Email"
+                            //});
+                            //using (var wb = new WebClient())
+                            //{
+                            //    byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
+                            //    {
+                            //        {"apikey" , AppConfig.TextLocalAPIKey},
+                            //        {"numbers" , message.Destination},
+                            //        {"message" , message.Body },
+                            //        {"sender" , "TXTLCL"}
+                            //    });
+                            //    string result = System.Text.Encoding.UTF8.GetString(response);
 
-                            using (StreamWriter writetext = new StreamWriter(@"C:\OTP.txt"))
+                            //}
+
+                            string url = "/Views/Home/CurrentOtp.cshtml".MapPath();
+                            using (StreamWriter writetext = new StreamWriter(url))
                             {
                                 writetext.WriteLine(message.Body);
                             }
@@ -72,19 +91,31 @@ namespace XOG.Services
 
                             //}
 
-                            using (var wb = new WebClient())
+                            //new EmailService().SendAsync(new IdentityMessage
+                            // {
+                            //     Body = message.Body,
+                            //     Destination = "abdulkumshey@gmail.com",
+                            //     Subject = "Verificaation Email"
+                            // });
+
+                            //using (var wb = new WebClient())
+                            //{
+                            //    byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
+                            //    {
+                            //        {"apikey" , AppConfig.TextLocalAPIKey},
+                            //        {"numbers" , message.Destination},
+                            //        {"message" , message.Body },
+                            //        {"sender" , "TXTLCL"}
+                            //    });
+                            //    string result = System.Text.Encoding.UTF8.GetString(response);
+
+                            //}
+                            //
+                            string url = "/otp.html".MapPath();
+                            using (StreamWriter writetext = new StreamWriter(url))
                             {
-                                byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
-                                {
-                                    {"apikey" , AppConfig.TextLocalAPIKey},
-                                    {"numbers" , message.Destination},
-                                    {"message" , message.Body },
-                                    {"sender" , "TXTLCL"}
-                                });
-                                string result = System.Text.Encoding.UTF8.GetString(response);
-
+                                writetext.WriteLine(message.Body);
                             }
-
 
                         }
                         break;

@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using XOG.AppCode.Models.FilterModels;
+﻿using XOG.AppCode.Models.FilterModels;
 
 namespace XOG.Models.ViewModels.RequestViewModels.Filters
 {
-    public class ProductFilterRequestVM : ProductFilter
+    public class ProductFilterRequestVM : BaseFilterRequestVM, IProductFilter
     {
+        public string Search { get; set; }
+        public string ProductCode { get; set; }
+        public string Ids { get; set; }
+        public int? SubCategoryId { get; set; }
+        public string CategoryKey { get; set; }
+        public string SubCategoryKey { get; set; }
+        public string ProductGroupKey { get; set; }
+        public int? ProductGroupId { get; set; }
+        public int? BrandId { get; set; }
+        public bool Enabled { get; set; } = true; 
+        public int OfferId { get; set; } = -1;
+        public ProductQueryType ProductQueryType { get; set; } = ProductQueryType.FilterOrNone;
     }
 }

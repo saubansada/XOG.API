@@ -1,7 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
-using XOG.Helpers;
-using XOG.SettingsHelpers;
+﻿using System.Web.Optimization;
 
 namespace XOG
 {

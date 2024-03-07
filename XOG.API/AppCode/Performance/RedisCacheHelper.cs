@@ -1,9 +1,4 @@
-﻿
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
-namespace XOG.Performance
+﻿namespace XOG.Performance
 {
     public static class RedisCacheHelper
     {

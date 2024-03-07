@@ -17,18 +17,16 @@ namespace XOG.AppCode.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            this.CategoriesImages = new HashSet<CategoriesImage>();
             this.SubCategories = new HashSet<SubCategory>();
         }
     
         public short Id { get; set; }
-        public byte ProductMainType { get; set; }
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
         public string RouteKey { get; set; }
+        public string CategoryImage { get; set; }
+        public string CategoryBanner { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CategoriesImage> CategoriesImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubCategory> SubCategories { get; set; }
     }

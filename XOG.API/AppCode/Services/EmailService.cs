@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using XOG.Helpers;
-using XOG.Models;
 using System.Threading.Tasks;
 
 namespace XOG.Services

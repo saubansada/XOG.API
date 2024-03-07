@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using XOG.AppCode.DAL;
-using XOG.AppCode.Transformers;
+using XOG.AppCode.Mappers;
 using XOG.Util;
 using XOG.Models.ViewModels.RequestViewModels.Filters;
 
 namespace XOG.AppCode.BLL
 {
-    public static class CartBL
+    public class CartBL
     {
         internal static XOGEntities GetXOGContext()
         {
             return new XOGEntities();
         }
 
-        private static IQueryable<Cart> GetFilteredWhereQuery(IQueryable<Cart> query, CartFilterRequestVM filter)
+        private IQueryable<Cart> GetFilteredWhereQuery(IQueryable<Cart> query, CartFilterRequestVM filter)
         {
             if (filter != null)
             {
-                query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.Product.ProductName.Contains(filter.Search) ||
-                                                                                      filter.Search.Contains(i.Product.ProductName))
+                query = !(string.IsNullOrWhiteSpace(filter.Search)) ? query.Where(i => i.ProductVariant.Product.ProductName.Contains(filter.Search) ||
+                                                                                      filter.Search.Contains(i.ProductVariant.Product.ProductName))
                                                                    : query;
 
                 query = !(string.IsNullOrWhiteSpace(filter.UserId)) ? query.Where(i => i.AddedByUserId == filter.UserId)
@@ -34,7 +33,7 @@ namespace XOG.AppCode.BLL
             return query;
         }
 
-        private static IQueryable<Cart> GetFilteredQuery(CartFilterRequestVM filter, XOGEntities context = null)
+        private IQueryable<Cart> GetFilteredQuery(CartFilterRequestVM filter, XOGEntities context = null)
         {
             if (context == null)
             {
@@ -50,7 +49,7 @@ namespace XOG.AppCode.BLL
             return GetFilteredWhereQuery(context.Carts, filter);
         }
 
-        internal static object GetTList(XOGEntities context = null, CartFilterRequestVM filter = null, ModelType type = ModelType.Default, ListingType listType = ListingType.GridList, object model = null)
+        internal object GetList<T>(XOGEntities context = null, CartFilterRequestVM filter = null, ListingType listType = ListingType.GridList, object model = null)
         {
             if (context == null)
             {
@@ -60,15 +59,15 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                     }
-                    return GetTList(_context, filter, type, listType, model);
+                    return GetList<T>(_context, filter, listType, model);
                 }
             }
             var query = GetFilteredQuery(filter, context);
 
-            return query.TransformToCartModelListing(model, type, listType);
+            return query.MapToCartModelListing<T>(model, listType);
         }
 
-        internal static object GetCartByNameOrId(XOGEntities context = null, ModelType type = ModelType.Default, long id = -1, string title = "", bool isAdmin = false)
+        internal object GetCartByNameOrId<T>(XOGEntities context = null, long id = -1, string title = "", bool isAdmin = false)
         {
             if (context == null)
             {
@@ -78,7 +77,7 @@ namespace XOG.AppCode.BLL
                     {
                         throw new Exception(Constants.Messages.DB_CONTEXT_INIT_FAILED.ColonNextLine());
                     }
-                    return GetCartByNameOrId(_context, type, id, title, isAdmin);
+                    return GetCartByNameOrId<T>(_context, id, title, isAdmin);
                 }
             }
             var Cart = new Cart();
@@ -92,13 +91,13 @@ namespace XOG.AppCode.BLL
 
             if (!string.IsNullOrWhiteSpace(title))
             {
-                query = context.Carts.Where(i => i.Product.ProductName.Equals(title.Replace("_", " ")));
+                query = context.Carts.Where(i => i.ProductVariant.Product.ProductName.Equals(title.Replace("_", " ")));
             }
 
-            return query.FirstOrDefault().TransformToCartModel(type);
+            return query.FirstOrDefault().MapToCartModel<T>();
         }
 
-        internal static async Task<DBStatus> EditAsync(Cart model, XOGEntities context = null)
+        internal async Task<DBStatus> EditAsync(Cart model, XOGEntities context = null)
         {
             try
             {
@@ -129,7 +128,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static DBStatus Add(Cart model, XOGEntities context = null)
+        internal DBStatus Add(Cart model, XOGEntities context = null)
         {
             try
             {
@@ -158,7 +157,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> AddAsync(Cart model, XOGEntities context = null)
+        internal async Task<DBStatus> AddAsync(Cart model, XOGEntities context = null)
         {
             try
             {
@@ -187,7 +186,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteAsync(long Id, XOGEntities context = null)
         {
             try
             {
@@ -223,7 +222,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static async Task<DBStatus> DeleteMultipleAsync(CartFilterRequestVM CartFilters, XOGEntities context = null)
+        internal async Task<DBStatus> DeleteMultipleAsync(CartFilterRequestVM CartFilters, XOGEntities context = null)
         {
             try
             {
@@ -260,7 +259,7 @@ namespace XOG.AppCode.BLL
         }
 
 
-        internal static DBStatus AttachList(List<Cart> list, XOGEntities context = null)
+        internal DBStatus AttachList(List<Cart> list, XOGEntities context = null)
         {
             try
             {
@@ -278,7 +277,7 @@ namespace XOG.AppCode.BLL
 
                 list.ForEach(model =>
                 {
-                    var entityState =  model.Id > 0 ? EntityState.Modified : EntityState.Added;
+                    var entityState = model.Id > 0 ? EntityState.Modified : EntityState.Added;
                     context.Carts.Attach(model); context.Entry(model).State = entityState;
                 });
 
@@ -295,7 +294,7 @@ namespace XOG.AppCode.BLL
             }
         }
 
-        internal static long GetCartsCount(XOGEntities context = null)
+        internal long GetCartsCount(XOGEntities context = null)
         {
             if (context == null)
             {

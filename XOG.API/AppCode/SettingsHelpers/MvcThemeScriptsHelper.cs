@@ -1,7 +1,6 @@
 ﻿using XOG.Util;
 using System.Collections.Generic;
 using System.Xml;
-using System;
 
 namespace XOG.SettingsHelpers
 {

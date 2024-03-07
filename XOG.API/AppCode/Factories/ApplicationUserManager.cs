@@ -39,12 +39,12 @@ namespace XOG.Factories
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(AppConfig.DefaultAccountLockoutTimeSpan);
             manager.MaxFailedAccessAttemptsBeforeLockout = AppConfig.MaxFailedAccessAttemptsBeforeLockout;
 
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("PhoneCode", new PhoneNumberTokenProvider<ApplicationUser>
             {
                 MessageFormat = "{0}"
             });
 
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("EmailCode", new EmailTokenProvider<ApplicationUser>
             {
                 Subject = "Security Code",
                 BodyFormat = "{0}"

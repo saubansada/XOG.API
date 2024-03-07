@@ -1,6 +1,5 @@
 ﻿using XOG.Helpers;
 using XOG.Models;
-using XOG.Performance;
 using XOG.SettingsHelpers;
 using System;
 using System.Collections.Generic;
@@ -244,7 +243,7 @@ namespace XOG.Util
             return (T)Enum.Parse(typeof(T), value, true);
         }
         
-        public static FileUploadResult UploadFile(HttpPostedFileBase content, FileUploadSettings fs, string customExtensions = "")
+        public static FileUploadResult UploadFile(HttpPostedFile content, FileUploadSettings fs, string customExtensions = "")
         {
             var fr = new FileUploadResult
             {

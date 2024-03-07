@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using XOG.AppCode.Models.FilterModels;
+﻿using XOG.AppCode.Models.FilterModels;
 
 namespace XOG.Models.ViewModels.RequestViewModels.Filters
 {
-    public class UserFiltersRequestVM : UserFilter
+    public class UserFiltersRequestVM : BaseFilterRequestVM, IUserFilter
     {
+        public string Search { get; set; }
+        public string Ids { get; set; }
+        public UserType UserType { get; set; } = UserType.Any;
+        public bool Enabled { get; set; } = true;
     }
 }
